@@ -117,8 +117,15 @@ class Login extends StatelessWidget {
 
                         Image.asset("assets/img/Logo.png", width: 87, height: 15,),
                         TextButton(
+                          style: TextButton.styleFrom(backgroundColor: purpleColor),
                           onPressed: () {},
-                          child: Text("LOGIN"),
+                          child: Text(
+                            "LOGIN",
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: Colors.white
+                            ),
+                          ),
                         )
                       ],
                     ),
