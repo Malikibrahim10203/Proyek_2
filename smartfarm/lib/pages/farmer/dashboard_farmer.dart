@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smartfarm/event/event_pref.dart';
+import 'package:smartfarm/pages/login.dart';
+
 
 class DashboardFarmer extends StatefulWidget {
   const DashboardFarmer({Key? key}) : super(key: key);
@@ -11,7 +14,15 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('Dashboard Farmer'),
+      body: SafeArea(
+        child: OutlinedButton(
+          onPressed: () {
+            EventPref.clear();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+          },
+          child: Text('LogOut'),
+        ),
+      ),
     );
   }
 }
