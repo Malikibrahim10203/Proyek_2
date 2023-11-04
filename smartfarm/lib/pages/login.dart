@@ -57,7 +57,7 @@ class Login extends StatelessWidget {
                     ],
                   ),
                   width: 289,
-                  height: 264,
+                  height: 280,
                   child: Column(
                     children: [
                       SizedBox(
@@ -79,11 +79,12 @@ class Login extends StatelessWidget {
                             ),
                             SizedBox(
                               width: 240,
-                              height: 37,
+                              height: 60,
                               child: TextFormField(
                                 controller: controllerEmail,
                                 validator: (value) => value == ''? 'Jangan Kosong':null,
                                 decoration: InputDecoration(
+                                  helperText: ' ',
                                   border: OutlineInputBorder(),
                                   labelText: "Enter your email...",
                                   labelStyle: TextStyle(
@@ -92,9 +93,7 @@ class Login extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 12,
-                            ),
+
                             Text(
                               "Password",
                               style: TextStyle(
@@ -107,40 +106,51 @@ class Login extends StatelessWidget {
                             ),
                             SizedBox(
                               width: 240,
-                              height: 37,
+                              height: 60,
                               child: TextFormField(
                                 controller: controllerPass,
                                 validator: (value) => value == ''? 'Jangan Kosong':null,
                                 obscureText: true,
                                 decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Enter your password...",
-                                    labelStyle: TextStyle(
-                                      fontSize: 10,
-                                    )
+                                  border: OutlineInputBorder(),
+                                  labelText: "Enter your password...",
+                                  labelStyle: TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                  helperText: ' ',
                                 ),
                               ),
                             ),
                             SizedBox(
-                              height: 39,
+                              height: 20,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
 
                                 Image.asset("assets/img/Logo.png", width: 87, height: 15,),
-                                Material(
-                                    child: InkWell(
-                                      onTap: () {
-                                        if (formKey.currentState!.validate()) {
-                                          EventDB.login(controllerEmail.text, controllerPass.text);
-                                          controllerEmail.clear();
-                                          controllerPass.clear();
-                                        }
-                                      },
-                                      child: Text('Login'),
-                                    )
-                                )
+                                SizedBox(
+                                  height: 30,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xff5369FE),
+
+                                    ),
+                                    onPressed: () {
+                                      if (formKey.currentState!.validate()) {
+                                        EventDB.login(controllerEmail.text, controllerPass.text);
+                                        controllerEmail.clear();
+                                        controllerPass.clear();
+                                      }
+                                    },
+                                    child: Text(
+                                      "Login",
+                                      style: TextStyle(
+                                          fontSize: 12
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ],
