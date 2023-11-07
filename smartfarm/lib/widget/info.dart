@@ -12,4 +12,6 @@ class Info {
         duration: Duration(milliseconds: 1700),
     );
   }
+
 }
+
