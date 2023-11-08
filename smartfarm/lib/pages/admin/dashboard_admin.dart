@@ -5,6 +5,8 @@ import 'package:smartfarm/pages/login.dart';
 class DashboardAdmin extends StatefulWidget {
   const DashboardAdmin({Key? key}) : super(key: key);
 
+
+
   @override
   State<DashboardAdmin> createState() => _DashboardAdminState();
 }
@@ -57,7 +59,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Hi, Farmer')
+                          Text('Hi, Admin')
                         ],
                       ),
                     ),
@@ -104,7 +106,6 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                 children: [
                                   Text(
                                     "Cuaca",
-
                                   ),
                                 ],
                               ),
