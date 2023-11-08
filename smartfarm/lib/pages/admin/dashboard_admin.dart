@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_pref.dart';
+import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/login.dart';
 
 class DashboardAdmin extends StatefulWidget {
@@ -120,50 +121,55 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          height: 150,
-                          width: 170,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              side: BorderSide(
-                                width: 1,
-                                color: Color(0xffD5D5D5),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser()));
+                          },
+                          child: SizedBox(
+                            height: 150,
+                            width: 170,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                side: BorderSide(
+                                  width: 1,
+                                  color: Color(0xffD5D5D5),
+                                ),
                               ),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.all(25),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Icon(
-                                        Icons.map_outlined,
-                                        size: 30,
-                                        color: Color(0xff505050),
-                                      ),
-                                      Text(
-                                        "2",
-                                        style: TextStyle(
-                                            fontSize: 25
+                              child: Container(
+                                padding: EdgeInsets.all(25),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Icon(
+                                          Icons.map_outlined,
+                                          size: 30,
+                                          color: Color(0xff505050),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 35,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Total Lahan",
+                                        Text(
+                                          "2",
+                                          style: TextStyle(
+                                              fontSize: 25
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 35,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Total Lahan",
 
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
