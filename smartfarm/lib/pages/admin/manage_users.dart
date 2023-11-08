@@ -27,7 +27,7 @@ class ManageUser extends StatelessWidget {
                   onPressed: (){},
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(90),
                     ),
                     child: Text(
                       "+ Tambah Lahan",
