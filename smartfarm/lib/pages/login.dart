@@ -149,6 +149,7 @@ class Login extends StatelessWidget {
                                       style: TextStyle(
                                           fontSize: 12
                                       ),
+
                                     ),
                                   ),
                                 ),

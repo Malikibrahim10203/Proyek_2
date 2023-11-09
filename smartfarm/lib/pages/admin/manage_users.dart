@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:smartfarm/event/event_db.dart';
+import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 
-class ManageUser extends StatelessWidget {
-  const ManageUser({Key? key}) : super(key: key);
+
+class ManageUser extends StatefulWidget {
+
+  @override
+  State<ManageUser> createState() => _ManageUserState();
+}
+
+class _ManageUserState extends State<ManageUser> {
+
+  List<User> listUser = [];
+  void getUser() async {
+    listUser = await EventDB.getUser();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getUser();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +53,37 @@ class ManageUser extends StatelessWidget {
                     child: Text(
                       "+ Tambah Lahan",
                       style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54
+                          fontSize: 12,
+                          color: Colors.black54
                       ),
                     ),
                   ),
                 ), // Akhir Pembuatan Tombol
               ],
-            )
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: listUser.length,
+                itemBuilder: (context, index) {
+                  User user = listUser[index];
+                  return ListTile(
+                    leading: Text('${index+1}'),
+                    title: Text(user.email??''),
+                    trailing: IconButton(
+                      onPressed: (){},
+                      icon: Icon(Icons.more_vert),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
+

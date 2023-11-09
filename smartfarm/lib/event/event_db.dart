@@ -43,4 +43,26 @@ class EventDB {
     }
     return user;
   }
+
+  static Future<List<User>> getUser() async {
+    List<User> listUser = [];
+
+    try {
+      var response = await http.post(Uri.parse(Api.list_user));
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          var users = responseBody['user'];
+          users.forEach((user) {
+            listUser.add(User.fromJson(user));
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return listUser;
+  }
+
 }
