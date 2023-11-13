@@ -230,48 +230,55 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 150,
-                      width: 420,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(
-                            width: 1,
-                            color: Color(0xffD5D5D5),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser()));
+                      },
+                      child: SizedBox(
+                        height: 150,
+                        width: 420,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(
+                              width: 1,
+                              color: Color(0xffD5D5D5),
+                            ),
                           ),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.all(25),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Icon(
-                                    Icons.device_hub_outlined,
-                                    size: 30,
-                                    color: Color(0xff505050),
-                                  ),
-                                  Text(
-                                    "2",
-                                    style: TextStyle(
-                                        fontSize: 25
+                          child: Container(
+                            padding: EdgeInsets.all(25),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons.supervised_user_circle,
+                                      size: 30,
+                                      color: Color(0xff505050),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                      "Total User"
-                                  )
-                                ],
-                              ),
-                            ],
+                                    Text(
+                                      "2",
+                                      style: TextStyle(
+                                          fontSize: 25
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 35,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Total User",
+
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
