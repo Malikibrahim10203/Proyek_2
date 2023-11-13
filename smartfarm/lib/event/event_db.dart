@@ -74,10 +74,9 @@ class EventDB {
 
       if(response.statusCode==200){
         var responseBody = jsonDecode(response.body);
-        if(responseBody['succes']){
-          var device = responseBody['device'];
-
-          device.forEach((device){
+        if(responseBody['success']){
+          var devices = responseBody['device'];
+          devices.forEach((device){
             listDevice.add(Device.fromJson(device));
           });
         }

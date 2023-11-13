@@ -67,11 +67,40 @@ class _ManageDevice extends State<ManageDevice>{
                 itemCount: listDevice.length,
                 itemBuilder: (context, index) {
                   Device device = listDevice[index];
+                  if (index == 0){
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "No",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                          Text(
+                            "Name",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                          Text(
+                            "Aksi",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  index -= 1;
                   return ListTile(
                     leading: Text('${index+1}'),
                     title: Text(device.name?? ''),
                     trailing: IconButton(
-                      onPressed: () {},
+                      onPressed: (){},
                       icon: Icon(Icons.more_vert),
                     ),
                   );
