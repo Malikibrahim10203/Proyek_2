@@ -64,11 +64,41 @@ class _ManageUserState extends State<ManageUser> {
             SizedBox(
               height: 10,
             ),
+
             Expanded(
               child: ListView.builder(
                 itemCount: listUser.length,
                 itemBuilder: (context, index) {
                   User user = listUser[index];
+                  if (index == 0){
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "No",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                          Text(
+                            "Email",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                          Text(
+                            "Aksi",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  index -= 1;
                   return ListTile(
                     leading: Text('${index+1}'),
                     title: Text(user.email??''),
@@ -86,4 +116,3 @@ class _ManageUserState extends State<ManageUser> {
     );
   }
 }
-

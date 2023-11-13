@@ -17,7 +17,7 @@ class _ManageDevice extends State<ManageDevice>{
   }
 
   @override
-  void initState(){
+  void initState() {
     getDevice();
     super.initState();
   }
@@ -69,7 +69,7 @@ class _ManageDevice extends State<ManageDevice>{
                   Device device = listDevice[index];
                   return ListTile(
                     leading: Text('${index+1}'),
-                    title: Text(device.name??''),
+                    title: Text(device.name?? ''),
                     trailing: IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.more_vert),
