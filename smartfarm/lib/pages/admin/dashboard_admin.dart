@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_pref.dart';
+import 'package:smartfarm/pages/admin/manage_device.dart';
 import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/login.dart';
 
@@ -174,10 +175,14 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 150,
-                          width: 170,
-                          child: Card(
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ManageDevice()));
+                          },
+                          child: SizedBox(
+                            height: 150,
+                            width: 170,
+                            child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                               side: BorderSide(
@@ -220,6 +225,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                 ],
                               ),
                             ),
+                          ),
                           ),
                         ),
                       ],

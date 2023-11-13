@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:smartfarm/config/api.dart';
 import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/model/user.dart';
+import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 import 'package:smartfarm/widget/info.dart';
@@ -65,4 +66,25 @@ class EventDB {
     return listUser;
   }
 
+  static Future<List<Device>> getDevice() async {
+    List<Device> listDevice = [];
+
+    try{
+      var response = await http.post(Uri.parse(Api.list_device));
+
+      if(response.statusCode==200){
+        var responseBody = jsonDecode(response.body);
+        if(responseBody['succes']){
+          var device = responseBody['device'];
+
+          device.forEach((device){
+            listDevice.add(Device.fromJson(device));
+          });
+        }
+      }
+    } catch (e){
+      print(e);
+    }
+    return listDevice;
+  }
 }
