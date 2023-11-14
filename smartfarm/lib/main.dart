@@ -4,10 +4,11 @@ import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
+import 'package:smartfarm/pages/farmer/devicefarmer.dart';
 import 'pages/login.dart';
 
 void main() {
-  runApp(const SmartFarm());
+  runApp(Devicefarmer());
 }
 
 class SmartFarm extends StatelessWidget {
