@@ -4,13 +4,14 @@ import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 
 class ManageDevice extends StatefulWidget{
+
   @override
   State<ManageDevice> createState() => _ManageDevice();
 }
 
 class _ManageDevice extends State<ManageDevice>{
 
-  List<Device> listDevice =[];
+  List<Device> listDevice = [];
   void getDevice() async {
     listDevice = await EventDB.getDevice();
     setState(() {});
@@ -19,6 +20,7 @@ class _ManageDevice extends State<ManageDevice>{
   @override
   void initState() {
     getDevice();
+    // TODO: implement initState
     super.initState();
   }
 
@@ -35,11 +37,11 @@ class _ManageDevice extends State<ManageDevice>{
                 IconButton(
                   onPressed: (){
                     Navigator.push(
-                      context, MaterialPageRoute(
-                        builder: (context) => DashboardAdmin(),));
+                        context, MaterialPageRoute(
+                      builder: (context) => DashboardAdmin(),));
                   }, icon: Icon(
-                    Icons.arrow_back_outlined,
-                  ),
+                  Icons.arrow_back_outlined,
+                ),
                 ),
                 Text("Manage Device"),
                 OutlinedButton(
@@ -60,45 +62,49 @@ class _ManageDevice extends State<ManageDevice>{
               ],
             ),
             SizedBox(
-              height: 10,
+              height: 40,
             ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "No",
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic
+                    ),
+                  ),
+                  Text(
+                    "Name",
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic
+                    ),
+                  ),
+                  Text(
+                    "Aksi",
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             Expanded(
               child: ListView.builder(
                 itemCount: listDevice.length,
                 itemBuilder: (context, index) {
                   Device device = listDevice[index];
-                  if (index == 0){
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "No",
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic
-                            ),
-                          ),
-                          Text(
-                            "Name",
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic
-                            ),
-                          ),
-                          Text(
-                            "Aksi",
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                  index -= 1;
                   return ListTile(
-                    leading: Text('${index+1}'),
-                    title: Text(device.name?? ''),
+                    leading:
+                    Text(
+                      '${index+1}',
+                      style: TextStyle(
+                          fontSize: 16
+                      ),
+                    ),
+                    title: Text(device.name??''),
                     trailing: IconButton(
                       onPressed: (){},
                       icon: Icon(Icons.more_vert),

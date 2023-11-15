@@ -69,19 +69,19 @@ class EventDB {
   static Future<List<Device>> getDevice() async {
     List<Device> listDevice = [];
 
-    try{
+    try {
       var response = await http.post(Uri.parse(Api.list_device));
 
-      if(response.statusCode==200){
+      if (response.statusCode == 200) {
         var responseBody = jsonDecode(response.body);
-        if(responseBody['success']){
-          var devices = responseBody['device'];
-          devices.forEach((device){
+        if (responseBody['success']) {
+          var devices = responseBody['user'];
+          devices.forEach((device) {
             listDevice.add(Device.fromJson(device));
           });
         }
       }
-    } catch (e){
+    } catch (e) {
       print(e);
     }
     return listDevice;
