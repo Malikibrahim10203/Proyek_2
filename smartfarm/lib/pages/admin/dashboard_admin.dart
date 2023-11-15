@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smartfarm/model/device.dart';
+import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/event/event_pref.dart';
-import 'package:smartfarm/pages/admin/landfarmer.dart';
+import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/pages/admin/manage_device.dart';
 import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/login.dart';
@@ -15,6 +17,32 @@ class DashboardAdmin extends StatefulWidget {
 }
 
 class _DashboardAdminState extends State<DashboardAdmin> {
+
+  List<Device> totalDevice = [];
+  List<User> totalUser = [];
+
+  void getDevice() async {
+    totalDevice = await EventDB.getDevice();
+    setState(() {});
+  }
+
+  void getUser() async {
+    totalUser = await EventDB.getUser();
+    setState(() {
+
+    });
+  }
+
+
+  @override
+  void initState() {
+    getDevice();
+    getUser();
+    // TODO: implement initState
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +50,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.white, Color(0xffC7EEFF)],
+          colors: [Colors.white, Color(0xffE9F8FF)],
         ),
       ),
       child: Scaffold(
@@ -125,7 +153,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser()));
                           },
                           child: SizedBox(
                             height: 150,
@@ -184,49 +212,49 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                             height: 150,
                             width: 170,
                             child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              side: BorderSide(
-                                width: 1,
-                                color: Color(0xffD5D5D5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                side: BorderSide(
+                                  width: 1,
+                                  color: Color(0xffD5D5D5),
+                                ),
                               ),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.all(25),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Icon(
-                                        Icons.device_hub_outlined,
-                                        size: 30,
-                                        color: Color(0xff505050),
-                                      ),
-                                      Text(
-                                        "2",
-                                        style: TextStyle(
-                                            fontSize: 25
+                              child: Container(
+                                padding: EdgeInsets.all(25),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Icon(
+                                          Icons.device_hub_outlined,
+                                          size: 30,
+                                          color: Color(0xff505050),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 35,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Total Device",
+                                        Text(
+                                          "${totalDevice.length}",
+                                          style: TextStyle(
+                                              fontSize: 25
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 35,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Total Device",
 
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
                           ),
                         ),
                       ],
@@ -259,7 +287,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                       color: Color(0xff505050),
                                     ),
                                     Text(
-                                      "2",
+                                      "${totalUser.length}",
                                       style: TextStyle(
                                           fontSize: 25
                                       ),
