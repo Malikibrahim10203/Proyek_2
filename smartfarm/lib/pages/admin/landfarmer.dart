@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
-import 'package:smartfarm/pages/admin/detail_device/detail.dart';
+import 'package:smartfarm/pages/admin/detail_land/detail.dart';
 
 class LandFarmer extends StatefulWidget {
   
@@ -74,29 +74,27 @@ class _LandFarmerState extends State<LandFarmer> {
                 itemCount: listLand.length,
                 itemBuilder: (context, index) {
                   Land land = listLand[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Detail()));
-                    },
-                    child: SizedBox(
-                      height: 100,
-                       child: Card(
-                         child: Container(
-                           padding: EdgeInsets.all(15),
-                           child: Column(
-                             children: [
-                               ListTile(
-                                 leading:
-                                 Icon(
-                                   Icons.image,
-                                   size: 55,
-                                 ),
-                                 title: Text(land.name??''),
-                               ),
-                             ],
-                           ),
-                         ),
-                       ),
+                  return SizedBox(
+                    height: 100,
+                    child: Card(
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading:
+                              Icon(
+                                Icons.image,
+                                size: 55,
+                              ),
+                              title: Text(land.name??''),
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(todo: land.id??'')));
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },

@@ -29,9 +29,9 @@ class EventDB {
           Info.snackbar('Login Berhasil');
           Future.delayed(Duration(milliseconds: 1700), () {
             Get.off(
-              user!.role == 'admin'?
-                  DashboardAdmin():
-                  DashboardFarmer()
+                user!.role == 'admin'?
+                DashboardAdmin():
+                DashboardFarmer()
             );
           });
         } else {
@@ -109,5 +109,27 @@ class EventDB {
     return listLand;
   }
 
+  static Future<List<Land>> getDetailLand(String id) async {
+    List<Land> listLand = [];
+
+    try {
+      var response = await http.post(Uri.parse(Api.list_detail_land), body: {
+        'id': id,
+      });
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          var lands = responseBody['user'];
+          lands.forEach((land) {
+            listLand.add(Land.fromJson(land));
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return listLand;
+  }
 
 }
