@@ -30,7 +30,7 @@ class _LandFarmerState extends State<LandFarmer> {
                   ),
 
                 ),//pembuatan tombol akhir
-                Text("smartfram"),
+                Text("Lands Farmer"),
                 OutlinedButton(
                   onPressed:(){},
                 child: Container(

@@ -5,10 +5,11 @@ import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 import 'package:smartfarm/pages/farmer/devicefarmer.dart';
+import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'pages/login.dart';
 
 void main() {
-  runApp(Devicefarmer());
+  runApp(SmartFarm());
 }
 
 class SmartFarm extends StatelessWidget {

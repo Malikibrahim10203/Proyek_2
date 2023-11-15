@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
+import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 
 class Devicefarmer extends StatefulWidget{
   @override
@@ -36,7 +37,7 @@ class _Devicefarmer extends State<Devicefarmer>{
                   onPressed: (){
                     Navigator.push(
                       context, MaterialPageRoute(
-                        builder: (context) => DashboardAdmin(),));
+                        builder: (context) => DashboardFarmer(),));
                   }, icon: Icon(
                     Icons.arrow_back_outlined,
                   ),
