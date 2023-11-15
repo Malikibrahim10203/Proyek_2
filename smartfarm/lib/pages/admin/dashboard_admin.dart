@@ -3,6 +3,7 @@ import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/model/user.dart';
+import 'package:smartfarm/pages/admin/landfarmer.dart';
 import 'package:smartfarm/pages/admin/manage_device.dart';
 import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/login.dart';
@@ -153,7 +154,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer()));
                           },
                           child: SizedBox(
                             height: 150,

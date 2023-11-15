@@ -3,4 +3,5 @@ class Api {
   static String login = '$host/login.php';
   static String list_user = '$host/get_user.php';
   static String list_device = '$host/get_device.php';
+  static String list_land = '$host/get_land.php';
 }

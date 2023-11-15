@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:smartfarm/config/api.dart';
 import 'package:smartfarm/event/event_pref.dart';
+import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
@@ -86,4 +87,27 @@ class EventDB {
     }
     return listDevice;
   }
+
+  static Future<List<Land>> getLand() async {
+    List<Land> listLand = [];
+
+    try {
+      var response = await http.post(Uri.parse(Api.list_land));
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          var lands = responseBody['user'];
+          lands.forEach((land) {
+            listLand.add(Land.fromJson(land));
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return listLand;
+  }
+
+
 }
