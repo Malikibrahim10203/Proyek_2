@@ -47,24 +47,16 @@ class _DashboardAdminState extends State<DashboardAdmin> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white, Color(0xffE9F8FF)],
-        ),
-      ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         resizeToAvoidBottomInset: false,
         body: Container(
           child: SafeArea(
             child: SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(left: 30, top: 50, right: 30),
                 child: Column(
                   children: [
                     Container(
+                      padding: EdgeInsets.only(left: 30, top: 50, right: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -88,6 +80,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                       height: 10,
                     ),
                     Container(
+                      padding: EdgeInsets.only(left: 30, right: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -100,44 +93,159 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                     ),
                     SizedBox(
                       height: 150,
-                      width: 420,
+                      width: MediaQuery.of(context).size.width*1,
                       child: Card(
+                        color: Color(0xffC5E898),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(
-                            width: 1,
-                            color: Color(0xffD5D5D5),
-                          ),
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(50)),
                         ),
                         child: Container(
-                          padding: EdgeInsets.all(25),
+                          padding: EdgeInsets.only(left: 15, right: 15),
                           child: Column(
                             children: [
+                              SizedBox(
+                                height: 25,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "16°C",
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      color: Color(0xff505050),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer()));
+                                    },
+                                    child: SizedBox(
+                                      height: MediaQuery.of(context).size.height*0.15,
+                                      width: MediaQuery.of(context).size.width*0.3,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15),
+                                          side: BorderSide(
+                                            width: 1,
+                                            color: Color(0xffD5D5D5),
+                                          ),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.all(15),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Icon(
+                                                    Icons.map_outlined,
+                                                    size: 25,
+                                                    color: Color(0xff505050),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Lahan",
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.wb_cloudy_outlined,
-                                    size: 30,
-                                    color: Color(0xff505050),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser()));
+                                    },
+                                    child: SizedBox(
+                                      height: MediaQuery.of(context).size.height*0.15,
+                                      width: MediaQuery.of(context).size.width*0.3,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15),
+                                          side: BorderSide(
+                                            width: 1,
+                                            color: Color(0xffD5D5D5),
+                                          ),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.all(15),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Icon(
+                                                    Icons.supervised_user_circle,
+                                                    size: 25,
+                                                    color: Color(0xff505050),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Pengguna",
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Cuaca",
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageDevice()));
+                                    },
+                                    child: SizedBox(
+                                      height: MediaQuery.of(context).size.height*0.15,
+                                      width: MediaQuery.of(context).size.width*0.3,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15),
+                                          side: BorderSide(
+                                            width: 1,
+                                            color: Color(0xffD5D5D5),
+                                          ),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.all(15),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Icon(
+                                                    Icons.hub_outlined,
+                                                    size: 25,
+                                                    color: Color(0xff505050),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: MediaQuery.of(context).size.height*0.02,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Device",
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -147,168 +255,69 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 50,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer()));
-                          },
-                          child: SizedBox(
-                            height: 150,
-                            width: 170,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: BorderSide(
-                                  width: 1,
-                                  color: Color(0xffD5D5D5),
-                                ),
-                              ),
-                              child: Container(
-                                padding: EdgeInsets.all(25),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Icon(
-                                          Icons.map_outlined,
-                                          size: 30,
-                                          color: Color(0xff505050),
-                                        ),
-                                        Text(
-                                          "2",
-                                          style: TextStyle(
-                                              fontSize: 25
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 35,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Total Lahan",
-
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height*0.25,
+                      width: MediaQuery.of(context).size.width*1,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          side: BorderSide(
+                            width: 1,
+                            color: Color(0xffD5D5D5),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ManageDevice()));
-                          },
-                          child: SizedBox(
-                            height: 150,
-                            width: 170,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: BorderSide(
-                                  width: 1,
-                                  color: Color(0xffD5D5D5),
-                                ),
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Cuaca",
+                                    style: TextStyle(
+                                        fontSize: 17
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text(
+                                    "Kecamatan Lohbener, 15 Nov",
+                                    style: TextStyle(
+                                        fontSize: 12
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "29°C",
+                                    style: TextStyle(
+                                        fontSize: 20
+                                    ),
+                                  ),
+                                  Text(
+                                    "Hari ini hujan deras",
+                                    style: TextStyle(
+                                        fontSize: 10
+                                    ),
+                                  ),
+                                ],
                               ),
-                              child: Container(
-                                padding: EdgeInsets.all(25),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Icon(
-                                          Icons.device_hub_outlined,
-                                          size: 30,
-                                          color: Color(0xff505050),
-                                        ),
-                                        Text(
-                                          "${totalDevice.length}",
-                                          style: TextStyle(
-                                              fontSize: 25
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 35,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Total Device",
-
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser()));
-                      },
-                      child: SizedBox(
-                        height: 150,
-                        width: 420,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            side: BorderSide(
-                              width: 1,
-                              color: Color(0xffD5D5D5),
-                            ),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(25),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Icon(
-                                      Icons.supervised_user_circle,
-                                      size: 30,
-                                      color: Color(0xff505050),
-                                    ),
-                                    Text(
-                                      "${totalUser.length}",
-                                      style: TextStyle(
-                                          fontSize: 25
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 35,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Total User",
-
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                              Column(
+                                children: [
+                                  Icon(
+                                    Icons.cloudy_snowing,
+                                    size: 100,
+                                    color: Colors.grey,
+                                  )
+                                ],
+                              )
+                            ],
                           ),
                         ),
                       ),

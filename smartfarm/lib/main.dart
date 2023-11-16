@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
@@ -19,6 +20,9 @@ class SmartFarm extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+      ),
       home: FutureBuilder(
         future: EventPref.getUser(),
         builder: (context, AsyncSnapshot<User?> snapshot) {
