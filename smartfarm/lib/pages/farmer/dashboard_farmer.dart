@@ -17,6 +17,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
+        backgroundColor: Color(0xffF5F7F8),
         resizeToAvoidBottomInset: false,
         body: Container(
           child: SafeArea(

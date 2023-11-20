@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
+import 'package:smartfarm/pages/admin/add/tambah_user.dart';
+import 'package:smartfarm/pages/admin/edit/edit_user.dart';
 
 
 class ManageUser extends StatefulWidget {
+  const ManageUser({super.key, required this.info});
+  final info;
 
   @override
   State<ManageUser> createState() => _ManageUserState();
@@ -25,9 +29,29 @@ class _ManageUserState extends State<ManageUser> {
     super.initState();
   }
 
+  void information() {
+    if(1 == 1){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Container(
+            padding: EdgeInsets.all(15),
+            height: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Text("Data Berhasil ditambahkan"),
+          ),
+        ),
+      );
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF5F7F8),
       body: Container(
         padding: EdgeInsets.only(left: 30, top: 50, right: 30),
         child: Column(
@@ -45,13 +69,15 @@ class _ManageUserState extends State<ManageUser> {
                 ), // Akhir Pembuatan Tombol Kembali
                 Text("Manage User"), // Tulisan
                 OutlinedButton( // Awal Pembuatan tombol
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahUser()));
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(90),
                     ),
                     child: Text(
-                      "+ Tambah Lahan",
+                      "+ Tambah User",
                       style: TextStyle(
                           fontSize: 12,
                           color: Colors.black54
@@ -70,41 +96,32 @@ class _ManageUserState extends State<ManageUser> {
                 itemCount: listUser.length,
                 itemBuilder: (context, index) {
                   User user = listUser[index];
-                  if (index == 0){
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  index -= 1;
+                  return Card(
+                    child: ListTile(
+                      leading: Icon(Icons.manage_accounts_rounded),
+                      title: Text("Account"),
+                      subtitle: Text(
+                        user.email??'',
+                        style: TextStyle(
+                            fontSize: 15
+                        ),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            "No",
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic
-                            ),
+                          IconButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>EditUser(id: user.id, name: user.name, email: user.email)));
+                            },
+                            icon: Icon(Icons.edit, color: Colors.blue),
                           ),
-                          Text(
-                            "Email",
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic
-                            ),
-                          ),
-                          Text(
-                            "Aksi",
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic
-                            ),
+                          IconButton(
+                            onPressed: (){},
+                            icon: Icon(Icons.delete, color: Colors.red,),
                           ),
                         ],
                       ),
-                    );
-                  }
-                  index -= 1;
-                  return ListTile(
-                    leading: Text('${index+1}'),
-                    title: Text(user.email??''),
-                    trailing: IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.more_vert),
                     ),
                   );
                 },

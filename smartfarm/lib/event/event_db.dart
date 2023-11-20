@@ -8,6 +8,7 @@ import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
+import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 import 'package:smartfarm/widget/info.dart';
 
@@ -132,4 +133,103 @@ class EventDB {
     return listLand;
   }
 
+  static Future<List<Device>> getDetailDevice(String id) async {
+    List<Device> listDevice = [];
+
+    try {
+      var response = await http.post(Uri.parse(Api.list_device_detail), body: {
+        'id': id,
+      });
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          var device = responseBody['user'];
+          device.forEach((device) {
+            listDevice.add(Device.fromJson(device));
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return listDevice;
+  }
+
+  static Future<User?> addUser(String name, String email, String password, String role) async {
+
+    try {
+      var response = await http.post(Uri.parse(Api.add_user), body: {
+        'name': name,
+        'email': email,
+        'password': password,
+        'role': role
+      });
+
+      if (response.statusCode == 200) {
+        Info.snackbar("Data Success");
+        Future.delayed(Duration(milliseconds: 1700), () {
+          Get.off(
+              ManageUser(info: 1,)
+          );
+        });
+      } else {
+        Info.snackbar('Request Tambah Gagal');
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<List<User>> editUser(String id, String name, String email, String password, String role) async {
+    List<User> listUser = [];
+
+    try {
+      var response = await http.post(Uri.parse(Api.edit_user), body: {
+        'id': id,
+        'name': name,
+        'email': email,
+        'password': password,
+        'role': role
+      });
+
+      if (response.statusCode == 200) {
+        Info.snackbar("Data Success");
+        Future.delayed(Duration(milliseconds: 1700), () {
+          Get.off(
+              ManageUser(info: 1,)
+          );
+        });
+      } else {
+        Info.snackbar('Request Tambah Gagal');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return listUser;
+  }
+
+  static Future<List<User>> getDetailUser(String id) async {
+    List<User> listUser = [];
+
+    try {
+      var response = await http.post(Uri.parse(Api.list_detail_user), body: {
+        'id': id,
+      });
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          var user = responseBody['user'];
+          user.forEach((user) {
+            listUser.add(User.fromJson(user));
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return listUser;
+  }
 }

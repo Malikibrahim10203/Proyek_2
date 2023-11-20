@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
+import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 
 class ManageDevice extends StatefulWidget{
+  const ManageDevice({super.key, required this.id});
+  
+  final String id;
 
   @override
   State<ManageDevice> createState() => _ManageDevice();
@@ -13,7 +17,7 @@ class _ManageDevice extends State<ManageDevice>{
 
   List<Device> listDevice = [];
   void getDevice() async {
-    listDevice = await EventDB.getDevice();
+    listDevice = await EventDB.getDetailDevice(widget.id);
     setState(() {});
   }
 
@@ -27,6 +31,7 @@ class _ManageDevice extends State<ManageDevice>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF5F7F8),
       body: Container(
         padding: EdgeInsets.only(left: 30, top: 50, right: 30),
         child: Column(
@@ -38,7 +43,7 @@ class _ManageDevice extends State<ManageDevice>{
                   onPressed: (){
                     Navigator.push(
                         context, MaterialPageRoute(
-                      builder: (context) => DashboardAdmin(),));
+                      builder: (context) => Overview(id: widget.id),));
                   }, icon: Icon(
                   Icons.arrow_back_outlined,
                 ),
@@ -64,50 +69,28 @@ class _ManageDevice extends State<ManageDevice>{
             SizedBox(
               height: 40,
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "No",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic
-                    ),
-                  ),
-                  Text(
-                    "Name",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic
-                    ),
-                  ),
-                  Text(
-                    "Aksi",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic
-                    ),
-                  ),
-                ],
-              ),
-            ),
 
             Expanded(
               child: ListView.builder(
                 itemCount: listDevice.length,
                 itemBuilder: (context, index) {
                   Device device = listDevice[index];
-                  return ListTile(
-                    leading:
-                    Text(
-                      '${index+1}',
-                      style: TextStyle(
-                          fontSize: 16
+                  return Card(
+                    child: ListTile(
+                      title: Text(device.name??''),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: (){},
+                            icon: Icon(Icons.edit, color:  Colors.blue,),
+                          ),
+                          IconButton(
+                            onPressed: (){},
+                            icon: Icon(Icons.delete, color: Colors.red,),
+                          ),
+                        ],
                       ),
-                    ),
-                    title: Text(device.name??''),
-                    trailing: IconButton(
-                      onPressed: (){},
-                      icon: Icon(Icons.more_vert),
                     ),
                   );
                 },
@@ -115,6 +98,41 @@ class _ManageDevice extends State<ManageDevice>{
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: IconButton(
+              icon: Icon(
+                Icons.home_outlined,
+              ),
+              onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>Overview(id: widget.id)));},
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+              icon: IconButton(
+                icon: Icon(
+                  Icons.sensor_window,
+                ),
+                onPressed: () { },
+              ),
+              label: 'Device'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                  Icons.bug_report
+              ),
+              label: 'Deteksi Padi'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                  Icons.settings
+              ),
+              label: 'Settings'
+          ),
+        ],
       ),
     );
   }

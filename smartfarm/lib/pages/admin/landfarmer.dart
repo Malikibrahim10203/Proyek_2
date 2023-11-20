@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
-import 'package:smartfarm/pages/admin/detail_land/detail.dart';
+import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 
 class LandFarmer extends StatefulWidget {
   
@@ -30,12 +30,12 @@ class _LandFarmerState extends State<LandFarmer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF5F7F8),
       body: Container(
         padding: EdgeInsets.only(left: 30, top:50, right: 30 ),
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton( 
                   onPressed: (){
@@ -45,24 +45,11 @@ class _LandFarmerState extends State<LandFarmer> {
                     Icons.arrow_back_outlined,
                   ),
 
-                ),//pembuatan tombol akhir
-                Text("Lands Farmer"),
-                OutlinedButton(
-                  onPressed:(){},
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    "+ tambah lahan",
-                    style:
-                    TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54
-                      ),
-                    ),
-                  ),
                 ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width*0.2,
+                ), //pembuatan tombol akhir
+                Text("Lands Farmer"),
               ],
             ),
             SizedBox(
@@ -89,7 +76,7 @@ class _LandFarmerState extends State<LandFarmer> {
                               ),
                               title: Text(land.name??''),
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Detail(todo: land.id??'')));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Overview(id: land.id??'')));
                               },
                             ),
                           ],

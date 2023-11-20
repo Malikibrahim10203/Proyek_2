@@ -68,58 +68,65 @@ class Login extends StatelessWidget {
                         key: formKey,
                         child: Column(
                           children: [
-                            Text(
-                              "E-mail Address",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                controller: controllerEmail,
-                                validator: (value) => value == ''? 'Jangan Kosong':null,
-                                decoration: InputDecoration(
-                                  helperText: ' ',
-                                  border: OutlineInputBorder(),
-                                  labelText: "Enter your email...",
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "E-mail Address",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  SizedBox(
+                                    width: 240,
+                                    height: 60,
+                                    child: TextFormField(
+                                      controller: controllerEmail,
+                                      validator: (value) => value == ''? 'Jangan Kosong':null,
+                                      decoration: InputDecoration(
+                                        helperText: ' ',
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter your email...",
+                                        labelStyle: TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
 
-                            Text(
-                              "Password",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                controller: controllerPass,
-                                validator: (value) => value == ''? 'Jangan Kosong':null,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: "Enter your password...",
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
+                                  Text(
+                                    "Password",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                  helperText: ' ',
-                                ),
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  SizedBox(
+                                    width: 240,
+                                    height: 60,
+                                    child: TextFormField(
+                                      controller: controllerPass,
+                                      validator: (value) => value == ''? 'Jangan Kosong':null,
+                                      obscureText: true,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter your password...",
+                                        labelStyle: TextStyle(
+                                          fontSize: 10,
+                                        ),
+                                        helperText: ' ',
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(

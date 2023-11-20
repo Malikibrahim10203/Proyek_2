@@ -26,6 +26,7 @@ class _Devicefarmer extends State<Devicefarmer>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF5F7F8),
       body: Container(
         padding: EdgeInsets.only(left: 30, top: 50, right: 30),
         child: Column(

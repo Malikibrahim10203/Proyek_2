@@ -4,7 +4,7 @@ import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/pages/admin/landfarmer.dart';
-import 'package:smartfarm/pages/admin/manage_device.dart';
+import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
 import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/login.dart';
 
@@ -49,6 +49,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
     return Container(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
+        backgroundColor: Color(0xffF5F7F8),
         body: Container(
           child: SafeArea(
             child: SingleChildScrollView(
@@ -107,7 +108,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                 height: 25,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   GestureDetector(
                                     onTap: () {
@@ -157,7 +158,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser(info: 0,)));
                                     },
                                     child: SizedBox(
                                       height: MediaQuery.of(context).size.height*0.15,
@@ -201,52 +202,6 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                       ),
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageDevice()));
-                                    },
-                                    child: SizedBox(
-                                      height: MediaQuery.of(context).size.height*0.15,
-                                      width: MediaQuery.of(context).size.width*0.3,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
-                                          side: BorderSide(
-                                            width: 1,
-                                            color: Color(0xffD5D5D5),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.all(15),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Icon(
-                                                    Icons.hub_outlined,
-                                                    size: 25,
-                                                    color: Color(0xff505050),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: MediaQuery.of(context).size.height*0.02,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Device",
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ],
@@ -263,11 +218,8 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
-                          side: BorderSide(
-                            width: 1,
-                            color: Color(0xffD5D5D5),
-                          ),
                         ),
+                        shadowColor: Colors.black,
                         child: Container(
                           padding: EdgeInsets.all(20),
                           child: Row(
