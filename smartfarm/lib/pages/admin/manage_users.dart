@@ -1,3 +1,4 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/user.dart';
@@ -117,7 +118,18 @@ class _ManageUserState extends State<ManageUser> {
                             icon: Icon(Icons.edit, color: Colors.blue),
                           ),
                           IconButton(
-                            onPressed: (){},
+                            onPressed: () async {
+                              if(await confirm(
+                                context,
+                                title: Text("Alert!"),
+                                content: Text("Apakah anda ingin hapus?"),
+                                textOK: Text("Ya"),
+                                textCancel: Text("Tidak"),
+                              )) {
+                                EventDB.deleteUser(user.id??'');
+                              }
+                              return print('pressedNo');
+                            },
                             icon: Icon(Icons.delete, color: Colors.red,),
                           ),
                         ],

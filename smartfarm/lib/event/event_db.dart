@@ -232,4 +232,32 @@ class EventDB {
     }
     return listUser;
   }
+
+  static Future<User?> deleteUser(String id) async {
+
+    try {
+      var response = await http.post(Uri.parse(Api.delete_user), body: {
+        'id': id,
+      });
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          Info.snackbar("Hapus Success");
+          Future.delayed(Duration(milliseconds: 500), () {
+            Get.off(
+                ManageUser(info: 1,)
+            );
+          });
+        } else {
+          Info.snackbar("Hapus Gagal");
+        }
+      } else {
+        Info.snackbar('Request Hapus Gagal');
+      }
+    } catch (e) {
+      print(e);
+    }
+
+  }
 }

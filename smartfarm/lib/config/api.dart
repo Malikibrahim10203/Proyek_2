@@ -9,6 +9,7 @@ class Api {
   static String add_user = '$host/add_user.php';
   static String list_detail_user = '$host/get_detail_user.php';
   static String edit_user = '$host/edit_user.php';
+  static String delete_user = '$host/delete_user.php';
 
 
 }
