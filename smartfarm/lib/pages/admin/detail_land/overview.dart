@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/admin/detail_land/map.dart';
-import 'package:smartfarm/pages/admin/landfarmer.dart';
 import 'package:intl/intl.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
+import 'package:smartfarm/pages/admin/landadmin.dart';
 
 
 class Overview extends StatefulWidget {
@@ -55,7 +55,7 @@ class _OverviewState extends State<Overview> {
                 children: [
                   IconButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder:(context)=>LandFarmer()));
+                      Navigator.push(context, MaterialPageRoute(builder:(context)=>LandAdmin()));
                     },
                     icon: Icon(
                       Icons.arrow_back_outlined,

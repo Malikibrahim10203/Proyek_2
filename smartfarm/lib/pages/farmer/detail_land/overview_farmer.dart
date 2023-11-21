@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
-import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/admin/detail_land/map.dart';
-import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:intl/intl.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
+import 'package:smartfarm/pages/farmer/detail_land/manage_device_farmer.dart';
+import 'package:smartfarm/pages/farmer/landfarmer.dart';
 
 
-class Overview extends StatefulWidget {
-  const Overview({super.key, required this.id});
+class OverviewFarmer extends StatefulWidget {
+  const OverviewFarmer({super.key, required this.id});
 
   final String id;
 
   @override
-  State<Overview> createState() => _OverviewState();
+  State<OverviewFarmer> createState() => _OverviewState();
 }
 
-class _OverviewState extends State<Overview> {
+class _OverviewState extends State<OverviewFarmer> {
 
 
   String? parameter;
@@ -55,9 +55,8 @@ class _OverviewState extends State<Overview> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
-                    onPressed: () async {
-                      String userId = (await EventPref.getUser())?.id ?? "";
-                      Navigator.push(context, MaterialPageRoute(builder:(context)=>LandFarmer(id: userId)));
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder:(context)=>LandFarmer(id: "2")));
                     },
                     icon: Icon(
                       Icons.arrow_back_outlined,
@@ -321,7 +320,7 @@ class _OverviewState extends State<Overview> {
               icon: Icon(
                 Icons.sensor_window,
               ),
-              onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageDevice(id: widget.id,)));},
+              onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageDeviceFarmer(id: widget.id,)));},
             ),
             label: 'Device'
           ),

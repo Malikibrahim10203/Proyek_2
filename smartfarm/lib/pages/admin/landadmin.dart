@@ -5,14 +5,14 @@ import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 
-class LandFarmer extends StatefulWidget {
-  
+class LandAdmin extends StatefulWidget {
+
 
   @override
-  State<LandFarmer> createState() => _LandFarmerState();
+  State<LandAdmin> createState() => _LandFarmerState();
 }
 
-class _LandFarmerState extends State<LandFarmer> {
+class _LandFarmerState extends State<LandAdmin> {
 
   List<Land> listLand = [];
   void getLand() async {
@@ -37,7 +37,7 @@ class _LandFarmerState extends State<LandFarmer> {
           children: [
             Row(
               children: [
-                IconButton( 
+                IconButton(
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder:(context)=>DashboardAdmin()));
                   },

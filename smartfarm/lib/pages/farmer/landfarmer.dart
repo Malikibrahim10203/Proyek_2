@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:smartfarm/pages/farmer/detail_land/overview.dart';
+import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
+import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/event/event_db.dart';
@@ -19,14 +20,14 @@ class LandFarmer extends StatefulWidget {
 class _LandFarmerState extends State<LandFarmer> {
 
   List<Land> listLand = [];
-  void getlLandFarmer() async {
-    listLand = await EventDB.getlLandFarmer(widget.id);
+  void getDetailLand() async {
+    listLand = await EventDB.getDetailLandbyUser('2');
     setState(() {});
   }
 
   @override
   void initState() {
-    getlLandFarmer();
+    getDetailLand();
     // TODO: implement initState
     super.initState();
   }
@@ -95,7 +96,7 @@ class _LandFarmerState extends State<LandFarmer> {
                               ),
                               title: Text(land.name??''),
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Overview(id: land.id??'')));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => OverviewFarmer(id: land.id??'')));
                               },
                             ),
                           ],

@@ -3,7 +3,6 @@ import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/pages/farmer/devicefarmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/pages/login.dart';
-import 'package:smartfarm/widget/info.dart';
 
 
 class DashboardFarmer extends StatefulWidget {
@@ -84,7 +83,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                                   GestureDetector(
                                     onTap: () async {
                                       String userId = (await EventPref.getUser())?.id ?? "";
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer(id: userId)));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer(id: "2")));
                                     },
                                     child: SizedBox(
                                       height: MediaQuery.of(context).size.height*0.15,

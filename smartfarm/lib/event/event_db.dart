@@ -133,6 +133,29 @@ class EventDB {
     return listLand;
   }
 
+  static Future<List<Land>> getDetailLandbyUser(String id) async {
+    List<Land> listLand = [];
+
+    try {
+      var response = await http.post(Uri.parse(Api.list_detail_land_by_user), body: {
+        'user_id': id,
+      });
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          var lands = responseBody['user'];
+          lands.forEach((land) {
+            listLand.add(Land.fromJson(land));
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return listLand;
+  }
+
   static Future<List<Device>> getDetailDevice(String id) async {
     List<Device> listDevice = [];
 
@@ -259,28 +282,5 @@ class EventDB {
       print(e);
     }
 
-  }
-
-  static Future<List<Land>> getlLandFarmer(String id) async {
-    List<Land> listLand = [];
-
-    try {
-      var response = await http.post(Uri.parse(Api.list_land_farmer), body: {
-        'id': id,
-      });
-
-      if (response.statusCode == 200) {
-        var responseBody = jsonDecode(response.body);
-        if (responseBody['success']) {
-          var lands = responseBody['user'];
-          lands.forEach((land) {
-            listLand.add(Land.fromJson(land));
-          });
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
-    return listLand;
   }
 }
