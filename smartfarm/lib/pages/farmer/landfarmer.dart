@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/model/land.dart';
@@ -92,10 +93,10 @@ class _LandFarmerState extends State<LandFarmer> {
                                 Icons.image,
                                 size: 55,
                               ),
-                              // title: Text(land.name??''),
-                              // onTap: () {
-                              //   Navigator.push(context, MaterialPageRoute(builder: (context) => Overview(id: land.id??'')));
-                              // },
+                              title: Text(land.name??''),
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Overview(id: land.id??'')));
+                              },
                             ),
                           ],
                         ),

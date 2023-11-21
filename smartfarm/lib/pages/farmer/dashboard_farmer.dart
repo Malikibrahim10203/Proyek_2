@@ -13,6 +13,7 @@ class DashboardFarmer extends StatefulWidget {
 }
 
 class _DashboardFarmerState extends State<DashboardFarmer> {
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,8 +81,9 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer()));
+                                    onTap: () async {
+                                      String userId = (await EventPref.getUser())?.id ?? "";
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer(id: userId)));
                                     },
                                     child: SizedBox(
                                       height: MediaQuery.of(context).size.height*0.15,
