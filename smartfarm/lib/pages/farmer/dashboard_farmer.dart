@@ -3,6 +3,7 @@ import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/pages/farmer/devicefarmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/pages/login.dart';
+import 'package:smartfarm/widget/info.dart';
 
 
 class DashboardFarmer extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:smartfarm/pages/admin/detail_land/overview.dart';
+import 'package:smartfarm/pages/farmer/detail_land/overview.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/model/land.dart';
@@ -19,14 +19,14 @@ class LandFarmer extends StatefulWidget {
 class _LandFarmerState extends State<LandFarmer> {
 
   List<Land> listLand = [];
-  void getDetailLand() async {
-    listLand = await EventDB.getDetailLand(widget.id);
+  void getlLandFarmer() async {
+    listLand = await EventDB.getlLandFarmer(widget.id);
     setState(() {});
   }
 
   @override
   void initState() {
-    getDetailLand();
+    getlLandFarmer();
     // TODO: implement initState
     super.initState();
   }
