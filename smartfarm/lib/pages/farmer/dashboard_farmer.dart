@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/pages/farmer/devicefarmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/pages/login.dart';
+
 
 
 class DashboardFarmer extends StatefulWidget {
@@ -13,12 +15,14 @@ class DashboardFarmer extends StatefulWidget {
 }
 
 class _DashboardFarmerState extends State<DashboardFarmer> {
-  
+
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Color(0xffF5F7F8),
+        backgroundColor: Color(0xff04bd6c),
         resizeToAvoidBottomInset: false,
         body: Container(
           child: SafeArea(
@@ -27,13 +31,16 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 30, top: 50, right: 30),
+                      padding: EdgeInsets.only(left: 30, top: 25, right: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
-                            Icons.account_circle_rounded,
-                            size: 25,
+                          Text(
+                            'Hi, Farmer..',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white
+                            ),
                           ),
                           IconButton(
                             onPressed: () {
@@ -41,7 +48,8 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                             },
                             icon: Icon(
-                                Icons.logout
+                              Icons.logout,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -50,201 +58,117 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30, right: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Hi, Admin')
-                        ],
-                      ),
-                    ),
                     SizedBox(
                       height: 25,
                     ),
-                    SizedBox(
-                      height: 150,
-                      width: MediaQuery.of(context).size.width*1,
-                      child: Card(
-                        color: Color(0xffC5E898),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(50)),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 25,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      String userId = (await EventPref.getUser())?.id ?? "";
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer(id: "2")));
-                                    },
-                                    child: SizedBox(
-                                      height: MediaQuery.of(context).size.height*0.15,
-                                      width: MediaQuery.of(context).size.width*0.3,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
-                                          side: BorderSide(
-                                            width: 1,
-                                            color: Color(0xffD5D5D5),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.all(15),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Icon(
-                                                    Icons.map_outlined,
-                                                    size: 25,
-                                                    color: Color(0xff505050),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: MediaQuery.of(context).size.height*0.02,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Lahan",
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                    GestureDetector(
+                      onTap: () async {
+                        String userId = (await EventPref.getUser())?.id ?? "";
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LandFarmer(id: "2")));
+                      },
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height*0.2,
+                        width: MediaQuery.of(context).size.width*0.8,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(
+                              width: 1,
+                              color: Color(0xffD5D5D5),
+                            ),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.all(15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Lottie.asset("assets/animation/land.json", width: 90),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.05,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "My Lands",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff3E3D67),
                                       ),
                                     ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Devicefarmer()));
-                                    },
-                                    child: SizedBox(
-                                      height: MediaQuery.of(context).size.height*0.15,
-                                      width: MediaQuery.of(context).size.width*0.3,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
-                                          side: BorderSide(
-                                            width: 1,
-                                            color: Color(0xffD5D5D5),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.all(15),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Icon(
-                                                    Icons.hub_outlined,
-                                                    size: 25,
-                                                    color: Color(0xff505050),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: MediaQuery.of(context).size.height*0.02,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Device",
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Berisi beberapa lahan \nyang dimiliki oleh Farmer",
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black45,
+                                          fontWeight: FontWeight.w100
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: 50,
+                      height: 30,
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height*0.25,
+                      height: MediaQuery.of(context).size.height*0.57,
                       width: MediaQuery.of(context).size.width*1,
                       child: Card(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(30),
+                            topLeft: Radius.circular(30),
+                          ),
                           side: BorderSide(
                             width: 1,
                             color: Color(0xffD5D5D5),
                           ),
                         ),
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Cuaca",
-                                    style: TextStyle(
-                                        fontSize: 17
-                                    ),
+                        color: Color(0xffECF1F7),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                ),
+                                Text(
+                                  "Menu",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: Color(0xff3E3D67),
                                   ),
-                                  SizedBox(
-                                    height: 15,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 100,
+                              width: MediaQuery.of(context).size.width*0.8,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  side: BorderSide(
+                                    width: 1,
+                                    color: Color(0xffE0E0E0),
                                   ),
-                                  Text(
-                                    "Kecamatan Lohbener, 15 Nov",
-                                    style: TextStyle(
-                                        fontSize: 12
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "29°C",
-                                    style: TextStyle(
-                                        fontSize: 20
-                                    ),
-                                  ),
-                                  Text(
-                                    "Hari ini hujan deras",
-                                    style: TextStyle(
-                                        fontSize: 10
-                                    ),
-                                  ),
-                                ],
+                                ),
+                                color: Color(0xfffefefe),
                               ),
-                              Column(
-                                children: [
-                                  Icon(
-                                    Icons.cloudy_snowing,
-                                    size: 100,
-                                    color: Colors.grey,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

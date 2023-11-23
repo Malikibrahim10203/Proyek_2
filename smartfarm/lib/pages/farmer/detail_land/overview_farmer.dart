@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:smartfarm/config/apiWeather.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/land.dart';
+import 'package:smartfarm/model/weather.dart';
 import 'package:smartfarm/pages/admin/detail_land/map.dart';
-import 'package:intl/intl.dart';
-import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
 import 'package:smartfarm/pages/farmer/detail_land/manage_device_farmer.dart';
+import 'package:smartfarm/pages/farmer/detail_land/map_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
+import 'package:http/http.dart' as http;
 
 
 class OverviewFarmer extends StatefulWidget {
@@ -22,6 +27,8 @@ class _OverviewState extends State<OverviewFarmer> {
 
   String? parameter;
   List<Land> listLand = [];
+  late Weather _weather;
+
 
   final panen = Duration(
     days: 90
@@ -40,6 +47,7 @@ class _OverviewState extends State<OverviewFarmer> {
     listLand = await EventDB.getDetailLand(parameter??'');
     setState(() {});
   }
+
 
 
   @override
@@ -100,6 +108,7 @@ class _OverviewState extends State<OverviewFarmer> {
                             DateTime datePlanted = DateTime.parse("${land.cropPlantedAt}");
                             DateTime dateNow = DateTime.now();
                             Duration diff = datePlanted.difference(dateNow);
+
                             if (diff.abs() >= panen) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,6 +202,40 @@ class _OverviewState extends State<OverviewFarmer> {
                                         fontWeight: FontWeight.w600
                                       ),
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text("Cuaca"),
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      side: BorderSide(
+                                        width: 0.5,
+                                        color: Color(0xffD5D5D5),
+                                      ),
+                                    ),
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 20,right: 20, top: 20),
+                                      child: FutureBuilder(
+                                        builder: (context, snapshot) {
+                                          if (snapshot != null) {
+                                            this._weather = snapshot.data;
+                                            if (this._weather == null) {
+                                              return Text("Error getting weather");
+                                            } else {
+                                              return  weatherBox(_weather);
+                                            }
+                                          } else {
+                                            return CircularProgressIndicator();
+                                          }
+                                        },
+                                        future: getCurrentWeather(),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
                                   ),
                                 ],
                               );
@@ -290,6 +333,40 @@ class _OverviewState extends State<OverviewFarmer> {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text("Cuaca"),
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      side: BorderSide(
+                                        width: 0.5,
+                                        color: Color(0xffD5D5D5),
+                                      ),
+                                    ),
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 20,right: 20, top: 20),
+                                      child: FutureBuilder(
+                                        builder: (context, snapshot) {
+                                          if (snapshot != null) {
+                                            this._weather = snapshot.data;
+                                            if (this._weather == null) {
+                                              return Text("Error getting weather");
+                                            } else {
+                                              return  weatherBox(_weather);
+                                            }
+                                          } else {
+                                            return CircularProgressIndicator();
+                                          }
+                                        },
+                                        future: getCurrentWeather(),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
                                 ],
                               );
                             }
@@ -329,7 +406,7 @@ class _OverviewState extends State<OverviewFarmer> {
               icon: Icon(
                 Icons.sensor_window,
               ),
-              onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>Maps()));},
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));},
             ),
             label: 'Deteksi Padi'
           ),
@@ -343,4 +420,54 @@ class _OverviewState extends State<OverviewFarmer> {
       ),
     );
   }
+}
+
+Widget weatherBox(Weather _weather) {
+
+  return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        animasi(_weather.description??''),
+        Container(
+            margin: const EdgeInsets.all(10.0),
+            child:
+            Text("${_weather.temp}°C",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            )
+        ),
+      ]
+  );
+}
+
+Widget animasi(String cuaca) {
+
+  /// String cuaca = "clear sky";
+
+  String? alamat;
+
+  if(cuaca.contains("clouds")) {
+    alamat = "assets/animation/scattered_cloud.json";
+  } else if (cuaca.contains("rain")){
+    alamat = "assets/animation/sun_rainny.json";
+  } else if (cuaca.contains("clear sky")){
+    alamat = "assets/animation/clear_sky.json";
+  }
+  return Lottie.asset("$alamat", width: 50);
+
+}
+
+Future getCurrentWeather() async {
+  Weather? weather;
+  String city = "Indramayu";
+  String apiKey = "803f29d900ba4586581fbe3d53e304dc";
+  var url = Uri.parse("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric");
+
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    weather = Weather.fromJson(jsonDecode(response.body));
+  }
+
+  return weather;
 }

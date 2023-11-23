@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/event/event_pref.dart';
@@ -48,8 +49,8 @@ class _DashboardAdminState extends State<DashboardAdmin> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
+        backgroundColor: Color(0xff04bd6c),
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xffF5F7F8),
         body: Container(
           child: SafeArea(
             child: SingleChildScrollView(
@@ -57,13 +58,16 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 30, top: 50, right: 30),
+                      padding: EdgeInsets.only(left: 30, top: 25, right: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
-                            Icons.account_circle_rounded,
-                            size: 25,
+                          Text(
+                            'Hi, Admin..',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white
+                            ),
                           ),
                           IconButton(
                             onPressed: () {
@@ -71,7 +75,8 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                             },
                             icon: Icon(
-                                Icons.logout
+                              Icons.logout,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -80,197 +85,156 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30, right: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Hi, Admin')
-                        ],
-                      ),
-                    ),
                     SizedBox(
                       height: 25,
                     ),
-                    SizedBox(
-                      height: 150,
-                      width: MediaQuery.of(context).size.width*1,
-                      child: Card(
-                        color: Color(0xffC5E898),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(50)),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 25,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => LandAdmin()));
-                                    },
-                                    child: SizedBox(
-                                      height: MediaQuery.of(context).size.height*0.15,
-                                      width: MediaQuery.of(context).size.width*0.3,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
-                                          side: BorderSide(
-                                            width: 1,
-                                            color: Color(0xffD5D5D5),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.all(15),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Icon(
-                                                    Icons.map_outlined,
-                                                    size: 25,
-                                                    color: Color(0xff505050),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: MediaQuery.of(context).size.height*0.02,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Lahan",
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                    GestureDetector(
+                      onTap: () async {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser(info: 1)));
+                      },
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height*0.2,
+                        width: MediaQuery.of(context).size.width*0.8,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(
+                              width: 1,
+                              color: Color(0xffD5D5D5),
+                            ),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.all(15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Lottie.asset("assets/animation/user.json", width: 100),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.05,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Manage User",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xff3E3D67),
                                       ),
                                     ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageUser(info: 0,)));
-                                    },
-                                    child: SizedBox(
-                                      height: MediaQuery.of(context).size.height*0.15,
-                                      width: MediaQuery.of(context).size.width*0.3,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
-                                          side: BorderSide(
-                                            width: 1,
-                                            color: Color(0xffD5D5D5),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.all(15),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Icon(
-                                                    Icons.supervised_user_circle,
-                                                    size: 25,
-                                                    color: Color(0xff505050),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: MediaQuery.of(context).size.height*0.02,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Pengguna",
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Berisi beberapa user yang \nterdaftar pada smartfarm",
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black45,
+                                          fontWeight: FontWeight.w100
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: 50,
+                      height: 30,
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height*0.25,
+                      height: MediaQuery.of(context).size.height*0.57,
                       width: MediaQuery.of(context).size.width*1,
                       child: Card(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        shadowColor: Colors.black,
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Cuaca",
-                                    style: TextStyle(
-                                        fontSize: 17
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    "Kecamatan Lohbener, 15 Nov",
-                                    style: TextStyle(
-                                        fontSize: 12
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "29°C",
-                                    style: TextStyle(
-                                        fontSize: 20
-                                    ),
-                                  ),
-                                  Text(
-                                    "Hari ini hujan deras",
-                                    style: TextStyle(
-                                        fontSize: 10
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Icon(
-                                    Icons.cloudy_snowing,
-                                    size: 100,
-                                    color: Colors.grey,
-                                  )
-                                ],
-                              )
-                            ],
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(30),
+                            topLeft: Radius.circular(30),
                           ),
+                          side: BorderSide(
+                            width: 1,
+                            color: Color(0xffD5D5D5),
+                          ),
+                        ),
+                        color: Color(0xffECF1F7),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                ),
+                                Text(
+                                  "Menu",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: Color(0xff3E3D67),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 100,
+                              width: MediaQuery.of(context).size.width*0.8,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => LandAdmin()));
+                                },
+                                child: SizedBox(
+                                  height: MediaQuery.of(context).size.height*0.2,
+                                  width: MediaQuery.of(context).size.width*0.8,
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Container(
+                                      padding: EdgeInsets.all(15),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Lottie.asset("assets/animation/land.json", width: 90),
+                                          SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.05,
+                                          ),
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Farmer Lands",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xff3E3D67),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                "Berisi beberapa lahan \nyang dimiliki oleh Farmer",
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.black45,
+                                                    fontWeight: FontWeight.w100
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
