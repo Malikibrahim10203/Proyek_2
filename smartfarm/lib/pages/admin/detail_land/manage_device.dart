@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
+import 'package:smartfarm/pages/admin/add/tambah_device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
+import 'package:smartfarm/widget/info.dart';
 
 class ManageDevice extends StatefulWidget{
   const ManageDevice({super.key, required this.id});
@@ -50,7 +52,10 @@ class _ManageDevice extends State<ManageDevice>{
                 ),
                 Text("Manage Device"),
                 OutlinedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Info.snackbar(widget.id);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TambahDevice(id: widget.id)));
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(90),

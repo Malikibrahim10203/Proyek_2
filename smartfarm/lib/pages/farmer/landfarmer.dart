@@ -21,7 +21,7 @@ class _LandFarmerState extends State<LandFarmer> {
 
   List<Land> listLand = [];
   void getDetailLand() async {
-    listLand = await EventDB.getDetailLandbyUser('2');
+    listLand = await EventDB.getDetailLandbyUser(widget.id);
     setState(() {});
   }
 
