@@ -91,7 +91,9 @@ class _HapusDeviceState extends State<HapusDevice> {
                             ),
                             SizedBox(
                               height: 12,
+
                             ),
+
                             SizedBox(
                               width: 240,
                               height: 60,
@@ -101,6 +103,7 @@ class _HapusDeviceState extends State<HapusDevice> {
                                 decoration: InputDecoration(
                                   helperText: ' ',
                                   border: OutlineInputBorder(),
+
                                   labelText: "Enter Id Device..",
                                   labelStyle: TextStyle(
                                     fontSize: 10,
@@ -109,12 +112,14 @@ class _HapusDeviceState extends State<HapusDevice> {
                               ),
                             ),
                             Text(
-                              "Name Device",
+
+                              "Device",
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
+
                             SizedBox(
                               height: 12,
                             ),
@@ -141,6 +146,7 @@ class _HapusDeviceState extends State<HapusDevice> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
+                            
                             SizedBox(
                               height: 12,
                             ),
