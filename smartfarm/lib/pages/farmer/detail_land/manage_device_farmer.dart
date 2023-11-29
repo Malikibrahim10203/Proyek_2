@@ -5,6 +5,7 @@ import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 import 'package:smartfarm/pages/farmer/detail_land/map_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
+import 'package:smartfarm/pages/farmer/edit/edit_devices.dart';
 
 class ManageDeviceFarmer extends StatefulWidget{
   const ManageDeviceFarmer({super.key, required this.id});
@@ -84,7 +85,9 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditDevice(id: device.id, name: device.name, land_id: device.landId)));
+                            },
                             icon: Icon(Icons.edit, color:  Colors.blue,),
                           ),
                           IconButton(

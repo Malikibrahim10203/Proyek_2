@@ -459,7 +459,7 @@ class _OverviewState extends State<Overview> {
           BottomNavigationBarItem(
             icon: IconButton(
               icon: Icon(
-                Icons.sensor_window,
+                Icons.camera,
               ),
               onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>Maps()));},
             ),
@@ -467,7 +467,7 @@ class _OverviewState extends State<Overview> {
           ),
           BottomNavigationBarItem(
               icon: Icon(
-                  Icons.camera
+                  Icons.settings
               ),
               label: 'Settings'
           ),
