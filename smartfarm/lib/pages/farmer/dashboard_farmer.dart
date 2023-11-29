@@ -135,42 +135,50 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                           ),
                         ),
                         color: Color(0xffECF1F7),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                ),
-                                Text(
-                                  "Menu",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    color: Color(0xff3E3D67),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 100,
-                              width: MediaQuery.of(context).size.width*0.8,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  side: BorderSide(
-                                    width: 1,
-                                    color: Color(0xffE0E0E0),
-                                  ),
-                                ),
-                                color: Color(0xfffefefe),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage("assets/img/plantbg.png"),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 50,
                               ),
-                            ),
-                          ],
-                        ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.1,
+                                  ),
+                                  Text(
+                                    "Menu",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: Color(0xff3E3D67),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 100,
+                                width: MediaQuery.of(context).size.width*0.8,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    side: BorderSide(
+                                      width: 1,
+                                      color: Color(0xffE0E0E0),
+                                    ),
+                                  ),
+                                  color: Color(0xfffefefe),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ),
                     ),
                   ],

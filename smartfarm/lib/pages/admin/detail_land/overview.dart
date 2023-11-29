@@ -429,7 +429,7 @@ class _OverviewState extends State<Overview> {
           ),
           BottomNavigationBarItem(
               icon: Icon(
-                  Icons.settings
+                  Icons.camera
               ),
               label: 'Settings'
           ),

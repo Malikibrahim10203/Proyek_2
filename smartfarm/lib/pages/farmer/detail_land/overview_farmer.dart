@@ -404,7 +404,7 @@ class _OverviewState extends State<OverviewFarmer> {
           BottomNavigationBarItem(
             icon: IconButton(
               icon: Icon(
-                Icons.sensor_window,
+                Icons.camera,
               ),
               onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));},
             ),

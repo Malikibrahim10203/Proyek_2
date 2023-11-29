@@ -145,98 +145,110 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                     SizedBox(
                       height: 30,
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height*0.57,
-                      width: MediaQuery.of(context).size.width*1,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            topLeft: Radius.circular(30),
-                          ),
-                          side: BorderSide(
-                            width: 1,
-                            color: Color(0xffD5D5D5),
-                          ),
-                        ),
-                        color: Color(0xffECF1F7),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 50,
+                    Stack(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height*0.57,
+                          width: MediaQuery.of(context).size.width*1,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(30),
+                                topLeft: Radius.circular(30),
+                              ),
+                              side: BorderSide(
+                                width: 1,
+                                color: Color(0xffD5D5D5),
+                              ),
                             ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                ),
-                                Text(
-                                  "Menu",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    color: Color(0xff3E3D67),
+                            color: Color(0xffECF1F7),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/img/plantbg.png"),
+                                  fit: BoxFit.cover
+                                )
+                              ),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 100,
-                              width: MediaQuery.of(context).size.width*0.8,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => LandAdmin()));
-                                },
-                                child: SizedBox(
-                                  height: MediaQuery.of(context).size.height*0.2,
-                                  width: MediaQuery.of(context).size.width*0.8,
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Container(
-                                      padding: EdgeInsets.all(15),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Lottie.asset("assets/animation/land.json", width: 90),
-                                          SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.05,
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.1,
+                                      ),
+                                      Text(
+                                        "Menu",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          color: Color(0xff3E3D67),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 100,
+                                    width: MediaQuery.of(context).size.width*0.8,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => LandAdmin()));
+                                      },
+                                      child: SizedBox(
+                                        height: MediaQuery.of(context).size.height*0.2,
+                                        width: MediaQuery.of(context).size.width*0.8,
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15),
                                           ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Farmer Lands",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xff3E3D67),
+                                          child: Container(
+                                            padding: EdgeInsets.all(15),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Lottie.asset("assets/animation/land.json", width: 90),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context).size.width * 0.05,
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Text(
-                                                "Berisi beberapa lahan \nyang dimiliki oleh Farmer",
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.black45,
-                                                    fontWeight: FontWeight.w100
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Farmer Lands",
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w600,
+                                                        color: Color(0xff3E3D67),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Text(
+                                                      "Berisi beberapa lahan \nyang dimiliki oleh Farmer",
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Colors.black45,
+                                                          fontWeight: FontWeight.w100
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
