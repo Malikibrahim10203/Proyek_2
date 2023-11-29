@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
-import 'package:smartfarm/pages/admin/add/tambah_device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
+import 'package:smartfarm/pages/farmer/add/tambah_device.dart';
+import 'package:smartfarm/pages/farmer/edit/edit_devices.dart';
 import 'package:smartfarm/widget/info.dart';
 
 class ManageDevice extends StatefulWidget{
@@ -87,7 +88,9 @@ class _ManageDevice extends State<ManageDevice>{
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditDevice(id: device.id, name: device.name, land_id: device.landId)));
+                            },
                             icon: Icon(Icons.edit, color:  Colors.blue,),
                           ),
                           IconButton(
