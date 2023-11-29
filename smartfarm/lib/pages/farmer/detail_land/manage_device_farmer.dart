@@ -3,6 +3,7 @@ import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
+import 'package:smartfarm/pages/farmer/detail_land/map_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 
 class ManageDeviceFarmer extends StatefulWidget{
@@ -122,8 +123,11 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
               label: 'Device'
           ),
           BottomNavigationBarItem(
-              icon: Icon(
-                  Icons.bug_report
+              icon: IconButton(
+                icon: Icon(
+                  Icons.camera,
+                ),
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));},
               ),
               label: 'Deteksi Padi'
           ),
