@@ -2,12 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
+import 'package:smartfarm/pages/admin/edit/editdevice.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
+import 'package:smartfarm/pages/farmer/edit/edit_land.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/event/event_db.dart';
+import 'package:smartfarm/widget/info.dart';
 
 class LandFarmer extends StatefulWidget {
   const LandFarmer({Key? key, required this.id}) : super(key: key);
@@ -98,6 +101,22 @@ class _LandFarmerState extends State<LandFarmer> {
                                 size: 55,
                               ),
                               title: Text(land.name??''),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    onPressed: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> EditLand(id: land.id, name: land.name, description: land.description,
+                                      maps: land.polygon, status: land.cropStatus, date: land.updatedAt, userId: land.userId,)));
+                                    },
+                                    icon: Icon(Icons.edit, color:  Colors.blue,),
+                                  ),
+                                  IconButton(
+                                    onPressed: (){},
+                                    icon: Icon(Icons.delete, color: Colors.red,),
+                                  ),
+                                ],
+                              ),
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => OverviewFarmer(id: land.id??'')));
                               },

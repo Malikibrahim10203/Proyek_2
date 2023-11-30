@@ -10,6 +10,7 @@ class Land {
   String? userId;
   String? deletedAt;
   String? createdAt;
+  String? updatedAt;
 
   Land({
     required this.id,
@@ -23,6 +24,7 @@ class Land {
     required this.userId,
     required this.deletedAt,
     required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Land.fromJson(Map<String, dynamic> json) => Land(
@@ -37,6 +39,7 @@ class Land {
     userId: json["user_id"],
     deletedAt: json["deleted_at"],
     createdAt: json["created_at"],
+    updatedAt: json["updated_at"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -51,5 +54,6 @@ class Land {
     "user_id": userId,
     "deleted_at": deletedAt,
     "created_at": createdAt,
+    "updated_at": updatedAt,
   };
 }

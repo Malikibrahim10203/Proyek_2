@@ -4,13 +4,19 @@ import 'package:flutter/widgets.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
+import 'package:smartfarm/pages/farmer/add/tambah_map_farmer.dart';
+import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/widget/info.dart';
 
 class EditLand extends StatefulWidget{
-  const EditLand({super.key, required this.id, required this.name, required this.land_id}); 
+  const EditLand({super.key, required this.id, required this.name, required this.description, required this.maps, required this.status, required this.date, required this.userId}); 
   final id; 
   final String? name; 
-  final String? land_id;
+  final String? description;
+  final String? maps;
+  final String? status;
+  final String? date;
+  final String? userId;
 
   @override
   State<EditLand> createState() => _EditLandState();
@@ -19,14 +25,26 @@ class EditLand extends StatefulWidget{
 class _EditLandState extends State<EditLand>{
 String? id_land;
 String? name;
-String?land_id;
+String?user_id;
 
-var controllerId;
-var controllerName;
-var controllerLandId;
-var formKey = GlobalKey<FormState>();
+  var controllerName;
+  var controllerDescription;
+  var controllerMaps;
+  var controllerStatus;
+  var controllerTanggal;
+  var formKey         = GlobalKey<FormState>();
 
+  var status = ["sudah panen", "belum panen"];
+  var dropdownValue = "belum panen";
+
+  DateTime tanggal = DateTime.now();
 List<Land> listLand = [];
+
+  String? description;
+  
+  String? map;
+  
+  String? tgl;
 
 void getLand() async{
 
@@ -36,13 +54,23 @@ void getLand() async{
 
   @override
   void initState() {
-    id_land = widget.id;
+    // id_land = widget.id;
     name = widget.name;
-    land_id = widget.land_id;
+    description = widget.description;
+    map = widget.maps;
+    dropdownValue = widget.status??'';
+    tgl = widget.date;
+    user_id = widget.userId;
 
-    controllerId = TextEditingController(text: id_land);
+    controllerTanggal = "${tanggal.year}-${tanggal.month}-${tanggal.day}";
+
+    // controllerId = TextEditingController(text: id_land);
     controllerName = TextEditingController(text : name);
-    controllerLandId =TextEditingController(text :land_id);
+    controllerDescription = TextEditingController(text: description);
+    controllerMaps = TextEditingController(text: map);
+    
+    controllerTanggal = TextEditingController(text: tgl);
+
     getLand();
 
     super.initState();
@@ -55,7 +83,7 @@ void getLand() async{
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            padding: EdgeInsets.only(left: 30, top:  30, right: 30),
+            padding: EdgeInsets.only(left: 30, top: 30, right: 30),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -63,25 +91,25 @@ void getLand() async{
                   children: [
                     IconButton(
                       onPressed: (){
-                        
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageDevice(id: widget.land_id??'')));
-                      }, icon: Icon(
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LandFarmer(id: widget.userId??'')));
+                      },
+                      icon: Icon(
                         Icons.arrow_back_outlined,
                       ),
+
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width*0.25,
-                    ),
-                    Text("Edit land"),
+                    ), //pembuatan tombol akhir
+                    Text("Tambah User"),
                   ],
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width*1,
-                  height: MediaQuery.of(context).size.height*0.7,
-                  
+                  width: MediaQuery.of(context).size.width * 1,
+                  height: MediaQuery.of(context).size.height * 0.9,
                   child: Card(
                     child: Container(
                       padding: EdgeInsets.only(left: 50, top: 30),
@@ -91,34 +119,7 @@ void getLand() async{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Id Land",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                enabled: false,
-                                controller: controllerId,
-                                validator: (value) => value == ''?'Jangan Kosong':null,
-                                decoration: InputDecoration(
-                                  helperText: ' ',
-                                  border: OutlineInputBorder(),
-                                  labelText: "Enter Id Land..",
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "Name Land",
+                              "Name",
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
@@ -132,11 +133,11 @@ void getLand() async{
                               height: 60,
                               child: TextFormField(
                                 controller: controllerName,
-                                validator: (value) => value == ''?'Jangan Kosong':null,
+                                validator: (value) => value == ''? 'Jangan Kosong':null,
                                 decoration: InputDecoration(
                                   helperText: ' ',
                                   border: OutlineInputBorder(),
-                                  labelText: "Enter Name Land..",
+                                  labelText: "Enter Name...",
                                   labelStyle: TextStyle(
                                     fontSize: 10,
                                   ),
@@ -144,7 +145,7 @@ void getLand() async{
                               ),
                             ),
                             Text(
-                              "Land Id",
+                              "Description",
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
@@ -157,25 +158,137 @@ void getLand() async{
                               width: 240,
                               height: 60,
                               child: TextFormField(
-                                enabled: false,
-                                controller: controllerLandId,
+                                controller: controllerDescription,
+                                validator: (value) => value == ''? 'Jangan Kosong':null,
                                 decoration: InputDecoration(
                                   helperText: ' ',
                                   border: OutlineInputBorder(),
+                                  labelText: "Enter Description...",
                                   labelStyle: TextStyle(
                                     fontSize: 10,
                                   ),
                                 ),
                               ),
-                            ),SizedBox(
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 160,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahMapFarmer(id: widget.id)));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.map_outlined),
+                                              SizedBox(width: 10,),
+                                              Text("Select Maps"),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 12,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            Text(
+                              "Status Tanaman",
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            SizedBox(
+                                width: 150,
+                                height: 70,
+                                child: DropdownButton(
+                                  value: dropdownValue,
+                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  items: status.map((String status) {
+                                    return DropdownMenuItem(
+                                      value: status,
+                                      child: Text(status),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      dropdownValue = newValue!;
+                                    });
+                                  },
+                                ),
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Column(
+                              children: [
+                                Text('${tanggal.year}/${tanggal.month}/${tanggal.day}'),
+
+                                SizedBox(
+                                  height: 16,
+                                ),
+
+                                SizedBox(
+                                  width: 150,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green
+                                    ),
+                                    onPressed: () async{
+                                      DateTime? newTanggal = await showDatePicker(
+                                        context: context,
+                                        initialDate: tanggal,
+                                        firstDate: DateTime(1900),
+                                        lastDate: DateTime(2100),
+                                      );
+
+                                      if(newTanggal == null) return;
+
+                                      setState(() {
+                                        tanggal = newTanggal;
+                                        controllerTanggal = "${tanggal.year}-${tanggal.month}-${tanggal.day}";
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.date_range),
+                                        SizedBox(width: 10,),
+                                        Text("Select Date"),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            SizedBox(
                               width: MediaQuery.of(context).size.width*0.59,
                               child: ElevatedButton(
-                                child: const Text('Ubah Data'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green
+                                ),
+                                child: const Text('Ubah Lahan'),
                                 onPressed: () {
-                                  EventDB.EditDevices(controllerId.text, controllerName.text, controllerLandId.text);
-                                  controllerId.clear();
+                                  EventDB.editLahan(widget.id, controllerName.text, controllerDescription.text, 
+                                  widget.maps??'', dropdownValue, controllerTanggal, user_id??'');
                                   controllerName.clear();
-                                  controllerLandId.clear();
+                                  controllerDescription.clear();
+                                  controllerMaps.clear();
                                 },
                               ),
                             ),
@@ -191,7 +304,5 @@ void getLand() async{
         ),
       ),
     );
-    
   }
-
 }

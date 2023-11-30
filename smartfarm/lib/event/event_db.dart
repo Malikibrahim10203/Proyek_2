@@ -361,4 +361,32 @@ class EventDB {
       print(e);
     }
   }
+  static Future<Land?> editLahan(String id, String name, String description, String maps, String status, String date, String user_id) async {
+
+    try {
+      var response = await http.post(Uri.parse(Api.edit_lahan), body: {
+        'id': id,
+        'name': name,
+        'description': description,
+        'polygon': maps,
+        'crop_status': status,
+        'crop_planted_at': date,
+        'user_id': user_id,
+      });
+
+      if (response.statusCode == 200) {
+        Info.snackbar("Data Success");
+        Future.delayed(Duration(milliseconds: 1700), () {
+          Get.off(
+              LandFarmer(id: user_id,)
+          );
+        });
+      } else {
+        Info.snackbar('Request Tambah Gagal');
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
 }
