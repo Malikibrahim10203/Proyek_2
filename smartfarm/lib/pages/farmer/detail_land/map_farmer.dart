@@ -5,13 +5,30 @@ import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:latlong2/latlong.dart' as latLng;
 
 class MapFarmer extends StatefulWidget {
-  const MapFarmer({Key? key}) : super(key: key);
+  const MapFarmer({super.key, required this.lat, required this.lon});
+
+  final lat;
+  final lon;
 
   @override
   State<MapFarmer> createState() => _MapFarmerState();
 }
 
 class _MapFarmerState extends State<MapFarmer> {
+
+
+  late double latitude;
+  var longitude;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    latitude = widget.lat;
+    longitude = widget.lon;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +44,14 @@ class _MapFarmerState extends State<MapFarmer> {
             color: Colors.black,
           ),
         ),
-        title: Text("Maps Lands", style: TextStyle(color: Colors.black54),),
+        title: Text("LandMaps", style: TextStyle(color: Colors.black54),),
         centerTitle: true,
       ),
       body: Stack(
         children: [
           FlutterMap(
             options: MapOptions(
-              center: latLng.LatLng(-6.407887427753435, 108.28272322578337),
+              center: latLng.LatLng(latitude, longitude),
               zoom: 15.2,
             ),
             children: [
@@ -45,7 +62,7 @@ class _MapFarmerState extends State<MapFarmer> {
               MarkerLayer(
                 markers: [
                   Marker(
-                    point: latLng.LatLng(-6.407887427753435, 108.28272322578337),
+                    point: latLng.LatLng(latitude, longitude),
                     width: 80,
                     height: 80,
                     builder: (context) => Icon(Icons.pin_drop, color: Colors.red, size: 30),

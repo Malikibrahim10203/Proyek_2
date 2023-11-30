@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
+import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 
-class AddMapFarmer extends StatefulWidget {
-  const AddMapFarmer({Key? key}) : super(key: key);
+class TambahMapFarmer extends StatefulWidget {
+  const TambahMapFarmer({super.key, required this.id});
+  final id;
 
   @override
-  State<AddMapFarmer> createState() => _AddMapFarmerState();
+  State<TambahMapFarmer> createState() => _TambahMapFarmerState();
 }
 
-class _AddMapFarmerState extends State<AddMapFarmer> {
+class _TambahMapFarmerState extends State<TambahMapFarmer> {
   late double lat;
   late double long;
 
@@ -40,13 +42,19 @@ class _AddMapFarmerState extends State<AddMapFarmer> {
               onPicked: (pickedData) {
                 lat = pickedData.latLong.latitude;
                 long = pickedData.latLong.longitude;
-                print(lat);
-                print(pickedData.latLong.longitude);
-                print(pickedData.address);
+
+                String coordinate = "$lat,$long";
+                print(coordinate);
+
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahLahanFarmer(id: widget.id, coordinate: coordinate)));
+
+                /// print(pickedData.latLong.longitude);
+                /// print(pickedData.address);
               }),
         ],
       ),
     );
   }
 }
+
 

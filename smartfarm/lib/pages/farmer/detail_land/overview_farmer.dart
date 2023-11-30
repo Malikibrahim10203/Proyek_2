@@ -90,14 +90,20 @@ class _OverviewState extends State<OverviewFarmer> {
                               DateTime dateNow = DateTime.now();
                               Duration diff = datePlanted.difference(dateNow);
 
-                              if (diff.abs() >= panen) {
+                              String coordinate = land.polygon??'';
+
+                              List<dynamic> map = coordinate.split(",");
+                              double latitude = double.parse(map[0]);
+                              double longitude = double.parse(map[1]);
+
+                              if ( land.cropStatus == "sudah panen") {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Center(
                                       child: GestureDetector(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer(lat: latitude, lon: longitude,)));
                                         },
                                         child: Container(
                                           child: Column(
@@ -225,7 +231,7 @@ class _OverviewState extends State<OverviewFarmer> {
                                       height: 15,
                                     ),
                                     Card(
-                                      color: Colors.black45,
+                                      color: Colors.black38,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                         side: BorderSide(
@@ -257,14 +263,14 @@ class _OverviewState extends State<OverviewFarmer> {
                                     ),
                                   ],
                                 );
-                              } else if(diff.abs() <= panen) {
+                              } else if(land.cropStatus == "belum panen") {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Center(
                                       child: GestureDetector(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer(lat: latitude, lon: longitude,)));
                                         },
                                         child: Container(
                                           child: Column(
@@ -414,6 +420,7 @@ class _OverviewState extends State<OverviewFarmer> {
                                           future: getCurrentWeather(),
                                         ),
                                       ),
+                                      color: Colors.black38,
                                     ),
                                     SizedBox(
                                       height: 20,
@@ -458,7 +465,7 @@ class _OverviewState extends State<OverviewFarmer> {
               icon: Icon(
                 Icons.camera,
               ),
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));},
+              onPressed: () {},
             ),
             label: 'Deteksi Padi'
           ),
