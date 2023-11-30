@@ -31,7 +31,7 @@ String?user_id;
   var controllerDescription;
   var controllerMaps;
   var controllerStatus;
-  var controllerTanggal;
+  var controllerTanggal = TextEditingController();
   var formKey         = GlobalKey<FormState>();
 
   var status = ["sudah panen", "belum panen"];
@@ -62,7 +62,7 @@ void getLand() async{
     tgl = widget.date;
     user_id = widget.userId;
 
-    controllerTanggal = "${tanggal.year}-${tanggal.month}-${tanggal.day}";
+    controllerTanggal.text = "${tanggal.year}-${tanggal.month}-${tanggal.day}";
 
     // controllerId = TextEditingController(text: id_land);
     controllerName = TextEditingController(text : name);
@@ -259,7 +259,7 @@ void getLand() async{
 
                                       setState(() {
                                         tanggal = newTanggal;
-                                        controllerTanggal = "${tanggal.year}-${tanggal.month}-${tanggal.day}";
+                                        controllerTanggal.text = tgl??'';
                                       });
                                     },
                                     child: Row(
@@ -285,7 +285,7 @@ void getLand() async{
                                 child: const Text('Ubah Lahan'),
                                 onPressed: () {
                                   EventDB.editLahan(widget.id, controllerName.text, controllerDescription.text, 
-                                  widget.maps??'', dropdownValue, controllerTanggal, user_id??'');
+                                  widget.maps??'', dropdownValue, controllerTanggal.text, user_id??'');
                                   controllerName.clear();
                                   controllerDescription.clear();
                                   controllerMaps.clear();
