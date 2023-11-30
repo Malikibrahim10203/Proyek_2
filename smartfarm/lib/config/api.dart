@@ -15,5 +15,6 @@ class Api {
   static String delete_user = '$host/delete_user.php';
   static String add_devices = '$host/add_devices.php';
   static String edit_devices = '$host/edit_devices.php';
+  static String add_lahan = '$host/add_land.php';
 
 }

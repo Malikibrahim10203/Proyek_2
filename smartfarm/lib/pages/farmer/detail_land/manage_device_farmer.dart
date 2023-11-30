@@ -130,7 +130,7 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
                 icon: Icon(
                   Icons.camera,
                 ),
-                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));},
+                onPressed: () {},
               ),
               label: 'Deteksi Padi'
           ),

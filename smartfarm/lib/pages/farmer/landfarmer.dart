@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
+import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
@@ -54,7 +55,9 @@ class _LandFarmerState extends State<LandFarmer> {
                 ),//pembuatan tombol akhir
                 Text("Lands Farmer"),
                 OutlinedButton(
-                  onPressed:(){},
+                  onPressed:(){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahLahanFarmer(id: widget.id, coordinate: "0",)));
+                  },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),

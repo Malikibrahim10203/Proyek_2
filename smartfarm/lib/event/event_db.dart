@@ -11,6 +11,7 @@ import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
 import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
+import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/widget/info.dart';
 
 
@@ -322,6 +323,34 @@ class EventDB {
         Future.delayed(Duration(milliseconds: 1700), () {
           Get.off(
               ManageDevice(id: Land_Id,)
+          );
+        });
+      } else {
+        Info.snackbar('Request Tambah Gagal');
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<Land?> addLahan(String name, String description, String maps, String status, String date, String id) async {
+
+    try {
+      var response = await http.post(Uri.parse(Api.add_lahan), body: {
+        'name': name,
+        'description': description,
+        'polygon': maps,
+        'crop_status': status,
+        'crop_planted_at': date,
+        'user_id': id,
+      });
+
+      if (response.statusCode == 200) {
+        Info.snackbar("Data Success");
+        Future.delayed(Duration(milliseconds: 1700), () {
+          Get.off(
+              LandFarmer(id: id,)
           );
         });
       } else {
