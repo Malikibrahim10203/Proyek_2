@@ -48,8 +48,6 @@ class _OverviewState extends State<OverviewFarmer> {
     setState(() {});
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,303 +76,357 @@ class _OverviewState extends State<OverviewFarmer> {
                 ],
               ),
               SizedBox(
-                height: 30,
-              ),
-              Container(
-                child: Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 1,
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      color: Colors.black54,
-                      child: Text("Maps", style: TextStyle(color: Colors.white),),
-                      padding: EdgeInsets.only(left: 155, right: 155, top: 70),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                  height: 300,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: listLand.length,
-                          itemBuilder: (context, index) {
-                            Land land = listLand[index];
-                            DateTime datePlanted = DateTime.parse("${land.cropPlantedAt}");
-                            DateTime dateNow = DateTime.now();
-                            Duration diff = datePlanted.difference(dateNow);
+                height: MediaQuery.of(context).size.height * 0.75,
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: listLand.length,
+                            itemBuilder: (context, index) {
+                              Land land = listLand[index];
+                              DateTime datePlanted = DateTime.parse("${land.cropPlantedAt}");
+                              DateTime dateNow = DateTime.now();
+                              Duration diff = datePlanted.difference(dateNow);
 
-                            if (diff.abs() >= panen) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: ListTile(
-                                      title: Text(
-                                        land.name??'',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                        width: 0.5,
-                                        color: Color(0xffD5D5D5),
-                                      ),
-                                    ),
-                                    child: ListTile(
-                                      leading: Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: Icon(
-                                            Icons.description
-                                        ),
-                                      ),
-                                      title: Text(
-                                        "Deskripsi",
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        land.description??'',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                        width: 0.5,
-                                        color: Color(0xffD5D5D5),
-                                      ),
-                                    ),
-                                    child: ListTile(
-                                      leading: Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: Icon(
-                                            Icons.calendar_month
-                                        ),
-                                      ),
-                                      title: Text(
-                                        "Usia Tanaman",
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        '${diff.abs().inDays.toString()} hari',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(11)),
-                                      color: Colors.green
-                                    ),
-                                    height: 30,
-                                    width: 100,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Panen",
-                                      style: TextStyle(
-                                        color: Colors.white70,
-                                        fontWeight: FontWeight.w600
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Cuaca"),
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                        width: 0.5,
-                                        color: Color(0xffD5D5D5),
-                                      ),
-                                    ),
-                                    child: Container(
-                                      padding: EdgeInsets.only(left: 20,right: 20, top: 20),
-                                      child: FutureBuilder(
-                                        builder: (context, snapshot) {
-                                          if (snapshot != null) {
-                                            this._weather = snapshot.data;
-                                            if (this._weather == null) {
-                                              return Text("Error getting weather");
-                                            } else {
-                                              return  weatherBox(_weather);
-                                            }
-                                          } else {
-                                            return CircularProgressIndicator();
-                                          }
+                              if (diff.abs() >= panen) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));
                                         },
-                                        future: getCurrentWeather(),
+                                        child: Container(
+                                          child: Column(
+                                            children: [
+                                              Card(
+                                                child: Container(
+                                                  padding: EdgeInsets.all(20),
+                                                  child: Row(
+                                                    children: [
+                                                      Lottie.asset("assets/animation/maps.json", width: 100),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(context).size.width * 0.05,
+                                                      ),
+                                                      Text(
+                                                        "Maps Farmer",
+                                                        style: TextStyle(
+                                                            fontSize: 25,
+                                                            color: Colors.black45
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              );
-                            } else if(diff.abs() <= panen) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: ListTile(
-                                      title: Text(
-                                        land.name??'',
+                                    Container(
+                                      child: ListTile(
+                                        title: Text(
+                                          land.name??'',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: BorderSide(
+                                          width: 0.5,
+                                          color: Color(0xffD5D5D5),
+                                        ),
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Icon(
+                                              Icons.description
+                                          ),
+                                        ),
+                                        title: Text(
+                                          "Deskripsi",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          land.description??'',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: BorderSide(
+                                          width: 0.5,
+                                          color: Color(0xffD5D5D5),
+                                        ),
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Icon(
+                                              Icons.calendar_month
+                                          ),
+                                        ),
+                                        title: Text(
+                                          "Usia Tanaman",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()} hari',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(11)),
+                                          color: Colors.green
+                                      ),
+                                      height: 30,
+                                      width: 100,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Panen",
                                         style: TextStyle(
+                                            color: Colors.white70,
+                                            fontWeight: FontWeight.w600
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(" Cuaca", style: TextStyle(fontSize: 16),),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Card(
+                                      color: Colors.black45,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: BorderSide(
+                                          width: 0.5,
+                                          color: Color(0xffD5D5D5),
+                                        ),
+                                      ),
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 20,right: 20, top: 20),
+                                        child: FutureBuilder(
+                                          builder: (context, snapshot) {
+                                            if (snapshot != null) {
+                                              this._weather = snapshot.data;
+                                              if (this._weather == null) {
+                                                return Text("Error getting weather");
+                                              } else {
+                                                return  weatherBox(_weather);
+                                              }
+                                            } else {
+                                              return CircularProgressIndicator();
+                                            }
+                                          },
+                                          future: getCurrentWeather(),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
+                                );
+                              } else if(diff.abs() <= panen) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));
+                                        },
+                                        child: Container(
+                                          child: Column(
+                                            children: [
+                                              Card(
+                                                child: Container(
+                                                  padding: EdgeInsets.all(20),
+                                                  child: Row(
+                                                    children: [
+                                                      Lottie.asset("assets/animation/maps.json", width: 100),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(context).size.width * 0.05,
+                                                      ),
+                                                      Text(
+                                                        "Maps Farmer",
+                                                        style: TextStyle(
+                                                            fontSize: 25,
+                                                            color: Colors.black45
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: ListTile(
+                                        title: Text(
+                                          land.name??'',
+                                          style: TextStyle(
                                             fontSize: 20,
-                                            fontWeight: FontWeight.w500
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                        width: 0.5,
-                                        color: Color(0xffD5D5D5),
-                                      ),
-                                    ),
-                                    child: ListTile(
-                                      leading: Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: Icon(
-                                            Icons.description
+                                    Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: BorderSide(
+                                          width: 0.5,
+                                          color: Color(0xffD5D5D5),
                                         ),
                                       ),
-                                      title: Text(
-                                        "Deskripsi",
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500,
+                                      child: ListTile(
+                                        leading: Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Icon(
+                                              Icons.description
+                                          ),
                                         ),
-                                      ),
-                                      subtitle: Text(
-                                        land.description??'',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                        title: Text(
+                                          "Deskripsi",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                        width: 0.5,
-                                        color: Color(0xffD5D5D5),
-                                      ),
-                                    ),
-                                    child: ListTile(
-                                      leading: Container(
-                                        padding: EdgeInsets.all(10),
-                                        child: Icon(
-                                            Icons.calendar_month
-                                        ),
-                                      ),
-                                      title: Text(
-                                        "Usia Tanaman",
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        '${diff.abs().inDays.toString()} hari',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                        subtitle: Text(
+                                          land.description??'',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
+                                    Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: BorderSide(
+                                          width: 0.5,
+                                          color: Color(0xffD5D5D5),
+                                        ),
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Icon(
+                                              Icons.calendar_month
+                                          ),
+                                        ),
+                                        title: Text(
+                                          "Usia Tanaman",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()} hari',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(Radius.circular(11)),
                                         color: Colors.red,
-                                    ),
-                                    height: 30,
-                                    width: 110,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Belum Panen",
-                                      style: TextStyle(
-                                          color: Colors.white70,
-                                          fontWeight: FontWeight.w600
+                                      ),
+                                      height: 30,
+                                      width: 110,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Belum Panen",
+                                        style: TextStyle(
+                                            color: Colors.white70,
+                                            fontWeight: FontWeight.w600
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Cuaca"),
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                        width: 0.5,
-                                        color: Color(0xffD5D5D5),
-                                      ),
+                                    SizedBox(
+                                      height: 15,
                                     ),
-                                    child: Container(
-                                      padding: EdgeInsets.only(left: 20,right: 20, top: 20),
-                                      child: FutureBuilder(
-                                        builder: (context, snapshot) {
-                                          if (snapshot != null) {
-                                            this._weather = snapshot.data;
-                                            if (this._weather == null) {
-                                              return Text("Error getting weather");
+                                    Text("Cuaca"),
+                                    Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: BorderSide(
+                                          width: 0.5,
+                                          color: Color(0xffD5D5D5),
+                                        ),
+                                      ),
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 20,right: 20, top: 20),
+                                        child: FutureBuilder(
+                                          builder: (context, snapshot) {
+                                            if (snapshot != null) {
+                                              this._weather = snapshot.data;
+                                              if (this._weather == null) {
+                                                return Text("Error getting weather");
+                                              } else {
+                                                return  weatherBox(_weather);
+                                              }
                                             } else {
-                                              return  weatherBox(_weather);
+                                              return CircularProgressIndicator();
                                             }
-                                          } else {
-                                            return CircularProgressIndicator();
-                                          }
-                                        },
-                                        future: getCurrentWeather(),
+                                          },
+                                          future: getCurrentWeather(),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              );
-                            }
-                          },
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
+                                );
+                              }
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  )
+                      ],
+                    )
+                ),
               ),
             ],
           ),
@@ -404,7 +456,7 @@ class _OverviewState extends State<OverviewFarmer> {
           BottomNavigationBarItem(
             icon: IconButton(
               icon: Icon(
-                Icons.sensor_window,
+                Icons.camera,
               ),
               onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>MapFarmer()));},
             ),
@@ -431,9 +483,9 @@ Widget weatherBox(Weather _weather) {
         Container(
             margin: const EdgeInsets.all(10.0),
             child:
-            Text("${_weather.temp}°C",
+            Text("${_weather.temp} °C",
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xffECF1F7)),
             )
         ),
       ]
@@ -458,7 +510,7 @@ Widget animasi(String cuaca) {
 }
 
 Future getCurrentWeather() async {
-  Weather? weather;
+  late Weather weather;
   String city = "Indramayu";
   String apiKey = "803f29d900ba4586581fbe3d53e304dc";
   var url = Uri.parse("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric");

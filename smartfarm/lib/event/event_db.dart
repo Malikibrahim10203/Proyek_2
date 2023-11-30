@@ -308,4 +308,28 @@ class EventDB {
       print(e);
     }
   }
+  static Future<Device?> EditDevices(String Id, String NameDevice, String Land_Id) async {
+
+    try {
+      var response = await http.post(Uri.parse(Api.edit_devices), body: {
+        'id': Id,
+        'name': NameDevice,
+        'land_id': Land_Id,
+      });
+
+      if (response.statusCode == 200) {
+        Info.snackbar("Data Success");
+        Future.delayed(Duration(milliseconds: 1700), () {
+          Get.off(
+              ManageDevice(id: Land_Id,)
+          );
+        });
+      } else {
+        Info.snackbar('Request Tambah Gagal');
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
 }
