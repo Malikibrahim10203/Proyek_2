@@ -4,16 +4,16 @@ import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
 
-class HapusDevice extends StatefulWidget {
-  const HapusDevice({super.key, required this.id});
+class DeleteDevice extends StatefulWidget {
+  const DeleteDevice({super.key, required this.id});
   
   final String id;
 
   @override
-  State<HapusDevice> createState() => _HapusDeviceState();
+  State<DeleteDevice> createState() => _DeleteDeviceState();
 }
 
-class _HapusDeviceState extends State<HapusDevice> {
+class _DeleteDeviceState extends State<DeleteDevice> {
   String? land_id;
 
   
@@ -64,7 +64,7 @@ class _HapusDeviceState extends State<HapusDevice> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width*0.25,
                     ),
-                    Text("hapus Device"),
+                    Text("Delete Device"),
                   ],
                 ),
                 SizedBox(
@@ -167,14 +167,18 @@ class _HapusDeviceState extends State<HapusDevice> {
                             ),SizedBox(
                               width: MediaQuery.of(context).size.width*0.59,
                               child: ElevatedButton(
-                                child: const Text('Tambah Data'),
+                                child: const Text('Delete Data'),
                                 onPressed: () {
                                   EventDB.addDevices(controllerId.text, controllerNameDevice.text, controllerLandId.text);
                                   controllerId.clear();
                                   controllerNameDevice.clear();
                                   controllerLandId.clear();
+                                  
+                                  
                                 },
                               ),
+                              
+                                    
                             ),
                           ],
                         ),
