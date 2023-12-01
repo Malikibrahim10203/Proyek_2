@@ -11,6 +11,7 @@ import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
 import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
+import 'package:smartfarm/pages/farmer/detail_land/manage_device_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/widget/info.dart';
 
@@ -285,6 +286,60 @@ class EventDB {
       print(e);
     }
   }
+
+  static Future<User?> deleteDevice(String id) async {
+
+    try {
+      var response = await http.post(Uri.parse(Api.delete_device), body: {
+        'id': id,
+      });
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          Info.snackbar("Hapus Success");
+          Future.delayed(Duration(milliseconds: 500), () {
+            Get.off(
+                ManageDeviceFarmer(id: '1')
+            );
+          });
+        } else {
+          Info.snackbar("Hapus Gagal");
+        }
+      } else {
+        Info.snackbar('Request Hapus Gagal');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<User?> deleteLand(String id) async {
+
+    try {
+      var response = await http.post(Uri.parse(Api.delete_land), body: {
+        'id': id,
+      });
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          Info.snackbar("Hapus Success");
+          Future.delayed(Duration(milliseconds: 500), () {
+            Get.off(
+                ManageUser(info: 1,)
+            );
+          });
+        } else {
+          Info.snackbar("Hapus Gagal");
+        }
+      } else {
+        Info.snackbar('Request Hapus Gagal');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
   static Future<Device?> addDevices(String Id, String NameDevice, String Land_Id) async {
 
     try {
@@ -298,7 +353,7 @@ class EventDB {
         Info.snackbar("Data Success");
         Future.delayed(Duration(milliseconds: 1700), () {
           Get.off(
-              ManageDevice(id: Land_Id,)
+              ManageDeviceFarmer(id: Land_Id)
           );
         });
       } else {
@@ -322,7 +377,7 @@ class EventDB {
         Info.snackbar("Data Success");
         Future.delayed(Duration(milliseconds: 1700), () {
           Get.off(
-              ManageDevice(id: Land_Id,)
+              ManageDeviceFarmer(id: Land_Id)
           );
         });
       } else {

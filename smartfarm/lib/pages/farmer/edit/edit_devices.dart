@@ -63,7 +63,7 @@ void getLand() async{
                   children: [
                     IconButton(
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageDevice(id: widget.land_id??'')));
+                        Navigator.pop(context);
                       }, icon: Icon(
                         Icons.arrow_back_outlined,
                       ),

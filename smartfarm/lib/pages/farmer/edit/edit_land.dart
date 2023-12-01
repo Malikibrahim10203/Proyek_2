@@ -5,6 +5,7 @@ import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_map_farmer.dart';
+import 'package:smartfarm/pages/farmer/edit/edit_map_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/widget/info.dart';
 
@@ -101,7 +102,7 @@ void getLand() async{
                     SizedBox(
                       width: MediaQuery.of(context).size.width*0.25,
                     ), //pembuatan tombol akhir
-                    Text("Tambah User"),
+                    Text("Edit Land"),
                   ],
                 ),
                 SizedBox(
@@ -182,7 +183,7 @@ void getLand() async{
                                             backgroundColor: Colors.green
                                           ),
                                           onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahMapFarmer(id: widget.id)));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>EditMapFarmer(id: widget.id, name: name, description: description, coordinate: map, status: dropdownValue, date: tgl, userId: user_id)));
                                           },
                                           child: Row(
                                             children: [

@@ -1,8 +1,10 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
+import 'package:smartfarm/pages/farmer/add/tambah_device.dart';
 import 'package:smartfarm/pages/farmer/detail_land/map_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/edit/edit_devices.dart';
@@ -53,7 +55,9 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
                 ),
                 Text("Manage Device"),
                 OutlinedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahDevice(id: widget.id)));
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(90),
@@ -91,7 +95,20 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
                             icon: Icon(Icons.edit, color:  Colors.blue,),
                           ),
                           IconButton(
-                            onPressed: (){},
+                            onPressed: () async {
+                              if(
+                              await confirm(
+                                context,
+                                title: Text("Alert!"),
+                                content: Text("Apakah anda ingin hapus?"),
+                                textOK: Text("Ya"),
+                                textCancel: Text("Tidak"),
+                              )
+                              ) {
+                                EventDB.deleteDevice(device.id??'');
+                              }
+                              return print('pressedNo');
+                            },
                             icon: Icon(Icons.delete, color: Colors.red,),
                           ),
                         ],
@@ -133,12 +150,6 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
                 onPressed: () {},
               ),
               label: 'Deteksi Padi'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                  Icons.settings
-              ),
-              label: 'Settings'
           ),
         ],
       ),

@@ -27,7 +27,7 @@ class _OverviewState extends State<OverviewFarmer> {
 
   String? parameter;
   List<Land> listLand = [];
-  late Weather _weather;
+  Weather? _weather;
 
 
   final panen = Duration(
@@ -246,9 +246,9 @@ class _OverviewState extends State<OverviewFarmer> {
                                             if (snapshot != null) {
                                               this._weather = snapshot.data;
                                               if (this._weather == null) {
-                                                return Text("Error getting weather");
+                                                return CircularProgressIndicator();
                                               } else {
-                                                return  weatherBox(_weather);
+                                                return  weatherBox(_weather!);
                                               }
                                             } else {
                                               return CircularProgressIndicator();
@@ -409,9 +409,9 @@ class _OverviewState extends State<OverviewFarmer> {
                                             if (snapshot != null) {
                                               this._weather = snapshot.data;
                                               if (this._weather == null) {
-                                                return Text("Error getting weather");
+                                                return CircularProgressIndicator();
                                               } else {
-                                                return  weatherBox(_weather);
+                                                return  weatherBox(_weather!);
                                               }
                                             } else {
                                               return CircularProgressIndicator();
@@ -468,12 +468,6 @@ class _OverviewState extends State<OverviewFarmer> {
               onPressed: () {},
             ),
             label: 'Deteksi Padi'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                  Icons.settings
-              ),
-              label: 'Settings'
           ),
         ],
       ),

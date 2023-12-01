@@ -1,6 +1,6 @@
 class Api {
 
-  static const host = 'http://192.168.1.142/API_smartfarm';
+  static const host = 'http://192.168.158.51/API_smartfarm';
 
   static String login = '$host/login.php';
   static String list_user = '$host/get_user.php';
@@ -13,6 +13,8 @@ class Api {
   static String list_detail_user = '$host/get_detail_user.php';
   static String edit_user = '$host/edit_user.php';
   static String delete_user = '$host/delete_user.php';
+  static String delete_device = '$host/delete_device.php';
+  static String delete_land = '$host/delete_land.php';
   static String add_devices = '$host/add_devices.php';
   static String edit_devices = '$host/edit_devices.php';
   static String add_lahan = '$host/add_land.php';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smartfarm/event/event_pref.dart';
-import 'package:smartfarm/pages/farmer/devicefarmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/pages/login.dart';
 import 'package:smartfarm/widget/info.dart';
@@ -45,8 +44,24 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                           ),
                           IconButton(
                             onPressed: () {
-                              EventPref.clear();
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                              showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return AlertDialog(
+                                    title: Text("LogOut"),
+                                    content: Text("Apakah anda yakin ingin keluar?"),
+                                    actions: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          EventPref.clear();
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                                        },
+                                        child: Text("Ya"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             icon: Icon(
                               Icons.logout,

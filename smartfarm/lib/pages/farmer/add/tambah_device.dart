@@ -56,7 +56,7 @@ class _TambahDeviceState extends State<TambahDevice> {
                   children: [
                     IconButton(
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageDevice(id: widget.id)));
+                        Navigator.pop(context);
                       }, icon: Icon(
                         Icons.arrow_back_outlined,
                       ),

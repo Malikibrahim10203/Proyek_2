@@ -26,7 +26,7 @@ class _OverviewState extends State<Overview> {
 
   String? parameter;
   List<Land> listLand = [];
-  late Weather _weather;
+  Weather? _weather;
 
   final panen = Duration(
     days: 90
@@ -239,9 +239,9 @@ class _OverviewState extends State<Overview> {
                                             if (snapshot != null) {
                                               this._weather = snapshot.data;
                                               if (this._weather == null) {
-                                                return Text("Error getting weather");
+                                                return CircularProgressIndicator();
                                               } else {
-                                                return  weatherBox(_weather);
+                                                return  weatherBox(_weather!);
                                               }
                                             } else {
                                               return CircularProgressIndicator();
@@ -406,9 +406,9 @@ class _OverviewState extends State<Overview> {
                                             if (snapshot != null) {
                                               this._weather = snapshot.data;
                                               if (this._weather == null) {
-                                                return Text("Error getting weather");
+                                                return CircularProgressIndicator();
                                               } else {
-                                                return  weatherBox(_weather);
+                                                return  weatherBox(_weather!);
                                               }
                                             } else {
                                               return CircularProgressIndicator();
@@ -465,12 +465,6 @@ class _OverviewState extends State<Overview> {
             ),
             label: 'Deteksi Padi'
           ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                  Icons.settings
-              ),
-              label: 'Settings'
-          ),
         ],
       ),
     );
@@ -478,6 +472,8 @@ class _OverviewState extends State<Overview> {
 }
 
 Widget weatherBox(Weather _weather) {
+
+
 
   return Column(
       mainAxisSize: MainAxisSize.min,

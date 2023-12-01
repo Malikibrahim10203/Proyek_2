@@ -119,13 +119,15 @@ class _ManageUserState extends State<ManageUser> {
                           ),
                           IconButton(
                             onPressed: () async {
-                              if(await confirm(
-                                context,
-                                title: Text("Alert!"),
-                                content: Text("Apakah anda ingin hapus?"),
-                                textOK: Text("Ya"),
-                                textCancel: Text("Tidak"),
-                              )) {
+                              if(
+                                await confirm(
+                                  context,
+                                  title: Text("Alert!"),
+                                  content: Text("Apakah anda ingin hapus?"),
+                                  textOK: Text("Ya"),
+                                  textCancel: Text("Tidak"),
+                                )
+                              ) {
                                 EventDB.deleteUser(user.id??'');
                               }
                               return print('pressedNo');

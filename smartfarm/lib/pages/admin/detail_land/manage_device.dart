@@ -105,12 +105,6 @@ class _ManageDevice extends State<ManageDevice>{
               ),
               label: 'Deteksi Padi'
           ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                  Icons.settings
-              ),
-              label: 'Settings'
-          ),
         ],
       ),
     );
