@@ -70,10 +70,10 @@ class _LandFarmerState extends State<LandAdmin> {
                           children: [
                             ListTile(
                               leading:
-                              Icon(
-                                Icons.image,
-                                size: 55,
-                              ),
+                                Icon(
+                                  Icons.image,
+                                  size: 55,
+                                ),
                               title: Text(land.name??''),
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => Overview(id: land.id??'')));

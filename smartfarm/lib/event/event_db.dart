@@ -197,7 +197,8 @@ class EventDB {
         Info.snackbar("Data Success");
         Future.delayed(Duration(milliseconds: 1700), () {
           Get.off(
-              ManageUser(info: 1,)
+              ManageUser(),
+
           );
         });
       } else {
@@ -212,27 +213,52 @@ class EventDB {
   static Future<List<User>> editUser(String id, String name, String email, String password, String role) async {
     List<User> listUser = [];
 
-    try {
-      var response = await http.post(Uri.parse(Api.edit_user), body: {
-        'id': id,
-        'name': name,
-        'email': email,
-        'password': password,
-        'role': role
-      });
-
-      if (response.statusCode == 200) {
-        Info.snackbar("Data Success");
-        Future.delayed(Duration(milliseconds: 1700), () {
-          Get.off(
-              ManageUser(info: 1,)
-          );
+    if (password != '') {
+      try {
+        var response = await http.post(Uri.parse(Api.edit_user), body: {
+          'id': id,
+          'name': name,
+          'email': email,
+          'password': password,
+          'role': role
         });
-      } else {
-        Info.snackbar('Request Tambah Gagal');
+
+        if (response.statusCode == 200) {
+          Info.snackbar("Data Success");
+          Future.delayed(Duration(milliseconds: 1700), () {
+            Get.off(
+                ManageUser()
+            );
+          });
+        } else {
+          Info.snackbar('Request Tambah Gagal');
+        }
+      } catch (e) {
+        print(e);
       }
-    } catch (e) {
-      print(e);
+    } else if (password == '') {
+      try {
+        var response = await http.post(Uri.parse(Api.edit_user), body: {
+          'id': id,
+          'name': name,
+          'email': email,
+          'password': password,
+          'role': role
+        });
+
+        if (response.statusCode == 200) {
+          Info.snackbar("Data Success");
+          Future.delayed(Duration(milliseconds: 1700), () {
+            Get.off(
+                ManageUser()
+            );
+          });
+        } else {
+          Info.snackbar('Request Tambah Gagal');
+        }
+      } catch (e) {
+        print(e);
+      }
     }
     return listUser;
   }
@@ -273,11 +299,11 @@ class EventDB {
           Info.snackbar("Hapus Success");
           Future.delayed(Duration(milliseconds: 500), () {
             Get.off(
-                ManageUser(info: 1,)
+                ManageUser()
             );
           });
         } else {
-          Info.snackbar("Hapus Gagal");
+          Info.snackbar("Hapus Gagal atau User masih Memiliki Lahan");
         }
       } else {
         Info.snackbar('Request Hapus Gagal');
@@ -325,11 +351,6 @@ class EventDB {
         var responseBody = jsonDecode(response.body);
         if (responseBody['success']) {
           Info.snackbar("Hapus Success");
-          Future.delayed(Duration(milliseconds: 500), () {
-            Get.off(
-                ManageUser(info: 1,)
-            );
-          });
         } else {
           Info.snackbar("Hapus Gagal");
         }

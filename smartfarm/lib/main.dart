@@ -20,7 +20,7 @@ class SmartFarm extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        textTheme: GoogleFonts.robotoTextTheme(),
       ),
       home: FutureBuilder(
         future: EventPref.getUser(),

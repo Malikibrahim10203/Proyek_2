@@ -8,8 +8,6 @@ import 'package:smartfarm/pages/admin/edit/edit_user.dart';
 
 
 class ManageUser extends StatefulWidget {
-  const ManageUser({super.key, required this.info});
-  final info;
 
   @override
   State<ManageUser> createState() => _ManageUserState();
@@ -52,46 +50,20 @@ class _ManageUserState extends State<ManageUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF5F7F8),
+      appBar: AppBar(
+        backgroundColor: Color(0xffFFFFFF),
+        titleTextStyle: TextStyle(color: Colors.black),
+        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Color(0xff545454)
+        ),
+        title: Text("Manage User")
+      ),
       body: Container(
-        padding: EdgeInsets.only(left: 30, top: 50, right: 30),
+        padding: EdgeInsets.only(left: 30, top: 10, right: 30),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton( // Awal Pembuatan Tombol Kembali
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DashboardAdmin()));
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_outlined,
-                  ),
-                ), // Akhir Pembuatan Tombol Kembali
-                Text("Manage User"), // Tulisan
-                OutlinedButton( // Awal Pembuatan tombol
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahUser()));
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(90),
-                    ),
-                    child: Text(
-                      "+ Tambah User",
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black54
-                      ),
-                    ),
-                  ),
-                ), // Akhir Pembuatan Tombol
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-
             Expanded(
               child: ListView.builder(
                 itemCount: listUser.length,
@@ -100,12 +72,12 @@ class _ManageUserState extends State<ManageUser> {
                   index -= 1;
                   return Card(
                     child: ListTile(
-                      leading: Icon(Icons.manage_accounts_rounded),
+                      leading: Icon(Icons.manage_accounts_rounded, size: MediaQuery.of(context).size.width * 0.1,color: Color(0xff408CFF),),
                       title: Text("Account"),
                       subtitle: Text(
                         user.email??'',
                         style: TextStyle(
-                            fontSize: 15
+                            fontSize: 12
                         ),
                       ),
                       trailing: Row(
@@ -113,7 +85,7 @@ class _ManageUserState extends State<ManageUser> {
                         children: [
                           IconButton(
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>EditUser(id: user.id, name: user.name, email: user.email)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>EditUser(id: user.id, name: user.name, email: user.email,)));
                             },
                             icon: Icon(Icons.edit, color: Colors.blue),
                           ),
@@ -130,7 +102,7 @@ class _ManageUserState extends State<ManageUser> {
                               ) {
                                 EventDB.deleteUser(user.id??'');
                               }
-                              return print('pressedNo');
+                              return print('pressed');
                             },
                             icon: Icon(Icons.delete, color: Colors.red,),
                           ),
@@ -144,6 +116,44 @@ class _ManageUserState extends State<ManageUser> {
           ],
         ),
       ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahUser()));
+          },
+          child: Icon(Icons.add),
+          elevation: 4,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border.symmetric(horizontal: BorderSide(color: Color(0xffCCCCCC), width: 2)),
+          ),
+          child: BottomNavigationBar(
+            backgroundColor: Colors.white,
+            items: [
+              BottomNavigationBarItem(
+                icon: IconButton(
+                  icon: Icon(
+                    Icons.home_outlined,
+                  ),
+                  onPressed: () { },
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                  icon: IconButton(
+                    icon: Icon(
+                      Icons.manage_accounts_outlined,
+                    ),
+                    onPressed: () {
+
+                    },
+                  ),
+                  label: 'Manage Account'
+              ),
+            ],
+          ),
+        )
     );
   }
 }

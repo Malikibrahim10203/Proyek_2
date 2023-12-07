@@ -20,7 +20,7 @@ class _EditUserState extends State<EditUser> {
 
   var controllerName;
   var controllerEmail;
-  var controllerPassword = TextEditingController();
+  var controllerPassword;
   var formKey         = GlobalKey<FormState>();
 
   var role = ["admin", "farmer"];
@@ -40,6 +40,7 @@ class _EditUserState extends State<EditUser> {
 
     controllerName = TextEditingController(text: name);
     controllerEmail = TextEditingController(text: email);
+    controllerPassword = TextEditingController(text: '');
     getUser();
     // TODO: implement initState
     super.initState();
@@ -48,182 +49,154 @@ class _EditUserState extends State<EditUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF5F7F8),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            padding: EdgeInsets.only(left: 30, top: 30, right: 30),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageUser(info: 0)));
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_outlined,
-                      ),
-
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width*0.25,
-                    ), //pembuatan tombol akhir
-                    Text("Tambah User"),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-
-                Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  child: Expanded(
-                    child: ListView.builder(
-                      itemCount: listUser.length,
-                      itemBuilder: (context, index) {
-                        User user = listUser[index];
-                        index -= 1;
-                        return Card(
-                          child: Container(
-                            padding: EdgeInsets.only(left: 50, top: 30),
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Name",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                    width: 240,
-                                    height: 60,
-                                    child: TextFormField(
-                                      controller: controllerName,
-                                      validator: (value) => value == ''? 'Jangan Kosong':null,
-                                      decoration: InputDecoration(
-                                        helperText: ' ',
-                                        border: OutlineInputBorder(),
-                                        labelText: "Enter your Name...",
-                                        labelStyle: TextStyle(
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "E-Mail",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                    width: 240,
-                                    height: 60,
-                                    child: TextFormField(
-                                      controller: controllerEmail,
-                                      validator: (value) => value == ''? 'Jangan Kosong':null,
-                                      decoration: InputDecoration(
-                                        helperText: ' ',
-                                        border: OutlineInputBorder(),
-                                        labelText: "Enter your E-Mail...",
-                                        labelStyle: TextStyle(
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Password",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                    width: 240,
-                                    height: 60,
-                                    child: TextFormField(
-                                      obscureText: true,
-                                      controller: controllerPassword,
-                                      validator: (value) => value == ''? 'Jangan Kosong':null,
-                                      decoration: InputDecoration(
-                                        helperText: ' ',
-                                        border: OutlineInputBorder(),
-                                        labelText: "Enter your Password...",
-                                        labelStyle: TextStyle(
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Role",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                      width: 240,
-                                      height: 60,
-                                      child: DropdownButton(
-                                        value: dropdownValue,
-                                        icon: Icon(Icons.keyboard_arrow_down),
-                                        items: role.map((String role) {
-                                          return DropdownMenuItem(
-                                            value: role,
-                                            child: Text(role),
-                                          );
-                                        }).toList(),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownValue = newValue!;
-                                          });
-                                        },
-                                      )
-                                  ),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width*0.59,
-                                    child: ElevatedButton(
-                                      child: const Text('Ubah Data'),
-                                      onPressed: () {
-                                        EventDB.editUser(user.id??'', controllerName.text, controllerEmail.text, controllerPassword.text, dropdownValue);
-                                        controllerName.clear();
-                                        controllerEmail.clear();
-                                        controllerPassword.clear();
-                                      },
-                                    ),
-                                  ),
-                                ],
+      backgroundColor: Color(0xffFFFFFF),
+      appBar: AppBar(
+          backgroundColor: Color(0xffFFFFFF),
+          titleTextStyle: TextStyle(color: Colors.black),
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+          centerTitle: true,
+          iconTheme: IconThemeData(
+              color: Color(0xff545454)
+          ),
+          title: Text("Edit User")
+      ),
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1, top: 50, right: MediaQuery.of(context).size.width * 0.1),
+          child: Expanded(
+            child: ListView.builder(
+              itemCount: listUser.length,
+              itemBuilder: (context, index) {
+                User user = listUser[index];
+                index -= 1;
+                return Container(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 60,
+                          child: TextFormField(
+                            controller: controllerName,
+                            validator: (value) => value == ''? 'Jangan Kosong':null,
+                            decoration: InputDecoration(
+                              helperText: ' ',
+                              border: OutlineInputBorder(),
+                              labelText: "Enter your Name...",
+                              prefixIcon: Icon(Icons.person_outline, size: 20,),
+                              isDense: true,
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffECECEC)
+                                  )
+                              ),
+                              labelStyle: TextStyle(
+                                fontSize: 10,
                               ),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 60,
+                          child: TextFormField(
+                            controller: controllerEmail,
+                            validator: (value) => value == ''? 'Jangan Kosong':null,
+                            decoration: InputDecoration(
+                              helperText: ' ',
+                              border: OutlineInputBorder(),
+                              labelText: "Enter your E-Mail...",
+                              prefixIcon: Icon(Icons.email_outlined, size: 20,),
+                              isDense: true,
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffECECEC)
+                                  )
+                              ),
+                              labelStyle: TextStyle(
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 60,
+                          child: TextFormField(
+                            obscureText: true,
+                            maxLines: 1,
+                            controller: controllerPassword,
+                            validator: (value) => value == ''? 'Jangan Kosong': null,
+                            decoration: InputDecoration(
+                              helperText: ' ',
+                              isDense: true,
+                              border: OutlineInputBorder(),
+                              labelText: "Enter your Password...",
+                              prefixIcon: Icon(Icons.lock_open_outlined, size: 20,),
+                              contentPadding: const EdgeInsets.all(0.0),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffECECEC)
+                                  )
+                              ),
+                              labelStyle: TextStyle(
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            height: 60,
+                            child: DropdownButton(
+                              value: dropdownValue,
+                              icon: Icon(Icons.keyboard_arrow_down),
+
+                              items: role.map((String role) {
+                                return DropdownMenuItem(
+                                  value: role,
+                                  child: Text(role),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropdownValue = newValue!;
+                                });
+                              },
+                            )
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                            child: const Text('Edit User'),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff408CFF)
+                            ),
+                            onPressed: () {
+                              if (controllerPassword.text == '') {
+                                EventDB.editUser(widget.id??'', controllerName.text, controllerEmail.text, 'null', dropdownValue);
+                              } else {
+                                EventDB.editUser(widget.id??'', controllerName.text, controllerEmail.text, controllerPassword.text, dropdownValue);
+                              }
+                              controllerName.clear();
+                              controllerEmail.clear();
+                              controllerPassword.clear();
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                );
+              },
             ),
           ),
         ),

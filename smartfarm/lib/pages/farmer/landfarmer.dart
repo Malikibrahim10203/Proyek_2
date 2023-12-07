@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
-import 'package:smartfarm/pages/admin/edit/edit_device.dart';
+import 'package:smartfarm/pages/farmer/edit/edit_devices.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';

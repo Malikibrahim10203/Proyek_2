@@ -1,6 +1,6 @@
 class Api {
 
-  static const host = 'http://192.168.158.51/API_smartfarm';
+  static const host = 'http://192.168.0.20/API_smartfarm';
 
   static String login = '$host/login.php';
   static String list_user = '$host/get_user.php';

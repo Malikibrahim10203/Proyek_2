@@ -9,6 +9,7 @@ import 'package:smartfarm/model/weather.dart';
 import 'package:smartfarm/pages/admin/detail_land/map.dart';
 import 'package:smartfarm/pages/farmer/detail_land/manage_device_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/map_farmer.dart';
+import 'package:smartfarm/pages/farmer/deteksi/deteksi.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:http/http.dart' as http;
 
@@ -465,7 +466,9 @@ class _OverviewState extends State<OverviewFarmer> {
               icon: Icon(
                 Icons.camera,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>DeteksiPage()));
+              },
             ),
             label: 'Deteksi Padi'
           ),
