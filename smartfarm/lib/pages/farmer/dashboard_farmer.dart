@@ -86,7 +86,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                           ),
                           Row(
                             children: [
-                              Text("Admin", style: TextStyle(fontSize: 12),),
+                              Text("Farmer", style: TextStyle(fontSize: 12),),
                             ],
                           )
                         ],
