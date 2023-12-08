@@ -110,7 +110,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                               value: 0,
                               child: Row(
                                 children: [
-                                  Icon(Icons.settings, size: 15,),
+                                  Icon(Icons.settings, size: 15, color: Colors.black45,),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -122,7 +122,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                               value: 1,
                               child: Row(
                                 children: [
-                                  Icon(Icons.logout, size: 15,),
+                                  Icon(Icons.logout, size: 15, color: Colors.black45,),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -299,7 +299,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
-          child: Icon(Icons.camera_alt_outlined),
+          child: Icon(Icons.document_scanner_outlined),
           elevation: 4,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -309,6 +309,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
           ),
           child: BottomNavigationBar(
             backgroundColor: Colors.white,
+
             items: [
               BottomNavigationBarItem(
                 icon: IconButton(

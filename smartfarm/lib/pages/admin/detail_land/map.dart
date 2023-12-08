@@ -4,15 +4,31 @@ import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:latlong2/latlong.dart' as latLng;
 
-class Maps extends StatefulWidget {
-  const Maps({Key? key}) : super(key: key);
+class MapAdmin extends StatefulWidget {
+  const MapAdmin({super.key, required this.lat, required this.lon});
+
+  final lat;
+  final lon;
 
   @override
-  State<Maps> createState() => _MapsState();
+  State<MapAdmin> createState() => _MapAdminState();
 }
 
-class _MapsState extends State<Maps> {
+class _MapAdminState extends State<MapAdmin> {
 
+
+  late double latitude;
+  var longitude;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    latitude = widget.lat;
+    longitude = widget.lon;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +44,14 @@ class _MapsState extends State<Maps> {
             color: Colors.black,
           ),
         ),
-        title: Text("Maps Lands", style: TextStyle(color: Colors.black54),),
+        title: Text("LandMaps", style: TextStyle(color: Colors.black54),),
         centerTitle: true,
       ),
       body: Stack(
         children: [
           FlutterMap(
             options: MapOptions(
-              center: latLng.LatLng(-6.407887427753435, 108.28272322578337),
+              center: latLng.LatLng(latitude, longitude),
               zoom: 15.2,
             ),
             children: [
@@ -46,7 +62,7 @@ class _MapsState extends State<Maps> {
               MarkerLayer(
                 markers: [
                   Marker(
-                    point: latLng.LatLng(-6.407887427753435, 108.28272322578337),
+                    point: latLng.LatLng(latitude, longitude),
                     width: 80,
                     height: 80,
                     builder: (context) => Icon(Icons.pin_drop, color: Colors.red, size: 30),

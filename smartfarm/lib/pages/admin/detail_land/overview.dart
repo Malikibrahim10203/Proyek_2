@@ -1,15 +1,16 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:lottie/lottie.dart' as lottie;
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/model/weather.dart';
 import 'package:smartfarm/pages/admin/detail_land/map.dart';
-import 'package:intl/intl.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
-import 'package:smartfarm/pages/admin/landadmin.dart';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart' as latLng;
 
 
 class Overview extends StatefulWidget {
@@ -50,32 +51,22 @@ class _OverviewState extends State<Overview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF5F7F8),
+      backgroundColor: Color(0xffFFFFFF),
+      appBar: AppBar(
+        title: Text("Lands Farmer", style: TextStyle(color: Color(0xff545454)),),
+        centerTitle: true,
+        backgroundColor: Color(0xffFFFFFF),
+        iconTheme: IconThemeData(
+          color: Color(0xff545454)
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 30, top:50, right: 30 ),
+          padding: EdgeInsets.only(left: 20, top:20, right: 20 ),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder:(context)=>LandAdmin()));
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_outlined,
-                    ),
-
-                  ), //pembuatan tombol akhir
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.22,
-                  ),
-                  Text("Lands Farmer"),
-                ],
-              ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.75,
+                height: MediaQuery.of(context).size.height * 0.9,
                 width: MediaQuery.of(context).size.width,
                 child: Container(
                     child: Column(
@@ -89,108 +80,130 @@ class _OverviewState extends State<Overview> {
                               DateTime dateNow = DateTime.now();
                               Duration diff = datePlanted.difference(dateNow);
 
+                              String coordinate = land.polygon??'';
+
+
+
+                              List<dynamic> map = coordinate.split(RegExp(r'[ ,\s]'));
+                              double latitude = double.parse(map[0]);
+                              double longitude = double.parse(map[1]);
+
+
+
                               if (diff.abs() >= panen) {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Maps()));
-                                        },
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              Card(
-                                                child: Container(
-                                                  padding: EdgeInsets.all(20),
-                                                  child: Row(
-                                                    children: [
-                                                      Lottie.asset("assets/animation/maps.json", width: 100),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(context).size.width * 0.05,
-                                                      ),
-                                                      Text(
-                                                        "Maps Farmer",
-                                                        style: TextStyle(
-                                                            fontSize: 25,
-                                                            color: Colors.black45
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * 1,
+                                      height: MediaQuery.of(context).size.height * 0.3,
+                                      child: FlutterMap(
+                                        options: MapOptions(
+                                          center: latLng.LatLng(latitude, longitude),
+                                          zoom: 15.2,
                                         ),
+                                        children: [
+                                          TileLayer(
+                                            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                            userAgentPackageName: 'com.example.app',
+                                          ),
+                                          MarkerLayer(
+                                            markers: [
+                                              Marker(
+                                                point: latLng.LatLng(latitude, longitude),
+                                                width: 80,
+                                                height: 80,
+                                                builder: (context) => Icon(Icons.pin_drop, color: Colors.red, size: 30),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
                                     ),
                                     Container(
                                       child: ListTile(
-                                        title: Text(
-                                          land.name??'',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500
-                                          ),
-                                        ),
+                                          title: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    land.name??'',
+                                                    style: TextStyle(
+                                                        fontSize: 30,
+                                                        fontWeight: FontWeight.w700,
+                                                        color: Color(0xff545454)
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    land.description??'',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Color(0xff8A8A8A)
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(Icons.calendar_month, size: 16,),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    '${diff.abs().inDays.toString()} hari',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )
                                       ),
                                     ),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: BorderSide(
-                                          width: 0.5,
-                                          color: Color(0xffD5D5D5),
-                                        ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
                                       ),
                                       child: ListTile(
                                         leading: Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Icon(
-                                              Icons.description
-                                          ),
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    right: BorderSide(
+                                                        color: Color(0xffD6D3D3),
+                                                        width: 1
+                                                    )
+                                                )
+                                            ),
+                                            padding: EdgeInsets.all(10),
+                                            child: Image.asset("assets/img/temprature.png", width: 20,)
                                         ),
                                         title: Text(
-                                          "Deskripsi",
+                                          "Temprature",
                                           style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                         subtitle: Text(
-                                          land.description??'',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: BorderSide(
-                                          width: 0.5,
-                                          color: Color(0xffD5D5D5),
-                                        ),
-                                      ),
-                                      child: ListTile(
-                                        leading: Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Icon(
-                                              Icons.calendar_month
-                                          ),
-                                        ),
-                                        title: Text(
-                                          "Usia Tanaman",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()} hari',
+                                          '${diff.abs().inDays.toString()} °C',
                                           style: TextStyle(
                                             fontSize: 12,
                                           ),
@@ -202,14 +215,242 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(11)),
-                                          color: Colors.green
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/humidity.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Humidity",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()} %',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/kelembaban_tanah.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Kelembaban Tanah",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()} % RH',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/ph_tanah.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "PH Tanah",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/natrium.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Natrium",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/phosporus.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Phosphor",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/kalium.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Kalium",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(11)),
+                                        color: Colors.red,
                                       ),
                                       height: 30,
-                                      width: 100,
+                                      width: 110,
                                       alignment: Alignment.center,
                                       child: Text(
-                                        "Panen",
+                                        "Belum Panen",
                                         style: TextStyle(
                                             color: Colors.white70,
                                             fontWeight: FontWeight.w600
@@ -260,104 +501,344 @@ class _OverviewState extends State<Overview> {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Maps()));
-                                        },
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              Card(
-                                                child: Container(
-                                                  padding: EdgeInsets.all(20),
-                                                  child: Row(
-                                                    children: [
-                                                      Lottie.asset("assets/animation/maps.json", width: 100),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(context).size.width * 0.05,
-                                                      ),
-                                                      Text(
-                                                        "Maps Farmer",
-                                                        style: TextStyle(
-                                                            fontSize: 25,
-                                                            color: Colors.black45
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * 1,
+                                      height: MediaQuery.of(context).size.height * 0.3,
+                                      child: FlutterMap(
+                                        options: MapOptions(
+                                          center: latLng.LatLng(latitude, longitude),
+                                          zoom: 15.2,
                                         ),
+                                        children: [
+                                          TileLayer(
+                                            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                            userAgentPackageName: 'com.example.app',
+                                          ),
+                                          MarkerLayer(
+                                            markers: [
+                                              Marker(
+                                                point: latLng.LatLng(latitude, longitude),
+                                                width: 80,
+                                                height: 80,
+                                                builder: (context) => Icon(Icons.pin_drop, color: Colors.red, size: 30),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
                                     ),
                                     Container(
                                       child: ListTile(
-                                        title: Text(
-                                          land.name??'',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500
-                                          ),
-                                        ),
+                                        title: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  land.name??'',
+                                                  style: TextStyle(
+                                                      fontSize: 30,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Color(0xff545454)
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  land.description??'',
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Color(0xff8A8A8A)
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(Icons.calendar_month, size: 16,),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  '${diff.abs().inDays.toString()} hari',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
                                       ),
                                     ),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: BorderSide(
-                                          width: 0.5,
-                                          color: Color(0xffD5D5D5),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Color(0xffD6D3D3)
                                         ),
+                                        borderRadius: BorderRadius.circular(10)
                                       ),
                                       child: ListTile(
                                         leading: Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Icon(
-                                              Icons.description
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              right: BorderSide(
+                                                color: Color(0xffD6D3D3),
+                                                width: 1
+                                              )
+                                            )
                                           ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/temprature.png", width: 20,)
                                         ),
                                         title: Text(
-                                          "Deskripsi",
+                                          "Temprature",
                                           style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                         subtitle: Text(
-                                          land.description??'',
+                                          '${diff.abs().inDays.toString()} °C',
                                           style: TextStyle(
                                             fontSize: 12,
                                           ),
                                         ),
                                       ),
                                     ),
-                                    Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: BorderSide(
-                                          width: 0.5,
-                                          color: Color(0xffD5D5D5),
-                                        ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
                                       ),
                                       child: ListTile(
                                         leading: Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Icon(
-                                              Icons.calendar_month
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
                                           ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/humidity.png", width: 20),
                                         ),
                                         title: Text(
-                                          "Usia Tanaman",
+                                          "Humidity",
                                           style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                         subtitle: Text(
-                                          '${diff.abs().inDays.toString()} hari',
+                                          '${diff.abs().inDays.toString()} %',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/kelembaban_tanah.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Kelembaban Tanah",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()} % RH',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/ph_tanah.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "PH Tanah",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/natrium.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Natrium",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/phosporus.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Phosphor",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xffD6D3D3)
+                                          ),
+                                          borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1
+                                                  )
+                                              )
+                                          ),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset("assets/img/kalium.png", width: 20),
+                                        ),
+                                        title: Text(
+                                          "Kalium",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          '${diff.abs().inDays.toString()}',
                                           style: TextStyle(
                                             fontSize: 12,
                                           ),
@@ -435,37 +916,12 @@ class _OverviewState extends State<Overview> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(
-                Icons.home_outlined,
-              ),
-              onPressed: () { },
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(
-                Icons.sensor_window,
-              ),
-              onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageDevice(id: widget.id,)));},
-            ),
-            label: 'Device'
-          ),
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(
-                Icons.camera,
-              ),
-              onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>Maps()));},
-            ),
-            label: 'Deteksi Padi'
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageDevice(id: widget.id)));
+        },
+        child: Icon(Icons.sensor_window, color: Color(0xff545454),),
+        backgroundColor: Colors.white,
       ),
     );
   }
@@ -504,7 +960,7 @@ Widget animasi(String cuaca) {
   } else if (cuaca.contains("clear sky")){
     alamat = "assets/animation/clear_sky.json";
   }
-  return Lottie.asset("$alamat", width: 50);
+  return lottie.Lottie.asset("$alamat", width: 50);
 
 }
 

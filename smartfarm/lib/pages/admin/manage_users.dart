@@ -1,5 +1,6 @@
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
@@ -13,9 +14,13 @@ class ManageUser extends StatefulWidget {
   State<ManageUser> createState() => _ManageUserState();
 }
 
-class _ManageUserState extends State<ManageUser> {
+class _ManageUserState extends State<ManageUser>  with SingleTickerProviderStateMixin{
 
   List<User> listUser = [];
+
+
+
+
   void getUser() async {
     listUser = await EventDB.getUser();
     setState(() {});
@@ -24,25 +29,10 @@ class _ManageUserState extends State<ManageUser> {
   @override
   void initState() {
     getUser();
+
+
     // TODO: implement initState
     super.initState();
-  }
-
-  void information() {
-    if(1 == 1){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Container(
-            padding: EdgeInsets.all(15),
-            height: 80,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
-            child: Text("Data Berhasil ditambahkan"),
-          ),
-        ),
-      );
-    }
   }
 
 
@@ -52,7 +42,7 @@ class _ManageUserState extends State<ManageUser> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffFFFFFF),
-        titleTextStyle: TextStyle(color: Colors.black),
+        titleTextStyle: TextStyle(color: Color(0xff545454)),
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         centerTitle: true,
         iconTheme: IconThemeData(
@@ -92,13 +82,13 @@ class _ManageUserState extends State<ManageUser> {
                           IconButton(
                             onPressed: () async {
                               if(
-                                await confirm(
-                                  context,
-                                  title: Text("Alert!"),
-                                  content: Text("Apakah anda ingin hapus?"),
-                                  textOK: Text("Ya"),
-                                  textCancel: Text("Tidak"),
-                                )
+                              await confirm(
+                                context,
+                                title: Text("Alert!"),
+                                content: Text("Apakah anda ingin hapus?"),
+                                textOK: Text("Ya"),
+                                textCancel: Text("Tidak"),
+                              )
                               ) {
                                 EventDB.deleteUser(user.id??'');
                               }
@@ -116,6 +106,7 @@ class _ManageUserState extends State<ManageUser> {
           ],
         ),
       ),
+
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahUser()));

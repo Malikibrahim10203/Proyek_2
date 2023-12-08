@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:smartfarm/config/api.dart';
 import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/model/land.dart';
