@@ -427,7 +427,7 @@ class EventDB {
         Info.snackbar("Data Success");
         Future.delayed(Duration(milliseconds: 1700), () {
           Get.off(
-              LandFarmer(id: id,)
+              DashboardFarmer()
           );
         });
       } else {
@@ -455,7 +455,7 @@ class EventDB {
         Info.snackbar("Data Success");
         Future.delayed(Duration(milliseconds: 1700), () {
           Get.off(
-              LandFarmer(id: user_id,)
+              DashboardFarmer()
           );
         });
       } else {

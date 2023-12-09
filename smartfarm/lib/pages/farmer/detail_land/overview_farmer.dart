@@ -6,11 +6,13 @@ import 'package:lottie/lottie.dart' as lottie;
 import 'package:smartfarm/config/apiWeather.dart';
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/land.dart';
+
 import 'package:smartfarm/model/weather.dart';
 import 'package:smartfarm/pages/admin/detail_land/map.dart';
 import 'package:smartfarm/pages/farmer/detail_land/manage_device_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/map_farmer.dart';
 import 'package:smartfarm/pages/farmer/deteksi/deteksi.dart';
+import 'package:smartfarm/pages/farmer/edit/edit_land.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart' as latLng;
@@ -925,9 +927,20 @@ class _OverviewState extends State<OverviewFarmer> {
         children: [
           FloatingActionButton(
             onPressed: () {
-
+              
             },
-            child: Icon(Icons.settings, color: Color(0xff545454),),
+            child: Icon(Icons.edit, color: Color(0xff545454),),
+            backgroundColor: Colors.white,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditLand(id: land.id, name: land.name, description: land.description,
+                                      maps: land.polygon, status: land.cropStatus, date: land.updatedAt, userId: land.userId,)));
+            },
+            child: Icon(Icons.delete, color: Color(0xff545454),),
             backgroundColor: Colors.white,
           ),
           SizedBox(
