@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:lottie/lottie.dart' as lottie;
@@ -959,8 +960,11 @@ class _OverviewState extends State<OverviewFarmer> {
             height: 10,
           ),
           FloatingActionButton(
-            onPressed: () {
-              
+            onPressed: () async {
+              if (await confirm(context,title: Text("Alert!"),content: Text("Apakah anda ingin hapus?"),textOK: Text("Ya"),textCancel: Text("Tidak"),)) {
+                EventDB.deleteLand(widget.id);
+              }
+              return print('pressed');
             },
             child: Icon(Icons.delete, color: Color(0xff545454)),
             backgroundColor: Colors.white,

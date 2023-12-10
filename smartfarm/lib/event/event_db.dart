@@ -327,7 +327,7 @@ class EventDB {
           Info.snackbar("Hapus Success");
           Future.delayed(Duration(milliseconds: 500), () {
             Get.off(
-                ManageDeviceFarmer(id: '1')
+                DashboardFarmer()
             );
           });
         } else {
@@ -351,9 +351,14 @@ class EventDB {
       if (response.statusCode == 200) {
         var responseBody = jsonDecode(response.body);
         if (responseBody['success']) {
-          Info.snackbar("Hapus Success");
-        } else {
           Info.snackbar("Hapus Gagal");
+        } else {
+          Info.snackbar("Hapus Success");
+          Future.delayed(Duration(milliseconds: 500), () {
+            Get.off(
+                DashboardFarmer()
+            );
+          });
         }
       } else {
         Info.snackbar('Request Hapus Gagal');
