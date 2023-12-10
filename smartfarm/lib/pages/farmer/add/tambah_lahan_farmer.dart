@@ -116,34 +116,52 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: 60,
                       child: Row(
                         children: [
-                          Column(
-                            children: [
-                              SizedBox(
-                                width: 160,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xff408CFF),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahMapFarmer(id: widget.id)));
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.map_outlined),
-                                      SizedBox(width: 10,),
-                                      Text("Select Maps"),
-                                    ],
+                          Expanded(
+                            child: TextFormField(
+                              validator: (value) => value == ''? 'Jangan Kosong':null,
+                              decoration: InputDecoration(
+                                helperText: ' ',
+                                border: OutlineInputBorder(),
+                                labelText: "Select Map...",
+                                isDense: true,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xffECECEC),
                                   ),
                                 ),
+                                labelStyle: TextStyle(
+                                  fontSize: 10,
+                                ),
                               ),
-                              SizedBox(
-                                height: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10, // Sesuaikan jarak antara TextFormField dan tombol dengan kebutuhan
+                          ),
+                          SizedBox(
+                            width: 40, // Sesuaikan ukuran ikon dengan kebutuhan
+                            height: 40,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xff408CFF),
+                                padding: EdgeInsets.all(0),
                               ),
-                            ],
-                          )
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TambahMapFarmer(id: widget.id),
+                                  ),
+                                );
+                              },
+                              child: Icon(Icons.map_outlined),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -222,7 +240,7 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                       height: 30,
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width*0.59,
+                      width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xff408CFF),

@@ -28,10 +28,11 @@ class OverviewFarmer extends StatefulWidget {
 }
 
 class _OverviewState extends State<OverviewFarmer> {
+  List<Land> listLand = [];
+  Land? selectedLand;
 
 
   String? parameter;
-  List<Land> listLand = [];
   Weather? _weather;
 
   final panen = Duration(
@@ -50,6 +51,23 @@ class _OverviewState extends State<OverviewFarmer> {
   void getLand() async {
     listLand = await EventDB.getDetailLand(parameter??'');
     setState(() {});
+  }
+
+  void navigateToEditLand(Land land) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditLand(
+          id: land.id,
+          name: land.name,
+          description: land.description,
+          maps: land.polygon,
+          status: land.cropStatus,
+          date: land.updatedAt,
+          userId: land.userId,
+        ),
+      ),
+    );
   }
 
 
@@ -927,9 +945,24 @@ class _OverviewState extends State<OverviewFarmer> {
         children: [
           FloatingActionButton(
             onPressed: () {
+              if (listLand.isNotEmpty) {
+                // Menggunakan data dari item pertama (indeks 0)
+                navigateToEditLand(listLand[0]);
+              } else {
+                print('Error: Empty listLand');
+              }
+            },
+            child: Icon(Icons.edit, color: Color(0xff545454)),
+            backgroundColor: Colors.white,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            onPressed: () {
               
             },
-            child: Icon(Icons.edit, color: Color(0xff545454),),
+            child: Icon(Icons.delete, color: Color(0xff545454)),
             backgroundColor: Colors.white,
           ),
           SizedBox(
@@ -937,20 +970,13 @@ class _OverviewState extends State<OverviewFarmer> {
           ),
           FloatingActionButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditLand(id: land.id, name: land.name, description: land.description,
-                                      maps: land.polygon, status: land.cropStatus, date: land.updatedAt, userId: land.userId,)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ManageDeviceFarmer(id: widget.id)));
             },
-            child: Icon(Icons.delete, color: Color(0xff545454),),
-            backgroundColor: Colors.white,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageDeviceFarmer(id: widget.id)));
-            },
-            child: Icon(Icons.sensor_window, color: Color(0xff545454),),
+            child: Icon(Icons.sensor_window, color: Color(0xff545454)),
             backgroundColor: Colors.white,
           )
         ],
