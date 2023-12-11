@@ -37,42 +37,18 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF5F7F8),
+      appBar: AppBar(
+        title: Text("Manage Device", style: TextStyle(color: Color(0xff545454)),),
+        centerTitle: true,
+        backgroundColor: Color(0xffFFFFFF),
+        iconTheme: IconThemeData(
+            color: Color(0xff545454)
+        ),
+      ),
       body: Container(
         padding: EdgeInsets.only(left: 30, top: 50, right: 30),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: (){
-                    Navigator.push(
-                        context, MaterialPageRoute(
-                      builder: (context) => OverviewFarmer(id: widget.id),));
-                  }, icon: Icon(
-                  Icons.arrow_back_outlined,
-                ),
-                ),
-                Text("Manage Device"),
-                OutlinedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahDevice(id: widget.id)));
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(90),
-                    ),
-                    child: Text(
-                      "+ Tambah Device",
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black54
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
             SizedBox(
               height: 40,
             ),
@@ -121,35 +97,15 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: IconButton(
-              icon: Icon(
-                Icons.home_outlined,
-              ),
-              onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>OverviewFarmer(id: widget.id)));},
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(
-                  Icons.sensor_window,
-                ),
-                onPressed: () { },
-              ),
-              label: 'Device'
-          ),
-          BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(
-                  Icons.camera,
-                ),
-                onPressed: () {},
-              ),
-              label: 'Deteksi Padi'
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahDevice(id: widget.id)));
+            },
+            child: Icon(Icons.add, color: Color(0xff545454)),
+            backgroundColor: Colors.white,
           ),
         ],
       ),

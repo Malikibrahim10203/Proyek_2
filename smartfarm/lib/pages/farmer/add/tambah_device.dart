@@ -64,7 +64,7 @@ class _TambahDeviceState extends State<TambahDevice> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width*0.25,
                     ),
-                    Text("Tambag Device"),
+                    Text("Tambah Device"),
                   ],
                 ),
                 SizedBox(

@@ -121,24 +121,23 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                       height: 60,
                       child: Row(
                         children: [
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) => value == ''? 'Jangan Kosong':null,
-                              decoration: InputDecoration(
-                                helperText: ' ',
-                                border: OutlineInputBorder(),
-                                labelText: "Select Map...",
-                                isDense: true,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.675,
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              padding: EdgeInsets.only(top: 10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
                                     color: Color(0xffECECEC),
                                   ),
-                                ),
-                                labelStyle: TextStyle(
-                                  fontSize: 10,
-                                ),
+                                  borderRadius: BorderRadius.circular(5)
                               ),
-                            ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Select Map..",
+                                  ),
+                                ],
+                              )
                           ),
                           SizedBox(
                             width: 10, // Sesuaikan jarak antara TextFormField dan tombol dengan kebutuhan
@@ -168,22 +167,35 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                     Text(
                       "Status Panen",
                       style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xff545454)
                       ),
                     ),
                     SizedBox(
                       height: 12,
                     ),
-                    SizedBox(
-                        width: 150,
-                        height: 70,
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      width: 150,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Color(0xffECECEC),
+                        ),
+                        borderRadius: BorderRadius.circular(5)
+                      ),
+                      child: DropdownButtonHideUnderline(
                         child: DropdownButton(
                           value: dropdownValue,
                           items: status.map((String status) {
                             return DropdownMenuItem(
                               value: status,
-                              child: Text(status),
+                              child: Text(status, style: TextStyle(
+                                color: Color(0xff545454),
+                                fontSize: 13,
+                              ),),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -191,14 +203,29 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                               dropdownValue = newValue!;
                             });
                           },
-                        )
+                        ),
+                      )
                     ),
                     SizedBox(
-                      height: 12,
+                      height: 20,
                     ),
                     Column(
                       children: [
-                        Text('${tanggal.year}/${tanggal.month}/${tanggal.day}'),
+                        Container(
+                          width: 150,
+                          height: 35,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: Color(0xffECECEC),
+                            ),
+                            borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Text('${tanggal.year}/${tanggal.month}/${tanggal.day}')],
+                          ),
+                        ),
 
                         SizedBox(
                           height: 16,

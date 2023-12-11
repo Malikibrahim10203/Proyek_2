@@ -156,28 +156,27 @@ void getLand() async{
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       height: 60,
                       child: Row(
                         children: [
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) => value == ''? 'Jangan Kosong':null,
-                              decoration: InputDecoration(
-                                helperText: ' ',
-                                border: OutlineInputBorder(),
-                                labelText: "Select Map...",
-                                isDense: true,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xffECECEC),
-                                  ),
-                                ),
-                                labelStyle: TextStyle(
-                                  fontSize: 10,
-                                ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.675,
+                            height: MediaQuery.of(context).size.height * 0.06,
+                            padding: EdgeInsets.only(top: 10),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color(0xffECECEC),
                               ),
+                              borderRadius: BorderRadius.circular(5)
                             ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Select Map..",
+                                ),
+                              ],
+                            )
                           ),
                           SizedBox(
                             width: 10, // Sesuaikan jarak antara TextFormField dan tombol dengan kebutuhan
@@ -209,22 +208,35 @@ void getLand() async{
                     SizedBox(
                       height: 12,
                     ),
-                    SizedBox(
+                    Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
                         width: 150,
-                        height: 70,
-                        child: DropdownButton(
-                          value: dropdownValue,
-                          items: status.map((String status) {
-                            return DropdownMenuItem(
-                              value: status,
-                              child: Text(status),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
+                        height: 40,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: Color(0xffECECEC),
+                            ),
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            value: dropdownValue,
+                            items: status.map((String status) {
+                              return DropdownMenuItem(
+                                value: status,
+                                child: Text(status, style: TextStyle(
+                                  color: Color(0xff545454),
+                                  fontSize: 13,
+                                ),),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdownValue = newValue!;
+                              });
+                            },
+                          ),
                         )
                     ),
                     SizedBox(
@@ -232,7 +244,21 @@ void getLand() async{
                     ),
                     Column(
                       children: [
-                        Text('${tanggal.year}/${tanggal.month}/${tanggal.day}'),
+                        Container(
+                          width: 150,
+                          height: 35,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Color(0xffECECEC),
+                              ),
+                              borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Text('${tanggal.year}/${tanggal.month}/${tanggal.day}')],
+                          ),
+                        ),
 
                         SizedBox(
                           height: 16,

@@ -945,6 +945,7 @@ class _OverviewState extends State<OverviewFarmer> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: "btn edit",
             onPressed: () {
               if (listLand.isNotEmpty) {
                 // Menggunakan data dari item pertama (indeks 0)
@@ -960,6 +961,7 @@ class _OverviewState extends State<OverviewFarmer> {
             height: 10,
           ),
           FloatingActionButton(
+            heroTag: "btn delete",
             onPressed: () async {
               if (await confirm(context,title: Text("Alert!"),content: Text("Apakah anda ingin hapus?"),textOK: Text("Ya"),textCancel: Text("Tidak"),)) {
                 EventDB.deleteLand(widget.id);
@@ -973,6 +975,7 @@ class _OverviewState extends State<OverviewFarmer> {
             height: 10,
           ),
           FloatingActionButton(
+            heroTag: "btn device",
             onPressed: () {
               Navigator.push(
                   context,
