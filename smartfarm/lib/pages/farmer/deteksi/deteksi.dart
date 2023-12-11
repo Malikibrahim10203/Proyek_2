@@ -35,27 +35,40 @@ class _DeteksiPageState extends State<DeteksiPage> {
                 Text("Lands Farmer"),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  backgroundColor: Colors.green,
-                  onPressed: () async {
-                    await availableCameras().then((value) => Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
-                  },
-                  child: Icon(
-                    Icons.camera_alt_outlined,
-                    size: 35,
-                    color: Colors.white70,
-                  ),
-                ),
-              ],
-            ),
           ],
         )
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: "btn sisip",
+            backgroundColor: Colors.white,
+            onPressed: () async {
+              await availableCameras().then((value) => Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
+            },
+            child: Icon(
+              Icons.folder,
+              color: Color(0xff545454),
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          FloatingActionButton(
+            heroTag: "btn capture",
+            backgroundColor: Colors.white,
+            onPressed: () async {
+              await availableCameras().then((value) => Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
+            },
+            child: Icon(
+              Icons.camera_alt_outlined,
+              color: Color(0xff545454),
+            ),
+          ),
+        ],
       ),
     );
   }

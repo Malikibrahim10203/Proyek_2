@@ -7,6 +7,7 @@ import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
+import 'package:smartfarm/pages/farmer/deteksi/deteksi.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/pages/login.dart';
 import 'package:smartfarm/widget/info.dart';
@@ -319,7 +320,9 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>DeteksiPage()));
+          },
           child: Icon(Icons.document_scanner_outlined),
           elevation: 4,
         ),
@@ -350,7 +353,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
 
                     },
                   ),
-                  label: 'Manage Account'
+                  label: 'History'
               ),
             ],
           ),
