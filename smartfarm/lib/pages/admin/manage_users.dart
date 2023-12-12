@@ -1,4 +1,4 @@
-import 'package:confirm_dialog/confirm_dialog.dart';
+import 'package:confirm_dialog/confirm_dialog.dart' as confirm;
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smartfarm/event/event_db.dart';
@@ -82,7 +82,7 @@ class _ManageUserState extends State<ManageUser>  with SingleTickerProviderState
                           IconButton(
                             onPressed: () async {
                               if(
-                              await confirm(
+                              await confirm.confirm(
                                 context,
                                 title: Text("Alert!"),
                                 content: Text("Apakah anda ingin hapus?"),

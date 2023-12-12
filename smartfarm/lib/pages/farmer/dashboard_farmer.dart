@@ -5,11 +5,12 @@ import 'package:smartfarm/event/event_pref.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/model/user.dart';
+import 'package:smartfarm/pages/deteksi/deteksi.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
-import 'package:smartfarm/pages/farmer/deteksi/deteksi.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/pages/login.dart';
+
 import 'package:smartfarm/widget/info.dart';
 
 
@@ -26,6 +27,8 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
   List<Device> totalDevice = [];
   List<User> totalUser = [];
   late String userName ;
+
+  // MqttHandler mqttHandler = MqttHandler();
 
   void getDevice() async {
     totalDevice = await EventDB.getDevice();
@@ -52,6 +55,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
     getLand();
     getDevice();
     getUser();
+    // mqttHandler.connect();
     // TODO: implement initState
     super.initState();
   }
@@ -258,45 +262,77 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                                     ),
                                     child: ListTile(
                                       title: Container(
-                                          padding: EdgeInsets.all(20),
+                                          padding: EdgeInsets.all(15),
                                           decoration: BoxDecoration(
                                               color: Color(0xffFFFFFF),
                                               border: Border(
-                                                  left: BorderSide(
-                                                    color: Color(0xffFF7B7B),
-                                                    width: 3,
-                                                  )
-                                              )
+                                                left: BorderSide(
+                                                  color: Color(0xffFF7B7B),
+                                                  width: 5,
+                                                ),
+                                                right: BorderSide(
+                                                  color: Color(0xffFF7B7B),
+                                                  width: 0,
+                                                ),
+                                                top: BorderSide(
+                                                  color: Color(0xffFF7B7B),
+                                                  width: 0,
+                                                ),
+                                                bottom: BorderSide(
+                                                  color: Color(0xffFF7B7B),
+                                                  width: 0,
+                                                ),
+                                              ),
+                                            borderRadius: BorderRadius.circular(10)
                                           ),
                                           child: Column(
                                             children: [
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Text(land.name??'', style: TextStyle(color: Color(0xff737373), fontSize: 9),),
-                                                  Text("${diff.abs().inDays.toString()} hari", style: TextStyle(color: Color(0xff737373), fontSize: 9),)
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "Kurang Air dan Kurang Pupuk",
-                                                    style: TextStyle(fontSize: 10),
+                                                  Image.asset("assets/img/sawah.jpg", width: 100,),
+                                                  SizedBox(
+                                                    width: 10,
                                                   ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Color(0xff408CFF),
-                                                        borderRadius: BorderRadius.all(Radius.circular(10))
-                                                    ),
-                                                  )
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(10),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [
+                                                              Text(land.name??'', style: TextStyle(color: Color(0xff747474), fontSize: 12, fontWeight: FontWeight.w600),),
+                                                              Text("${diff.abs().inDays.toString()} hari", style: TextStyle(color: Color(0xff737373), fontSize: 9),)
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                "Kurang Air dan Kurang Pupuk",
+                                                                style: TextStyle(color: Color(0xff737373), fontSize: 9, fontWeight: FontWeight.w400),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.end,
+                                                            children: [
+                                                              Container(
+                                                                decoration: BoxDecoration(
+                                                                    color: Color(0xff408CFF),
+                                                                    borderRadius: BorderRadius.all(Radius.circular(10))
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ),
                                                 ],
                                               )
                                             ],
@@ -329,29 +365,38 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            border: Border.symmetric(horizontal: BorderSide(color: Color(0xffCCCCCC), width: 2)),
+            border: Border.symmetric(horizontal: BorderSide(color: Color(0xffCCCCCC), width: 1)),
           ),
           child: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
             backgroundColor: Colors.white,
-
             items: [
               BottomNavigationBarItem(
-                icon: IconButton(
-                  icon: Icon(
-                    Icons.home_outlined,
+                icon: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.home_outlined,
+                      size: 30,
+                    ),
+                    onPressed: () { },
                   ),
-                  onPressed: () { },
                 ),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                  icon: IconButton(
-                    icon: Icon(
-                      Icons.history_edu,
-                    ),
-                    onPressed: () {
+                  icon: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.history_edu,
+                        size: 30,
+                      ),
+                      onPressed: () {
 
-                    },
+                      },
+                    ),
                   ),
                   label: 'History'
               ),

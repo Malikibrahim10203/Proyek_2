@@ -45,6 +45,14 @@ class _TambahDeviceState extends State<TambahDevice> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF5F7F8),
+      appBar: AppBar(
+        title: Text("Add Device", style: TextStyle(color: Color(0xff545454))),
+        centerTitle: true,
+        backgroundColor: Color(0xffFFFFFF),
+        iconTheme: IconThemeData(
+            color: Color(0xff545454)
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
@@ -52,126 +60,78 @@ class _TambahDeviceState extends State<TambahDevice> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: (){
-                        Navigator.pop(context);
-                      }, icon: Icon(
-                        Icons.arrow_back_outlined,
-                      ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width*0.25,
-                    ),
-                    Text("Tambah Device"),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
                 Container(
                   width: MediaQuery.of(context).size.width*1,
                   height: MediaQuery.of(context).size.height*0.7,
                   
-                  child: Card(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 50, top: 30),
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Id Device",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                controller: controllerId,
-                                validator: (value) => value == ''?'Jangan Kosong':null,
-                                decoration: InputDecoration(
-                                  helperText: ' ',
-                                  border: OutlineInputBorder(),
-                                  labelText: "Enter Id Device..",
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
-                                  ),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20, top: 10, right: 20),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 65,
+                            child: TextFormField(
+                              controller: controllerId,
+                              validator: (value) => value == ''?'Jangan Kosong':null,
+                              decoration: InputDecoration(
+                                helperText: ' ',
+                                border: OutlineInputBorder(),
+                                labelText: "Enter Id Device..",
+                                labelStyle: TextStyle(
+                                  fontSize: 10,
+                                ),
+                                prefixIcon: Icon(Icons.person_outline, size: 20,),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xffECECEC)
+                                    )
                                 ),
                               ),
                             ),
-                            Text(
-                              "Name Device",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                controller: controllerNameDevice,
-                                validator: (value) => value == ''?'Jangan Kosong':null,
-                                decoration: InputDecoration(
-                                  helperText: ' ',
-                                  border: OutlineInputBorder(),
-                                  labelText: "Enter Name Device..",
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
-                                  ),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 65,
+                            child: TextFormField(
+                              controller: controllerNameDevice,
+                              validator: (value) => value == ''?'Jangan Kosong':null,
+                              decoration: InputDecoration(
+                                helperText: ' ',
+                                border: OutlineInputBorder(),
+                                labelText: "Enter Name Device..",
+                                labelStyle: TextStyle(
+                                  fontSize: 10,
+                                ),
+                                prefixIcon: Icon(Icons.file_copy_outlined, size: 20,),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xffECECEC)
+                                    )
                                 ),
                               ),
                             ),
-                            Text(
-                              "Land Id",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 45,
+                            child: ElevatedButton(
+                              child: const Text('Tambah Data'),
+                              onPressed: () {
+                                EventDB.addDevices(controllerId.text, controllerNameDevice.text, controllerLandId.text);
+                                controllerId.clear();
+                                controllerNameDevice.clear();
+                                controllerLandId.clear();
+                              },
                             ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                enabled: false,
-                                controller: controllerLandId,
-                                decoration: InputDecoration(
-                                  helperText: ' ',
-                                  border: OutlineInputBorder(),
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ),
-                            ),SizedBox(
-                              width: MediaQuery.of(context).size.width*0.59,
-                              child: ElevatedButton(
-                                child: const Text('Tambah Data'),
-                                onPressed: () {
-                                  EventDB.addDevices(controllerId.text, controllerNameDevice.text, controllerLandId.text);
-                                  controllerId.clear();
-                                  controllerNameDevice.clear();
-                                  controllerLandId.clear();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

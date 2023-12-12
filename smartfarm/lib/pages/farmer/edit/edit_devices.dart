@@ -52,6 +52,14 @@ void getLand() async{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF5F7F8),
+      appBar: AppBar(
+        title: Text("Edit Device", style: TextStyle(color: Color(0xff545454)),),
+        centerTitle: true,
+        backgroundColor: Color(0xffFFFFFF),
+        iconTheme: IconThemeData(
+          color: Color(0xff545454),
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
@@ -59,128 +67,78 @@ void getLand() async{
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: (){
-                        Navigator.pop(context);
-                      }, icon: Icon(
-                        Icons.arrow_back_outlined,
-                      ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width*0.25,
-                    ),
-                    Text("Tambag Device"),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
                 Container(
                   width: MediaQuery.of(context).size.width*1,
                   height: MediaQuery.of(context).size.height*0.7,
-                  
-                  child: Card(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 50, top: 30),
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Id Device",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
+                  padding: EdgeInsets.only(left: 20, top: 30, right: 20),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color(0xffECECEC),
+                              width: 1
+                            ),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Icon(Icons.person_outline, color: Color(0xff545454),),
+                              SizedBox(
+                                width: 15,
                               ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                enabled: false,
-                                controller: controllerId,
-                                validator: (value) => value == ''?'Jangan Kosong':null,
-                                decoration: InputDecoration(
-                                  helperText: ' ',
-                                  border: OutlineInputBorder(),
-                                  labelText: "Enter Id Device..",
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "Name Device",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                controller: controllerName,
-                                validator: (value) => value == ''?'Jangan Kosong':null,
-                                decoration: InputDecoration(
-                                  helperText: ' ',
-                                  border: OutlineInputBorder(),
-                                  labelText: "Enter Name Device..",
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "Land Id",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              width: 240,
-                              height: 60,
-                              child: TextFormField(
-                                enabled: false,
-                                controller: controllerLandId,
-                                decoration: InputDecoration(
-                                  helperText: ' ',
-                                  border: OutlineInputBorder(),
-                                  labelStyle: TextStyle(
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ),
-                            ),SizedBox(
-                              width: MediaQuery.of(context).size.width*0.59,
-                              child: ElevatedButton(
-                                child: const Text('Ubah Data'),
-                                onPressed: () {
-                                  EventDB.EditDevices(controllerId.text, controllerName.text, controllerLandId.text);
-                                  controllerId.clear();
-                                  controllerName.clear();
-                                  controllerLandId.clear();
-                                },
-                              ),
-                            ),
-                          ],
+                              Text(widget.id, style: TextStyle(color: Color(0xff545454)),)
+                            ],
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 65,
+                          child: TextFormField(
+                            controller: controllerName,
+                            validator: (value) => value == ''?'Jangan Kosong':null,
+                            decoration: InputDecoration(
+                              helperText: ' ',
+                              border: OutlineInputBorder(),
+                              labelText: "Enter Name Device..",
+                              labelStyle: TextStyle(
+                                fontSize: 12,
+                              ),
+                              prefixIcon: Icon(Icons.file_copy_outlined, size: 20,),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffECECEC)
+                                  )
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          child: ElevatedButton(
+                            child: const Text('Ubah Data'),
+                            onPressed: () {
+                              EventDB.EditDevices(controllerId.text, controllerName.text, controllerLandId.text);
+                              controllerId.clear();
+                              controllerName.clear();
+                              controllerLandId.clear();
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -189,8 +147,19 @@ void getLand() async{
           ),
         ),
       ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+
+            },
+            child: Icon(Icons.edit, color: Color(0xff545454)),
+            backgroundColor: Colors.white,
+          ),
+        ],
+      ),
     );
-    
   }
 
 }

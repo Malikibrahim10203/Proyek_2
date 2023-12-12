@@ -10,6 +10,7 @@ import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 import 'package:smartfarm/pages/admin/landadmin.dart';
 import 'package:smartfarm/pages/admin/manage_users.dart';
+import 'package:smartfarm/pages/deteksi/deteksi.dart';
 import 'package:smartfarm/pages/login.dart';
 
 class DashboardAdmin extends StatefulWidget {
@@ -298,38 +299,49 @@ class _DashboardAdminState extends State<DashboardAdmin> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>DeteksiPage()));
+          },
           child: Icon(Icons.document_scanner_outlined),
           elevation: 4,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            border: Border.symmetric(horizontal: BorderSide(color: Color(0xffCCCCCC), width: 2)),
+            border: Border.symmetric(horizontal: BorderSide(color: Color(0xffCCCCCC), width: 1)),
           ),
           child: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
             backgroundColor: Colors.white,
-
             items: [
               BottomNavigationBarItem(
-                icon: IconButton(
-                  icon: Icon(
-                    Icons.home_outlined,
+                icon: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.home_outlined,
+                      size: 30,
+                    ),
+                    onPressed: () { },
                   ),
-                  onPressed: () { },
                 ),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                  icon: IconButton(
-                    icon: Icon(
-                      Icons.manage_accounts_outlined,
+                  icon: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.manage_accounts_outlined,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageUser()));
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageUser()));
-                    },
                   ),
-                  label: 'Manage Account'
+                  label: 'History'
               ),
             ],
           ),

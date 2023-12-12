@@ -11,6 +11,7 @@ import 'package:smartfarm/pages/admin/detail_land/map.dart';
 import 'package:smartfarm/pages/admin/detail_land/manage_device.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart' as latLng;
+import 'package:smartfarm/pages/mqtt/mqtt_handler.dart';
 
 
 class Overview extends StatefulWidget {
@@ -28,6 +29,7 @@ class _OverviewState extends State<Overview> {
   String? parameter;
   List<Land> listLand = [];
   Weather? _weather;
+  MqttHandler mqttHandler = MqttHandler();
 
   final panen = Duration(
     days: 90
@@ -38,6 +40,7 @@ class _OverviewState extends State<Overview> {
     // TODO: implement initState
     parameter = widget.id;
     getLand();
+    mqttHandler.connect();
     super.initState();
   }
 
@@ -96,24 +99,31 @@ class _OverviewState extends State<Overview> {
                                   children: [
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width * 1,
-                                      height: MediaQuery.of(context).size.height * 0.3,
+                                      height:
+                                      MediaQuery.of(context).size.height * 0.3,
                                       child: FlutterMap(
                                         options: MapOptions(
-                                          center: latLng.LatLng(latitude, longitude),
+                                          center:
+                                          latLng.LatLng(latitude, longitude),
                                           zoom: 15.2,
                                         ),
                                         children: [
                                           TileLayer(
-                                            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                            urlTemplate:
+                                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                                             userAgentPackageName: 'com.example.app',
                                           ),
                                           MarkerLayer(
                                             markers: [
                                               Marker(
-                                                point: latLng.LatLng(latitude, longitude),
+                                                point: latLng.LatLng(
+                                                    latitude, longitude),
                                                 width: 80,
                                                 height: 80,
-                                                builder: (context) => Icon(Icons.pin_drop, color: Colors.red, size: 30),
+                                                builder: (context) => Icon(
+                                                    Icons.pin_drop,
+                                                    color: Colors.red,
+                                                    size: 30),
                                               ),
                                             ],
                                           )
@@ -130,24 +140,22 @@ class _OverviewState extends State<Overview> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    land.name??'',
+                                                    land.name ?? '',
                                                     style: TextStyle(
                                                         fontSize: 30,
                                                         fontWeight: FontWeight.w700,
-                                                        color: Color(0xff545454)
-                                                    ),
+                                                        color: Color(0xff545454)),
                                                   ),
                                                 ],
                                               ),
                                               Row(
                                                 children: [
                                                   Text(
-                                                    land.description??'',
+                                                    land.description ?? '',
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w400,
-                                                        color: Color(0xff8A8A8A)
-                                                    ),
+                                                        color: Color(0xff8A8A8A)),
                                                   ),
                                                 ],
                                               ),
@@ -156,7 +164,10 @@ class _OverviewState extends State<Overview> {
                                               ),
                                               Row(
                                                 children: [
-                                                  Icon(Icons.calendar_month, size: 16,),
+                                                  Icon(
+                                                    Icons.calendar_month,
+                                                    size: 16,
+                                                  ),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
@@ -169,44 +180,107 @@ class _OverviewState extends State<Overview> {
                                                 ],
                                               ),
                                             ],
-                                          )
-                                      ),
+                                          )),
                                     ),
                                     SizedBox(
                                       height: 20,
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1))),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset(
+                                              "assets/img/kelembaban_tanah.png",
+                                              width: 20),
+                                        ),
+                                        title: Text(
+                                          "Kelembaban Tanah",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
-                                          borderRadius: BorderRadius.circular(10)
+                                        ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length == null) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[0]} %',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
+                                        ),
                                       ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                             decoration: BoxDecoration(
                                                 border: Border(
                                                     right: BorderSide(
                                                         color: Color(0xffD6D3D3),
-                                                        width: 1
-                                                    )
-                                                )
-                                            ),
+                                                        width: 1))),
                                             padding: EdgeInsets.all(10),
-                                            child: Image.asset("assets/img/temprature.png", width: 20,)
-                                        ),
+                                            child: Image.asset(
+                                              "assets/img/temprature.png",
+                                              width: 20,
+                                            )),
                                         title: Text(
                                           "Temprature",
                                           style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()} °C',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 2) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[1]} °C',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -215,36 +289,49 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/humidity.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/humidity.png",
+                                              width: 20),
                                         ),
                                         title: Text(
-                                          "Humidity",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()} %',
+                                          "Condutivity",
                                           style: TextStyle(
                                             fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
+                                        ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 2) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[2]} uS/cm',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -253,36 +340,49 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/kelembaban_tanah.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/ph_tanah.png",
+                                              width: 20),
                                         ),
                                         title: Text(
-                                          "Kelembaban Tanah",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()} % RH',
+                                          "pH",
                                           style: TextStyle(
                                             fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
+                                        ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 3) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[3]}',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -291,36 +391,49 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/ph_tanah.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/nitrogen.png",
+                                              width: 20),
                                         ),
                                         title: Text(
-                                          "PH Tanah",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()}',
+                                          "Nitrogen",
                                           style: TextStyle(
                                             fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
+                                        ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 7) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[4]} mg/L',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -329,74 +442,49 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/natrium.png", width: 20),
-                                        ),
-                                        title: Text(
-                                          "Natrium",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      child: ListTile(
-                                        leading: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border(
-                                                  right: BorderSide(
-                                                      color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
-                                          padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/phosporus.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/phosporus.png",
+                                              width: 20),
                                         ),
                                         title: Text(
                                           "Phosphor",
                                           style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 7) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[5]} mg/L',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -405,36 +493,49 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/kalium.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/kalium.png",
+                                              width: 20),
                                         ),
                                         title: Text(
                                           "Kalium",
                                           style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 7) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[6]} mg/L',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -443,7 +544,8 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(11)),
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(11)),
                                         color: Colors.red,
                                       ),
                                       height: 30,
@@ -453,14 +555,16 @@ class _OverviewState extends State<Overview> {
                                         "Belum Panen",
                                         style: TextStyle(
                                             color: Colors.white70,
-                                            fontWeight: FontWeight.w600
-                                        ),
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ),
                                     SizedBox(
                                       height: 15,
                                     ),
-                                    Text(" Cuaca", style: TextStyle(fontSize: 16),),
+                                    Text(
+                                      " Cuaca",
+                                      style: TextStyle(fontSize: 16),
+                                    ),
                                     SizedBox(
                                       height: 15,
                                     ),
@@ -474,7 +578,8 @@ class _OverviewState extends State<Overview> {
                                         ),
                                       ),
                                       child: Container(
-                                        padding: EdgeInsets.only(left: 20,right: 20, top: 20),
+                                        padding: EdgeInsets.only(
+                                            left: 20, right: 20, top: 20),
                                         child: FutureBuilder(
                                           builder: (context, snapshot) {
                                             if (snapshot != null) {
@@ -482,7 +587,7 @@ class _OverviewState extends State<Overview> {
                                               if (this._weather == null) {
                                                 return CircularProgressIndicator();
                                               } else {
-                                                return  weatherBox(_weather!);
+                                                return weatherBox(_weather!);
                                               }
                                             } else {
                                               return CircularProgressIndicator();
@@ -497,30 +602,37 @@ class _OverviewState extends State<Overview> {
                                     ),
                                   ],
                                 );
-                              } else if(diff.abs() <= panen) {
+                              } else if (diff.abs() <= panen) {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width * 1,
-                                      height: MediaQuery.of(context).size.height * 0.3,
+                                      height:
+                                      MediaQuery.of(context).size.height * 0.3,
                                       child: FlutterMap(
                                         options: MapOptions(
-                                          center: latLng.LatLng(latitude, longitude),
+                                          center:
+                                          latLng.LatLng(latitude, longitude),
                                           zoom: 15.2,
                                         ),
                                         children: [
                                           TileLayer(
-                                            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                            urlTemplate:
+                                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                                             userAgentPackageName: 'com.example.app',
                                           ),
                                           MarkerLayer(
                                             markers: [
                                               Marker(
-                                                point: latLng.LatLng(latitude, longitude),
+                                                point: latLng.LatLng(
+                                                    latitude, longitude),
                                                 width: 80,
                                                 height: 80,
-                                                builder: (context) => Icon(Icons.pin_drop, color: Colors.red, size: 30),
+                                                builder: (context) => Icon(
+                                                    Icons.pin_drop,
+                                                    color: Colors.red,
+                                                    size: 30),
                                               ),
                                             ],
                                           )
@@ -532,164 +644,101 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       child: ListTile(
-                                        title: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  land.name??'',
-                                                  style: TextStyle(
-                                                      fontSize: 30,
-                                                      fontWeight: FontWeight.w700,
-                                                      color: Color(0xff545454)
+                                          title: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    land.name ?? '',
+                                                    style: TextStyle(
+                                                        fontSize: 30,
+                                                        fontWeight: FontWeight.w700,
+                                                        color: Color(0xff545454)),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  land.description??'',
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Color(0xff8A8A8A)
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    land.description ?? '',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Color(0xff8A8A8A)),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Icon(Icons.calendar_month, size: 16,),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  '${diff.abs().inDays.toString()} hari',
-                                                  style: TextStyle(
-                                                    fontSize: 12,
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.calendar_month,
+                                                    size: 16,
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )
-                                      ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    '${diff.abs().inDays.toString()} hari',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )),
                                     ),
                                     SizedBox(
                                       height: 20,
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Color(0xffD6D3D3)
-                                        ),
-                                        borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      child: ListTile(
-                                        leading: Container(
-                                          decoration: BoxDecoration(
-                                            border: Border(
-                                              right: BorderSide(
-                                                color: Color(0xffD6D3D3),
-                                                width: 1
-                                              )
-                                            )
-                                          ),
-                                          padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/temprature.png", width: 20,)
-                                        ),
-                                        title: Text(
-                                          "Temprature",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()} °C',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/humidity.png", width: 20),
-                                        ),
-                                        title: Text(
-                                          "Humidity",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()} %',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      child: ListTile(
-                                        leading: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border(
-                                                  right: BorderSide(
-                                                      color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
-                                          padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/kelembaban_tanah.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/kelembaban_tanah.png",
+                                              width: 20),
                                         ),
                                         title: Text(
                                           "Kelembaban Tanah",
                                           style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()} % RH',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length == null) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[0]} %',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -698,36 +747,100 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
+                                      child: ListTile(
+                                        leading: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    right: BorderSide(
+                                                        color: Color(0xffD6D3D3),
+                                                        width: 1))),
+                                            padding: EdgeInsets.all(10),
+                                            child: Image.asset(
+                                              "assets/img/temprature.png",
+                                              width: 20,
+                                            )),
+                                        title: Text(
+                                          "Temprature",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
-                                          borderRadius: BorderRadius.circular(10)
+                                        ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 2) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[1]} °C',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
+                                        ),
                                       ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/ph_tanah.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/humidity.png",
+                                              width: 20),
                                         ),
                                         title: Text(
-                                          "PH Tanah",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()}',
+                                          "Condutivity",
                                           style: TextStyle(
                                             fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
+                                        ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 2) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[2]} uS/cm',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -736,36 +849,49 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/natrium.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/ph_tanah.png",
+                                              width: 20),
                                         ),
                                         title: Text(
-                                          "Natrium",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()}',
+                                          "pH",
                                           style: TextStyle(
                                             fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
+                                        ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 3) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[3]}',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -774,36 +900,100 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/phosporus.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/nitrogen.png",
+                                              width: 20),
+                                        ),
+                                        title: Text(
+                                          "Nitrogen",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 7) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[4]} mg/L',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
+                                      child: ListTile(
+                                        leading: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  right: BorderSide(
+                                                      color: Color(0xffD6D3D3),
+                                                      width: 1))),
+                                          padding: EdgeInsets.all(10),
+                                          child: Image.asset(
+                                              "assets/img/phosporus.png",
+                                              width: 20),
                                         ),
                                         title: Text(
                                           "Phosphor",
                                           style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 7) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[5]} mg/L',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -812,36 +1002,49 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Color(0xffD6D3D3)
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                          border:
+                                          Border.all(color: Color(0xffD6D3D3)),
+                                          borderRadius: BorderRadius.circular(10)),
                                       child: ListTile(
                                         leading: Container(
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   right: BorderSide(
                                                       color: Color(0xffD6D3D3),
-                                                      width: 1
-                                                  )
-                                              )
-                                          ),
+                                                      width: 1))),
                                           padding: EdgeInsets.all(10),
-                                          child: Image.asset("assets/img/kalium.png", width: 20),
+                                          child: Image.asset(
+                                              "assets/img/kalium.png",
+                                              width: 20),
                                         ),
                                         title: Text(
                                           "Kalium",
                                           style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        subtitle: Text(
-                                          '${diff.abs().inDays.toString()}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
+                                        subtitle: ValueListenableBuilder<String>(
+                                          builder: (BuildContext context,
+                                              String value, Widget? child) {
+                                            List<String> temprature =
+                                            value.split('#');
+                                            if (temprature.length < 7) {
+                                              return Row(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  lottie.Lottie.asset(
+                                                      "assets/animation/loading.json",
+                                                      height: 50)
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('${temprature[6]} mg/L',
+                                                  style: TextStyle(fontSize: 12));
+                                            }
+                                          },
+                                          valueListenable: mqttHandler.data,
                                         ),
                                       ),
                                     ),
@@ -850,7 +1053,8 @@ class _OverviewState extends State<Overview> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(11)),
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(11)),
                                         color: Colors.red,
                                       ),
                                       height: 30,
@@ -860,14 +1064,16 @@ class _OverviewState extends State<Overview> {
                                         "Belum Panen",
                                         style: TextStyle(
                                             color: Colors.white70,
-                                            fontWeight: FontWeight.w600
-                                        ),
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ),
                                     SizedBox(
                                       height: 15,
                                     ),
-                                    Text(" Cuaca", style: TextStyle(fontSize: 16),),
+                                    Text(
+                                      " Cuaca",
+                                      style: TextStyle(fontSize: 16),
+                                    ),
                                     SizedBox(
                                       height: 15,
                                     ),
@@ -881,7 +1087,8 @@ class _OverviewState extends State<Overview> {
                                         ),
                                       ),
                                       child: Container(
-                                        padding: EdgeInsets.only(left: 20,right: 20, top: 20),
+                                        padding: EdgeInsets.only(
+                                            left: 20, right: 20, top: 20),
                                         child: FutureBuilder(
                                           builder: (context, snapshot) {
                                             if (snapshot != null) {
@@ -889,7 +1096,7 @@ class _OverviewState extends State<Overview> {
                                               if (this._weather == null) {
                                                 return CircularProgressIndicator();
                                               } else {
-                                                return  weatherBox(_weather!);
+                                                return weatherBox(_weather!);
                                               }
                                             } else {
                                               return CircularProgressIndicator();

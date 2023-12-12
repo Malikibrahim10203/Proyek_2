@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:smartfarm/pages/farmer/dashboard_farmer.dart';
-import 'package:smartfarm/pages/farmer/deteksi/camera.dart';
+import 'package:smartfarm/pages/deteksi/camera.dart';
 
 class DeteksiPage extends StatefulWidget {
   const DeteksiPage({Key? key}) : super(key: key);
