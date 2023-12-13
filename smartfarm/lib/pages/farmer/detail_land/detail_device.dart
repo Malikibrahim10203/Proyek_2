@@ -27,13 +27,31 @@ class _DetailDeviceState extends State<DetailDevice> {
   @override
   void initState() {
     // TODO: implement initState
-    mqttHandler.connect();
+    mqttHandler.connect(widget.id);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Sensor Device",
+          style: TextStyle(color: Color(0xff545454)),
+        ),
+        centerTitle: true,
+        backgroundColor: Color(0xffFFFFFF),
+        iconTheme: IconThemeData(color: Color(0xff545454)),
+        leading: GestureDetector(
+          child: Icon(
+            Icons.arrow_back_outlined,
+            color: Colors.black,
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(left: 20, top: 20, right: 20),
@@ -399,35 +417,6 @@ class _DetailDeviceState extends State<DetailDevice> {
                               valueListenable: mqttHandler.data,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(11)),
-                            color: Colors.red,
-                          ),
-                          height: 30,
-                          width: 110,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Belum Panen",
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          " Cuaca",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 15,
                         ),
                       ],
                     )

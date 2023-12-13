@@ -237,45 +237,77 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                                     ),
                                     child: ListTile(
                                       title: Container(
-                                          padding: EdgeInsets.all(20),
+                                          padding: EdgeInsets.all(15),
                                           decoration: BoxDecoration(
                                               color: Color(0xffFFFFFF),
                                               border: Border(
-                                                  left: BorderSide(
-                                                    color: Color(0xffFF7B7B),
-                                                    width: 3,
-                                                  )
-                                              )
+                                                left: BorderSide(
+                                                  color: Color(0xffFF7B7B),
+                                                  width: 5,
+                                                ),
+                                                right: BorderSide(
+                                                  color: Color(0xffFF7B7B),
+                                                  width: 0,
+                                                ),
+                                                top: BorderSide(
+                                                  color: Color(0xffFF7B7B),
+                                                  width: 0,
+                                                ),
+                                                bottom: BorderSide(
+                                                  color: Color(0xffFF7B7B),
+                                                  width: 0,
+                                                ),
+                                              ),
+                                              borderRadius: BorderRadius.circular(10)
                                           ),
                                           child: Column(
                                             children: [
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Text(land.name??'', style: TextStyle(color: Color(0xff737373), fontSize: 9),),
-                                                  Text("${diff.abs().inDays.toString()} hari", style: TextStyle(color: Color(0xff737373), fontSize: 9),)
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "Kurang Air dan Kurang Pupuk",
-                                                    style: TextStyle(fontSize: 10),
+                                                  Image.asset("assets/img/sawah.jpg", width: 100,),
+                                                  SizedBox(
+                                                    width: 10,
                                                   ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Color(0xff408CFF),
-                                                        borderRadius: BorderRadius.all(Radius.circular(10))
-                                                    ),
-                                                  )
+                                                  Flexible(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(10),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                Text(land.name??'', style: TextStyle(color: Color(0xff747474), fontSize: 12, fontWeight: FontWeight.w600),),
+                                                                Text("${diff.abs().inDays.toString()} hari", style: TextStyle(color: Color(0xff737373), fontSize: 9),)
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Kurang Air dan Kurang Pupuk",
+                                                                  style: TextStyle(color: Color(0xff737373), fontSize: 9, fontWeight: FontWeight.w400),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.end,
+                                                              children: [
+                                                                Container(
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xff408CFF),
+                                                                      borderRadius: BorderRadius.all(Radius.circular(10))
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                  ),
                                                 ],
                                               )
                                             ],

@@ -391,11 +391,12 @@ class EventDB {
       print(e);
     }
   }
-  static Future<Device?> EditDevices(String Id, String NameDevice, String Land_Id) async {
+  static Future<Device?> EditDevices(String Id, String Id_Old, String NameDevice, String Land_Id) async {
 
     try {
       var response = await http.post(Uri.parse(Api.edit_devices), body: {
         'id': Id,
+        'id_old': Id_Old,
         'name': NameDevice,
         'land_id': Land_Id,
       });

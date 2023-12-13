@@ -5,6 +5,7 @@ import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/pages/admin/dashboard_admin.dart';
 import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_device.dart';
+import 'package:smartfarm/pages/farmer/detail_land/detail_device.dart';
 import 'package:smartfarm/pages/farmer/detail_land/map_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/edit/edit_devices.dart';
@@ -59,45 +60,50 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
                   Device device = listDevice[index];
                   return Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Color(0xffFFFFFF),
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: ListTile(
-                          leading: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Icon(Icons.sensor_window, color: Color(0xff408CFF)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailDevice(id: device.id??'')));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xffFFFFFF),
+                              borderRadius: BorderRadius.circular(10)
                           ),
-                          title: Text(device.id??'', style: TextStyle(fontSize: 12),),
-                          subtitle: Text(device.name??'', style: TextStyle(fontSize: 9),),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                onPressed: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> EditDevice(id: device.id, name: device.name, land_id: device.landId)));
-                                },
-                                icon: Icon(Icons.edit, color:  Colors.blue,),
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  if(
-                                  await confirm.confirm(
-                                    context,
-                                    title: Text("Alert!"),
-                                    content: Text("Apakah anda ingin hapus?"),
-                                    textOK: Text("Ya"),
-                                    textCancel: Text("Tidak"),
-                                  )
-                                  ) {
-                                    EventDB.deleteDevice(device.id??'');
-                                  }
-                                  return print('pressedNo');
-                                },
-                                icon: Icon(Icons.delete, color: Colors.red,),
-                              ),
-                            ],
+                          child: ListTile(
+                            leading: Container(
+                              padding: EdgeInsets.all(10),
+                              child: Icon(Icons.sensor_window, color: Color(0xff408CFF)),
+                            ),
+                            title: Text(device.id??'', style: TextStyle(fontSize: 12),),
+                            subtitle: Text(device.name??'', style: TextStyle(fontSize: 9),),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> EditDevice(id: device.id, name: device.name, land_id: device.landId)));
+                                  },
+                                  icon: Icon(Icons.edit, color:  Colors.blue,),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    if(
+                                    await confirm.confirm(
+                                      context,
+                                      title: Text("Alert!"),
+                                      content: Text("Apakah anda ingin hapus?"),
+                                      textOK: Text("Ya"),
+                                      textCancel: Text("Tidak"),
+                                    )
+                                    ) {
+                                      EventDB.deleteDevice(device.id??'');
+                                    }
+                                    return print('pressedNo');
+                                  },
+                                  icon: Icon(Icons.delete, color: Colors.red,),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -28,7 +28,6 @@ class _TambahUserState extends State<TambahUser> {
       appBar: AppBar(
           backgroundColor: Color(0xffFFFFFF),
           titleTextStyle: TextStyle(color: Colors.black),
-          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           centerTitle: true,
           iconTheme: IconThemeData(
               color: Color(0xff545454)

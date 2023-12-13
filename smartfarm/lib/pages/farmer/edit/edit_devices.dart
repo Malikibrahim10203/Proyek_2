@@ -22,6 +22,7 @@ String? name;
 String?land_id;
 
 var controllerId;
+var controllerId_old;
 var controllerName;
 var controllerLandId;
 var formKey = GlobalKey<FormState>();
@@ -41,6 +42,7 @@ void getLand() async{
     land_id = widget.land_id;
 
     controllerId = TextEditingController(text: id_devices);
+    controllerId_old = TextEditingController(text: id_devices);
     controllerName = TextEditingController(text : name);
     controllerLandId =TextEditingController(text :land_id);
     getLand();
@@ -76,25 +78,26 @@ void getLand() async{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color(0xffECECEC),
-                              width: 1
-                            ),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.person_outline, color: Color(0xff545454),),
-                              SizedBox(
-                                width: 15,
+                          height: 65,
+                          child: TextFormField(
+                            controller: controllerId,
+                            validator: (value) => value == ''?'Jangan Kosong':null,
+                            decoration: InputDecoration(
+                              helperText: ' ',
+                              border: OutlineInputBorder(),
+                              labelText: "Enter ID Device..",
+                              labelStyle: TextStyle(
+                                fontSize: 12,
                               ),
-                              Text(widget.id, style: TextStyle(color: Color(0xff545454)),)
-                            ],
+                              prefixIcon: Icon(Icons.person_outline, size: 20,),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffECECEC)
+                                  )
+                              ),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -131,8 +134,9 @@ void getLand() async{
                           child: ElevatedButton(
                             child: const Text('Ubah Data'),
                             onPressed: () {
-                              EventDB.EditDevices(controllerId.text, controllerName.text, controllerLandId.text);
+                              EventDB.EditDevices(controllerId.text, controllerId_old.text, controllerName.text, controllerLandId.text);
                               controllerId.clear();
+                              controllerId_old.clear();
                               controllerName.clear();
                               controllerLandId.clear();
                             },
@@ -146,18 +150,6 @@ void getLand() async{
             ),
           ),
         ),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-
-            },
-            child: Icon(Icons.edit, color: Color(0xff545454)),
-            backgroundColor: Colors.white,
-          ),
-        ],
       ),
     );
   }

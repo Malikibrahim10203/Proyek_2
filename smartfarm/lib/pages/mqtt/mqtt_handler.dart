@@ -8,7 +8,7 @@ class MqttHandler with ChangeNotifier {
   final ValueNotifier<String> data = ValueNotifier<String>("");
   late MqttServerClient client;
 
-  Future<Object> connect() async {
+  Future<Object> connect(String topic) async {
     client = MqttServerClient(
         'mqtt.my.id', '1883');
     client.logging(on: true);
@@ -50,7 +50,7 @@ class MqttHandler with ChangeNotifier {
     }
 
     print('MQTT_LOGS::Subscribing to the test/lol topic');
-    const topic = 'sf-0001/sensor';
+    // const topic = 'sf-0001/sensor';
     client.subscribe(topic, MqttQos.atMostOnce);
 
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {

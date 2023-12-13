@@ -43,7 +43,6 @@ class _ManageUserState extends State<ManageUser>  with SingleTickerProviderState
       appBar: AppBar(
         backgroundColor: Color(0xffFFFFFF),
         titleTextStyle: TextStyle(color: Color(0xff545454)),
-        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         centerTitle: true,
         iconTheme: IconThemeData(
           color: Color(0xff545454)
@@ -106,45 +105,18 @@ class _ManageUserState extends State<ManageUser>  with SingleTickerProviderState
           ],
         ),
       ),
-
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahUser()));
-          },
-          child: Icon(Icons.add),
-          elevation: 4,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            border: Border.symmetric(horizontal: BorderSide(color: Color(0xffCCCCCC), width: 2)),
-          ),
-          child: BottomNavigationBar(
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahUser()));
+            },
+            child: Icon(Icons.add, color: Color(0xff545454)),
             backgroundColor: Colors.white,
-            items: [
-              BottomNavigationBarItem(
-                icon: IconButton(
-                  icon: Icon(
-                    Icons.home_outlined,
-                  ),
-                  onPressed: () { },
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                  icon: IconButton(
-                    icon: Icon(
-                      Icons.manage_accounts_outlined,
-                    ),
-                    onPressed: () {
-
-                    },
-                  ),
-                  label: 'Manage Account'
-              ),
-            ],
           ),
-        )
+        ],
+      ),
     );
   }
 }
