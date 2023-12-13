@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smartfarm/event/event_db.dart';
@@ -6,6 +7,7 @@ import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/model/user.dart';
 import 'package:smartfarm/pages/deteksi/deteksi.dart';
+import 'package:smartfarm/pages/education/rawat_padi.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
@@ -186,17 +188,51 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                 Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 25, top: 20, right: 25),
                       color: Color(0xffFFFFFF),
-                      height: MediaQuery.of(context).size.height * 0.23,
+                      height: MediaQuery.of(context).size.height * 0.28,
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Icon(Icons.school_outlined, size: 20, color: Color(0xff408CFF),),
-                              SizedBox(width: 10,),
-                              Text("Edukasi Pertanian", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600),)
+                          Container(
+                            padding: EdgeInsets.only(left: 25, top: 20, right: 25),
+                            child: Row(
+                              children: [
+                                Icon(Icons.school_outlined, size: 20, color: Color(0xff408CFF),),
+                                SizedBox(width: 10,),
+                                Text("Edukasi Pertanian", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600),),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CarouselSlider(
+                            items: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>RawatPadi()));
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      image: DecorationImage(
+                                          image: AssetImage("assets/img/banner1.png"),
+                                          fit: BoxFit.cover
+                                      )
+                                  ),
+                                ),
+                              ),
                             ],
+                            options: CarouselOptions(
+                                height: MediaQuery.of(context).size.height * 0.2,
+                                enlargeCenterPage: true,
+                                autoPlay: true,
+                                aspectRatio: 6/9,
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                enableInfiniteScroll: true,
+                                autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                                viewportFraction: 0.8
+                            ),
                           ),
                         ],
                       ),
