@@ -9,6 +9,7 @@ import 'package:smartfarm/pages/deteksi/deteksi.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
+import 'package:smartfarm/pages/farmer/notification/notification.dart';
 import 'package:smartfarm/pages/login.dart';
 
 import 'package:smartfarm/widget/info.dart';
@@ -394,7 +395,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                         size: 30,
                       ),
                       onPressed: () {
-
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowNotification()));
                       },
                     ),
                   ),
