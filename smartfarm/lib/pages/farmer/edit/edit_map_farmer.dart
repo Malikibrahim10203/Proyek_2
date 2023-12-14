@@ -6,8 +6,8 @@ import 'package:smartfarm/pages/farmer/edit/edit_land.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 
 class EditMapFarmer extends StatefulWidget {
-  const EditMapFarmer({super.key, required this.id, required this.name, required this.description, required this.status, required this.date, required this.userId,required this.coordinate});
-  final id, name, description, status, date, userId, coordinate;
+  const EditMapFarmer({super.key, required this.id, required this.name, required this.description, required this.status, required this.date, required this.userId,required this.coordinate , required this.area});
+  final id, name, description, status, date, userId, coordinate, area;
 
   @override
   State<EditMapFarmer> createState() => _EditMapFarmerState();
@@ -63,7 +63,7 @@ class _EditMapFarmerState extends State<EditMapFarmer> {
                 String coordinate = "$lat,$long";
                 print(coordinate);
 
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditLand(id: widget.id, name: widget.name, description: widget.description, maps: coordinate, status: widget.status, date: widget.date, userId: widget.userId)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditLand(id: widget.id, name: widget.name, description: widget.description, maps: coordinate, status: widget.status, date: widget.date, userId: widget.userId, area: widget.area )));
 
                 /// print(pickedData.latLong.longitude);
                 /// print(pickedData.address);

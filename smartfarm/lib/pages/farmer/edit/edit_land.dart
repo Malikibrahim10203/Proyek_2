@@ -16,6 +16,7 @@ class EditLand extends StatefulWidget{
     required this.name,
     required this.description,
     required this.maps,
+    required this.area,
     required this.status,
     required this.date,
     required this.userId,
@@ -25,6 +26,7 @@ class EditLand extends StatefulWidget{
   final String? name;
   final String? description;
   final String? maps;
+  final String? area;
   final String? status;
   final String? date;
   final String? userId;
@@ -42,6 +44,7 @@ String?user_id;
   var controllerDescription;
   var controllerMaps;
   var controllerStatus;
+  var controllerLuasLahan;
   var controllerTanggal = TextEditingController();
   var formKey         = GlobalKey<FormState>();
 
@@ -57,6 +60,8 @@ List<Land> listLand = [];
   
   String? tgl;
 
+  String? area2;
+
 void getLand() async{
 
   listLand = await EventDB.getDetailLandbyUser(widget.id);
@@ -71,12 +76,16 @@ void getLand() async{
     dropdownValue = widget.status??'';
     tgl = widget.date;
     user_id = widget.userId;
+    area2 = widget.area;
+
     controllerTanggal.text = "${tanggal.year}-${tanggal.month}-${tanggal.day}";
     controllerName = TextEditingController(text : name);
     controllerDescription = TextEditingController(text: description);
     controllerMaps = TextEditingController(text: map);
     
     controllerTanggal = TextEditingController(text: tgl);
+
+  controllerLuasLahan = TextEditingController(text : area2);
 
     getLand();
 
@@ -156,6 +165,32 @@ void getLand() async{
                       ),
                     ),
                     SizedBox(
+                      height: 12,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      child: TextFormField(
+                        controller: controllerLuasLahan,
+                        validator: (value) => value == ''? 'Jangan Kosong':null,
+                        decoration: InputDecoration(
+                          helperText: ' ',
+                          border: OutlineInputBorder(),
+                          labelText: "Masukan Luas Lahan Satuan M²...",
+                          prefixIcon: Icon(Icons.description_outlined, size: 20,),
+                          isDense: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xffECECEC)
+                              )
+                          ),
+                          labelStyle: TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 60,
                       child: Row(
@@ -190,7 +225,7 @@ void getLand() async{
                                 padding: EdgeInsets.all(0),
                               ),
                               onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditMapFarmer(id: widget.id, name: name, description: description, coordinate: map, status: dropdownValue, date: tgl, userId: user_id)));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditMapFarmer(id: widget.id, name: name, description: description, coordinate: map, status: dropdownValue, date: tgl, userId: user_id, area: area2,)));
                                   },
                               child: Icon(Icons.map_outlined),
                             ),
@@ -308,10 +343,11 @@ void getLand() async{
                         child: const Text('Edit Lahan'),
                         onPressed: () {
                           EventDB.editLahan(widget.id, controllerName.text, controllerDescription.text, 
-                                  widget.maps??'', dropdownValue, controllerTanggal.text, user_id??'');
+                                  widget.maps??'', dropdownValue, controllerTanggal.text, user_id??'', controllerLuasLahan.text);
                           controllerName.clear();
                           controllerDescription.clear();
                           controllerMaps.clear();
+                          controllerLuasLahan.clear();
                         },
                       ),
                     ),

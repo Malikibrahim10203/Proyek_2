@@ -60,6 +60,7 @@ class _OverviewState extends State<OverviewFarmer> {
           name: land.name,
           description: land.description,
           maps: land.polygon,
+          area: land.area,
           status: land.cropStatus,
           date: land.updatedAt,
           userId: land.userId,

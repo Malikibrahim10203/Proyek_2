@@ -108,7 +108,7 @@ class _LandFarmerState extends State<LandFarmer> {
                                   IconButton(
                                     onPressed: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=> EditLand(id: land.id, name: land.name, description: land.description,
-                                      maps: land.polygon, status: land.cropStatus, date: land.updatedAt, userId: land.userId,)));
+                                      maps: land.polygon, status: land.cropStatus, date: land.updatedAt, userId: land.userId, area: land.area,)));
                                     },
                                     icon: Icon(Icons.edit, color:  Colors.blue,),
                                   ),

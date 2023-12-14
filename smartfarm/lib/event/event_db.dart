@@ -417,13 +417,14 @@ class EventDB {
     }
   }
 
-  static Future<Land?> addLahan(String name, String description, String maps, String status, String date, String id) async {
+  static Future<Land?> addLahan(String name, String description, String maps, String status, String date, String id, String area) async {
 
     try {
       var response = await http.post(Uri.parse(Api.add_lahan), body: {
         'name': name,
         'description': description,
         'polygon': maps,
+        'area': area,
         'crop_status': status,
         'crop_planted_at': date,
         'user_id': id,
@@ -444,7 +445,7 @@ class EventDB {
       print(e);
     }
   }
-  static Future<Land?> editLahan(String id, String name, String description, String maps, String status, String date, String user_id) async {
+  static Future<Land?> editLahan(String id, String name, String description, String maps, String status, String date, String user_id, String area) async {
 
     try {
       var response = await http.post(Uri.parse(Api.edit_lahan), body: {
@@ -452,6 +453,7 @@ class EventDB {
         'name': name,
         'description': description,
         'polygon': maps,
+        'area': area,
         'crop_status': status,
         'crop_planted_at': date,
         'user_id': user_id,

@@ -23,6 +23,8 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
   var controllerTanggal;
   var formKey         = GlobalKey<FormState>();
 
+  var controllerLuasLahan = TextEditingController();
+
   var status = ["sudah panen", "belum panen"];
   var dropdownValue = "belum panen";
 
@@ -103,6 +105,32 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                           helperText: ' ',
                           border: OutlineInputBorder(),
                           labelText: "Enter Description...",
+                          prefixIcon: Icon(Icons.description_outlined, size: 20,),
+                          isDense: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xffECECEC)
+                              )
+                          ),
+                          labelStyle: TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      child: TextFormField(
+                        controller: controllerLuasLahan,
+                        validator: (value) => value == ''? 'Jangan Kosong':null,
+                        decoration: InputDecoration(
+                          helperText: ' ',
+                          border: OutlineInputBorder(),
+                          labelText: "Masukan Luas Lahan Satuan M²...",
                           prefixIcon: Icon(Icons.description_outlined, size: 20,),
                           isDense: true,
                           enabledBorder: OutlineInputBorder(
@@ -274,10 +302,11 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                         ),
                         child: const Text('Tambah Lahan'),
                         onPressed: () {
-                          EventDB.addLahan(controllerName.text, controllerDescription.text, widget.coordinate, dropdownValue, controllerTanggal, widget.id);
+                          EventDB.addLahan(controllerName.text, controllerDescription.text, widget.coordinate, dropdownValue, controllerTanggal, widget.id , controllerLuasLahan.text);
                           controllerName.clear();
                           controllerDescription.clear();
                           controllerMaps.clear();
+                          controllerLuasLahan.clear();
                         },
                       ),
                     ),
@@ -290,4 +319,3 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
     );
   }
 }
-
