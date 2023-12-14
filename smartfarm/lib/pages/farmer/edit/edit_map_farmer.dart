@@ -22,9 +22,10 @@ class _EditMapFarmerState extends State<EditMapFarmer> {
   double? latitude;
   double? longitude;
 
+
   @override
   void initState() {
-    map = widget.coordinate.split(",");
+    map = widget.coordinate.split(RegExp(r'[ ,\s]'));
     latitude = double.parse(map[0]);
     longitude = double.parse(map[1]);
 
@@ -53,7 +54,7 @@ class _EditMapFarmerState extends State<EditMapFarmer> {
         children: [
           OpenStreetMapSearchAndPick(
               center: LatLong(latitude!, longitude!),
-              buttonColor: Colors.green,
+              buttonColor: Color(0xff408CFF),
               buttonText: 'Set Location',
               onPicked: (pickedData) {
                 lat = pickedData.latLong.latitude;

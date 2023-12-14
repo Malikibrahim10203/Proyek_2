@@ -207,24 +207,29 @@ class _OverviewState extends State<OverviewFarmer> {
                                     ],
                                   )),
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(11)),
-                                    color: Colors.red,
-                                  ),
-                                  height: 30,
-                                  width: 110,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Belum Panen",
-                                    style: TextStyle(
-                                        color: Colors.white70,
-                                        fontWeight: FontWeight.w600),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(11)),
+                                      color: Colors.green,
+                                    ),
+                                    height: 30,
+                                    width: 100,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Sudah Panen",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 10,
                                 ),
                                 Text(
                                   " Cuaca",
@@ -359,24 +364,29 @@ class _OverviewState extends State<OverviewFarmer> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(11)),
-                                    color: Colors.red,
-                                  ),
-                                  height: 30,
-                                  width: 110,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Belum Panen",
-                                    style: TextStyle(
-                                        color: Colors.white70,
-                                        fontWeight: FontWeight.w600),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(11)),
+                                      color: Colors.red,
+                                    ),
+                                    height: 30,
+                                    width: 100,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Belum Panen",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 10,
                                 ),
                                 Text(
                                   " Cuaca",

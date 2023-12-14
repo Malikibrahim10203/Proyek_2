@@ -37,7 +37,7 @@ class _TambahMapFarmerState extends State<TambahMapFarmer> {
         children: [
           OpenStreetMapSearchAndPick(
               center: LatLong(-6.407887427753435, 108.28272322578337),
-              buttonColor: Colors.green,
+              buttonColor: Color(0xff408CFF),
               buttonText: 'Set Location',
               onPicked: (pickedData) {
                 lat = pickedData.latLong.latitude;
