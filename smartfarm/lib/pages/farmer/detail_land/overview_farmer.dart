@@ -6,6 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:lottie/lottie.dart' as lottie;
 import 'package:smartfarm/config/apiWeather.dart';
 import 'package:smartfarm/event/event_db.dart';
+import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/model/land.dart';
 
 import 'package:smartfarm/model/weather.dart';
@@ -35,6 +36,13 @@ class _OverviewState extends State<OverviewFarmer> {
   Weather? _weather;
 
   final panen = Duration(days: 90);
+
+
+  List<Device> listDevice = [];
+  void getDevice() async {
+    listDevice = await EventDB.getDetailDevice(widget.id);
+    setState(() {});
+  }
 
 
 
@@ -118,6 +126,7 @@ class _OverviewState extends State<OverviewFarmer> {
                               coordinate.split(RegExp(r'[ ,\s]'));
                           double latitude = double.parse(map[0]);
                           double longitude = double.parse(map[1]);
+                          
 
                           if (diff.abs() >= panen) {
                             return Column(

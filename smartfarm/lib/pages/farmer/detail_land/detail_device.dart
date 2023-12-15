@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart' as lottie;
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
+import 'package:smartfarm/pages/farmer/notification/notification.dart';
 import 'package:smartfarm/pages/mqtt/mqtt_handler.dart';
 
 class DetailDevice extends StatefulWidget {
@@ -91,8 +92,7 @@ class _DetailDeviceState extends State<DetailDevice> {
                             subtitle: ValueListenableBuilder<String>(
                               builder: (BuildContext context,
                                   String value, Widget? child) {
-                                List<String> temprature =
-                                value.split('#');
+                                List<String> temprature = value.split('#');
                                 if (temprature.length == null) {
                                   return Row(
                                     crossAxisAlignment:
@@ -417,6 +417,24 @@ class _DetailDeviceState extends State<DetailDevice> {
                               valueListenable: mqttHandler.data,
                             ),
                           ),
+                        ),
+                        ValueListenableBuilder<String>(
+                          builder: (BuildContext context,
+                              String value, Widget? child) {
+                            List<String> sensor =
+                            value.split('#');
+                            if (double.parse('${sensor[0]}') < 60) {
+                              return FutureBuilder(
+                                future: ShowNotification().showNotification1a(),
+                                builder: (context, snapshot) {
+                                  return Text("");
+                                },
+                              );
+                            } else {
+                              return Text("Null");
+                            }
+                          },
+                          valueListenable: mqttHandler.data,
                         ),
                       ],
                     )

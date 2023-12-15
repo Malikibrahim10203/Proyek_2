@@ -177,7 +177,7 @@ void getLand() async{
                           helperText: ' ',
                           border: OutlineInputBorder(),
                           labelText: "Masukan Luas Lahan Satuan M²...",
-                          prefixIcon: Icon(Icons.description_outlined, size: 20,),
+                          prefixIcon: Icon(Icons.gas_meter_rounded, size: 20,),
                           isDense: true,
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(

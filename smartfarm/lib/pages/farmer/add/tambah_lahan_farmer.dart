@@ -131,7 +131,7 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                           helperText: ' ',
                           border: OutlineInputBorder(),
                           labelText: "Masukan Luas Lahan Satuan M²...",
-                          prefixIcon: Icon(Icons.description_outlined, size: 20,),
+                          prefixIcon: Icon(Icons.gas_meter_rounded, size: 20,),
                           isDense: true,
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -145,7 +145,7 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.78,
                       height: 60,
                       child: Row(
                         children: [

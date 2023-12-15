@@ -13,6 +13,7 @@ import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
 import 'package:smartfarm/pages/farmer/notification/notification.dart';
 import 'package:smartfarm/pages/login.dart';
+import 'package:smartfarm/pages/mqtt/mqtt_handler.dart';
 
 import 'package:smartfarm/widget/info.dart';
 
@@ -35,6 +36,14 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
 
   void getDevice() async {
     totalDevice = await EventDB.getDevice();
+    setState(() {});
+  }
+
+
+
+  List<Device> listDevice = [];
+  void getDetailDevice(String id) async {
+    listDevice = await EventDB.getDetailDevice(id);
     setState(() {});
   }
 
@@ -347,14 +356,32 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                                                             SizedBox(
                                                               height: 10,
                                                             ),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Kurang Air dan Kurang Pupuk",
-                                                                  style: TextStyle(color: Color(0xff737373), fontSize: 9, fontWeight: FontWeight.w400),
-                                                                ),
-                                                              ],
+                                                            SizedBox(
+                                                              width: 200,
+                                                              height: 20,
+                                                              child: ListView.builder(
+                                                                itemCount: listDevice.length,
+                                                                itemBuilder: (context, index) {
+                                                                  Device device = listDevice[index];
+                                                                  MqttHandler mqttHandler = MqttHandler();
+                                                                  mqttHandler.connect(device.id??'');
+                                                                  return ValueListenableBuilder<String>(
+                                                                    builder: (BuildContext context,
+                                                                        String value, Widget? child) {
+                                                                      List<String> sensor = value.split('#');
+                                                                      double param = double.parse('${sensor[0]}');
+                                                                      if(param<60){
+                                                                        return Text("Padi Kurang di ${device.name}");
+                                                                      } else {
+                                                                        return Text("Padi Sehat di ${device.name}");
+                                                                      }
+                                                                    },
+                                                                    valueListenable: mqttHandler.data,
+                                                                  );
+                                                                },
+                                                              ),
                                                             ),
+
                                                             Row(
                                                               mainAxisAlignment: MainAxisAlignment.end,
                                                               children: [
