@@ -12,7 +12,7 @@ import 'package:smartfarm/pages/farmer/edit/edit_devices.dart';
 
 class ManageDeviceFarmer extends StatefulWidget{
   const ManageDeviceFarmer({super.key, required this.id});
-  
+
   final String id;
 
   @override
@@ -62,7 +62,7 @@ class _ManageDevice extends State<ManageDeviceFarmer>{
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailDevice(id: device.id??'')));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailDevice(id: device.id??'', idLand: widget.id,)));
                         },
                         child: Container(
                           decoration: BoxDecoration(

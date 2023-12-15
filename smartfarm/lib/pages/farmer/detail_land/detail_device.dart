@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart' as lottie;
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
+import 'package:smartfarm/model/land.dart';
 import 'package:smartfarm/pages/farmer/notification/notification.dart';
 import 'package:smartfarm/pages/mqtt/mqtt_handler.dart';
 
 class DetailDevice extends StatefulWidget {
 
-  const DetailDevice({super.key, required this.id});
+  const DetailDevice({super.key, required this.id, required this.idLand});
 
   final String id;
+  final String idLand;
+
 
   @override
   State<DetailDevice> createState() => _DetailDeviceState();
@@ -18,6 +21,7 @@ class DetailDevice extends StatefulWidget {
 class _DetailDeviceState extends State<DetailDevice> {
 
   MqttHandler mqttHandler = MqttHandler();
+  List<Land> listLand = [];
 
   List<Device> listDevice = [];
   void getDevice() async {
@@ -25,9 +29,15 @@ class _DetailDeviceState extends State<DetailDevice> {
     setState(() {});
   }
 
+  void getLand() async {
+    listLand = await EventDB.getDetailLand(widget.idLand);
+    setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    getLand();
     mqttHandler.connect(widget.id);
     super.initState();
   }
@@ -65,6 +75,55 @@ class _DetailDeviceState extends State<DetailDevice> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(
+                          width: 300,
+                          height: 30,
+                          child: ListView.builder(
+                            itemCount: listLand.length,
+                            itemBuilder: (context, index) {
+                              Land land = listLand[index];
+
+                              int luasLahan = int.parse(land.area??'');
+
+                              double nitrogen = (120 * (luasLahan / 10000))/0.46;
+                              double phosphor = (60 * (luasLahan / 10000))/0.46;
+                              double kalium = (80 * luasLahan / 10000)/0.46; // indikator tanah kurang baik adalah nilai npk setengahnya
+
+                              double nitrogenStr = double.parse(nitrogen.toStringAsFixed(3));
+                              double phosphorStr = double.parse(phosphor.toStringAsFixed(3));
+                              double kaliumStr = double.parse(kalium.toStringAsFixed(3));
+
+                              double nitrogenMg = nitrogenStr * 1000;
+                              double phosphorMg = phosphorStr * 1000;
+                              double kaliumMg = kaliumStr * 1000;
+
+                              /*return Column(
+                                children: [
+                                  Text('N: ${nitrogen.toStringAsFixed(3)} Kg, P: ${phosphor.toStringAsFixed(3)} Kg, K: ${kalium.toStringAsFixed(3)} kg'),
+                                  Text('N: ${nitrogenMg.toStringAsFixed(3)} Mg/l, P: ${phosphorMg.toStringAsFixed(3)} Kg, K: ${kaliumMg.toStringAsFixed(3)} kg')
+                                ],
+                              );*/
+                              return ValueListenableBuilder<String>(
+                                builder: (BuildContext context,
+                                    String value, Widget? child) {
+                                  List<String> sensor =
+                                  value.split('#');
+                                  if (double.parse('${sensor[4]}') > nitrogenMg && double.parse('${sensor[5]}') > phosphorMg && double.parse('${sensor[6]}') > kaliumMg) {
+                                    return FutureBuilder(
+                                      future: ShowNotification().showNotification1a(),
+                                      builder: (context, snapshot) {
+                                        return Text(" kg");
+                                      },
+                                    );
+                                  } else {
+                                    return Text('Kualitas Tanah Sehat');
+                                  }
+                                },
+                                valueListenable: mqttHandler.data,
+                              );
+                            },
+                          ),
+                        ),
                         Container(
                           decoration: BoxDecoration(
                               border:
@@ -417,24 +476,6 @@ class _DetailDeviceState extends State<DetailDevice> {
                               valueListenable: mqttHandler.data,
                             ),
                           ),
-                        ),
-                        ValueListenableBuilder<String>(
-                          builder: (BuildContext context,
-                              String value, Widget? child) {
-                            List<String> sensor =
-                            value.split('#');
-                            if (double.parse('${sensor[0]}') < 60) {
-                              return FutureBuilder(
-                                future: ShowNotification().showNotification1a(),
-                                builder: (context, snapshot) {
-                                  return Text("");
-                                },
-                              );
-                            } else {
-                              return Text("Null");
-                            }
-                          },
-                          valueListenable: mqttHandler.data,
                         ),
                       ],
                     )

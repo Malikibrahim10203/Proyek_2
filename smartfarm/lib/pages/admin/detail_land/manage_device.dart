@@ -61,7 +61,7 @@ class _ManageDevice extends State<ManageDevice>{
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailDevice(id: device.id??'')));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailDevice(id: device.id??'')));
                         },
                         child: Container(
                           decoration: BoxDecoration(
