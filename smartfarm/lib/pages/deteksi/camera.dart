@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'dart:convert';
+
+import 'package:smartfarm/model/response_model.dart';
 import 'package:smartfarm/pages/deteksi/preview.dart';
 
 class CameraPage extends StatefulWidget {
@@ -9,12 +13,93 @@ class CameraPage extends StatefulWidget {
   final List<CameraDescription>? cameras;
 
   @override
-  State<CameraPage> createState() => _CameraPageState();
+  _CameraPageState createState() => _CameraPageState();
 }
 
 class _CameraPageState extends State<CameraPage> {
   late CameraController _cameraController;
-  bool _isRearCameraSelected = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _initCamera();
+  }
+
+  void _initCamera() async {
+    _cameraController =
+        CameraController(widget.cameras![0], ResolutionPreset.high);
+    await _cameraController.initialize();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _takePicture() async {
+  try {
+    if (!_cameraController.value.isInitialized) {
+      return;
+    }
+    XFile picture = await _cameraController.takePicture();
+    ApiResponse apiResponse = await _uploadPicture(picture);
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PreviewPage(
+          picture: picture,
+          apiResponse: apiResponse,
+        ),
+      ),
+    );
+  } catch (e) {
+    print('Error taking picture: $e');
+  }
+}
+
+  Future<ApiResponse> _uploadPicture(XFile picture) async {
+  try {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://103.149.71.213:8003/prediction'),
+    );
+
+    request.files.add(await http.MultipartFile.fromPath('file', picture.path));
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData =
+          json.decode(await response.stream.bytesToString());
+          
+      return ApiResponse.fromJson(responseData['data']);
+    } else {
+      print('Failed to upload picture. Status code: ${response.statusCode}');
+      // Handle the error case if needed
+      return ApiResponse(
+        prediction: '',
+        confidence: 0.0,
+        imagePath: '',
+        fileName: '',
+        description: '',
+        pengendalianHayati: '',
+        pengendalianKimiawi: '',
+      );
+    }
+  } catch (e) {
+    print('Error uploading picture: $e');
+    // Handle the error case if needed
+    return ApiResponse(
+      prediction: '',
+      confidence: 0.0,
+      imagePath: '',
+      fileName: '',
+      description: '',
+      pengendalianHayati: '',
+      pengendalianKimiawi: '',
+    );
+  }
+}
+
 
   @override
   void dispose() {
@@ -23,94 +108,18 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    initCamera(widget.cameras![0]);
-  }
-
-  Future takePicture() async {
-    if (!_cameraController.value.isInitialized) {
-      return null;
-    }
-    if (_cameraController.value.isTakingPicture) {
-      return null;
-    }
-    try {
-      await _cameraController.setFlashMode(FlashMode.off);
-      XFile picture = await _cameraController.takePicture();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PreviewPage(
-                picture: picture,
-              )));
-    } on CameraException catch (e) {
-      debugPrint('Error occured while taking picture: $e');
-      return null;
-    }
-  }
-
-  Future initCamera(CameraDescription cameraDescription) async {
-    _cameraController =
-        CameraController(cameraDescription, ResolutionPreset.high);
-    try {
-      await _cameraController.initialize().then((_) {
-        if (!mounted) return;
-        setState(() {});
-      });
-    } on CameraException catch (e) {
-      debugPrint("camera error $e");
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-          child: Stack(children: [
-            (_cameraController.value.isInitialized)
-                ? CameraPreview(_cameraController)
-                : Container(
-                color: Colors.black,
-                child: const Center(child: CircularProgressIndicator())),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.20,
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                      color: Colors.black),
-                  child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                    Expanded(
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          iconSize: 30,
-                          icon: Icon(
-                              _isRearCameraSelected
-                                  ? CupertinoIcons.switch_camera
-                                  : CupertinoIcons.switch_camera_solid,
-                              color: Colors.white),
-                          onPressed: () {
-                            setState(
-                                    () => _isRearCameraSelected = !_isRearCameraSelected);
-                            initCamera(widget.cameras![_isRearCameraSelected ? 0 : 1]);
-                          },
-                        )),
-                    Expanded(
-                        child: IconButton(
-                          onPressed: takePicture,
-                          iconSize: 50,
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          icon: const Icon(Icons.circle, color: Colors.white),
-                        )),
-                    const Spacer(),
-                  ]),
-                )),
-          ]),
-        ));
+      appBar: AppBar(
+        title: Text('Camera Page'),
+      ),
+      body: _cameraController.value.isInitialized
+          ? CameraPreview(_cameraController)
+          : CircularProgressIndicator(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _takePicture,
+        child: Icon(Icons.camera),
+      ),
+    );
   }
 }
-
-
