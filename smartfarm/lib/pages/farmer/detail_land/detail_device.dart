@@ -69,15 +69,14 @@ class _DetailDeviceState extends State<DetailDevice> {
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.9,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width* 1,
                 child: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          width: 300,
-                          height: 30,
+                          width: MediaQuery.of(context).size.width * 1,
+                          height: MediaQuery.of(context).size.height * 0.09,
                           child: ListView.builder(
                             itemCount: listLand.length,
                             itemBuilder: (context, index) {
@@ -87,17 +86,21 @@ class _DetailDeviceState extends State<DetailDevice> {
 
                               double nitrogen = (120 * (luasLahan / 10000))/0.46;
                               double phosphor = (60 * (luasLahan / 10000))/0.46;
-                              double kalium = (80 * luasLahan / 10000)/0.46; // indikator tanah kurang baik adalah nilai npk setengahnya
+                              double kalium = (80 * luasLahan / 10000)/0.6; // indikator tanah kurang baik adalah nilai npk setengahnya
 
-                              double nitrogenStr = double.parse(nitrogen.toStringAsFixed(3));
-                              double phosphorStr = double.parse(phosphor.toStringAsFixed(3));
-                              double kaliumStr = double.parse(kalium.toStringAsFixed(3));
+                              double nitrogenStr = double.parse(nitrogen.toStringAsFixed(2));
+                              double phosphorStr = double.parse(phosphor.toStringAsFixed(2));
+                              double kaliumStr = double.parse(kalium.toStringAsFixed(2));
 
-                              double nitrogenMg = nitrogenStr * 1000;
-                              double phosphorMg = phosphorStr * 1000;
-                              double kaliumMg = kaliumStr * 1000;
+                              double nitrogenMg = nitrogenStr * 100;
+                              double phosphorMg = phosphorStr * 100;
+                              double kaliumMg = kaliumStr * 100;
 
-                              int hari = 50;
+                              double dosisPupuk = ((luasLahan/10000) * 120) / 100;
+
+
+
+                              int hari = 1;
 
                               /*return Column(
                                 children: [
@@ -106,56 +109,278 @@ class _DetailDeviceState extends State<DetailDevice> {
                                 ],
                               );*/
                               return ValueListenableBuilder<String>(
-                                builder: (BuildContext context,
-                                    String value, Widget? child) {
+                                builder: (BuildContext context, String value, Widget? child) {
                                   List<String> sensor = value.split('#');
-                                  if (hari <= 7) { // npk awal
-                                    if (double.parse("${sensor[4]}") <nitrogenMg ) {
-                                      return FutureBuilder(
-                                        future: ShowNotificationTimeline().showNotification1a(),
-                                        builder: (context, snapshot) {
-                                          return Text(" kg");
-                                        },
-                                      );
+                                  double nitrogenSensor = double.parse("${sensor[4]}");
+                                  double phosphorSensor = double.parse("${sensor[5]}");
+                                  double kaliumSensor = double.parse("${sensor[6]}");
+
+                                  if (hari <= 7) {
+                                    if(nitrogenSensor <= nitrogenMg/2) {
+                                      if(phosphorSensor <= phosphorMg/2) {
+                                        if(kaliumSensor <= kaliumMg/2) { // NPK
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 0.8,
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.warning_amber, size: 15, color: Colors.white,),
+                                                    SizedBox(width: 10,),
+                                                    Text(
+                                                      "waktunya memberikan pupuk (NPK). Status tanah kekurangan nutrisi.\n Rekomendasi pupuk (NPK). Dosis pupuk ${dosisPupuk}.",
+                                                      style: TextStyle(color: Colors.white, fontSize: 10),
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }else{ // NP
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 0.8,
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.warning_amber, size: 15, color: Colors.white,),
+                                                    SizedBox(width: 10,),
+                                                    Text(
+                                                      "waktunya memberikan pupuk (NP). Status tanah kekurangan nutrisi.\n Rekomendasi pupuk (NP). Dosis pupuk ${dosisPupuk}.",
+                                                      style: TextStyle(color: Colors.white, fontSize: 10),
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        } // NP
+                                      } else { //NK
+                                        if(kaliumSensor <= kaliumMg/2) {
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 0.8,
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.warning_amber, size: 15, color: Colors.white,),
+                                                    SizedBox(width: 10,),
+                                                    Text(
+                                                      "waktunya memberikan pupuk (NK). Status tanah kekurangan nutrisi.\n Rekomendasi pupuk (NK). Dosis pupuk ${dosisPupuk}.",
+                                                      style: TextStyle(color: Colors.white, fontSize: 10),
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 0.8,
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.warning_amber, size: 15, color: Colors.white,),
+                                                    SizedBox(width: 10,),
+                                                    Text(
+                                                      "waktunya memberikan pupuk (N). Status tanah kekurangan nutrisi.\n Rekomendasi pupuk (N). Dosis pupuk ${dosisPupuk}.",
+                                                      style: TextStyle(color: Colors.white, fontSize: 10),
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        } // N
+                                      }
                                     } else {
-                                      return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
-                                    }
-                                  } else if (hari <= 30) { // urea
-                                    if (double.parse("${sensor[4]}") <nitrogenMg ) {
-                                      return FutureBuilder(
-                                        future: ShowNotificationTimeline().showNotification1b(),
-                                        builder: (context, snapshot) {
-                                          return Text(" kg");
-                                        },
-                                      );
-                                    } else {
-                                      return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
-                                    }
-                                  } else if (hari <= 60) { // reproductive
-                                    if (double.parse("${sensor[4]}") <nitrogenMg ) {
-                                      return FutureBuilder(
-                                        future: ShowNotificationTimeline().showNotification2a(),
-                                        builder: (context, snapshot) {
-                                          return Text(" kg");
-                                        },
-                                      );
-                                    } else {
-                                      return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
-                                    }
-                                  } else if (hari <= 90) { // kalium
-                                    if (double.parse("${sensor[4]}") <nitrogenMg ) {
-                                      return FutureBuilder(
-                                        future: ShowNotificationTimeline().showNotification2b(),
-                                        builder: (context, snapshot) {
-                                          return Text(" kg");
-                                        },
-                                      );
-                                    } else {
-                                      return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
+                                      if(phosphorSensor <= phosphorMg/2){
+                                        if(kaliumSensor <= kaliumMg/2){
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 0.8,
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.warning_amber, size: 15, color: Colors.white,),
+                                                    SizedBox(width: 10,),
+                                                    Text(
+                                                      "waktunya memberikan pupuk (PK). Status tanah kekurangan nutrisi.\n Rekomendasi pupuk (PK). Dosis pupuk ${dosisPupuk}.",
+                                                      style: TextStyle(color: Colors.white, fontSize: 10),
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 0.8,
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.warning_amber, size: 15, color: Colors.white,),
+                                                    SizedBox(width: 10,),
+                                                    Text(
+                                                      "waktunya memberikan pupuk (P). Status tanah kekurangan nutrisi.\n Rekomendasi pupuk (P). Dosis pupuk ${dosisPupuk}.",
+                                                      style: TextStyle(color: Colors.white, fontSize: 10),
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      } else {
+                                        if(kaliumSensor <= kaliumMg/2){
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 0.8,
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.warning_amber, size: 15, color: Colors.white,),
+                                                    SizedBox(width: 5,),
+                                                    Text(
+                                                      "waktunya memberikan pupuk (K). Status tanah kekurangan nutrisi. Rekomendasi pupuk (K). Dosis pupuk ${dosisPupuk}.",
+                                                      style: TextStyle(color: Colors.white, fontSize: 10),
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container(
+                                            width: MediaQuery.of(context).size.width * 0.8,
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+                                            decoration: const BoxDecoration(
+                                              color: Colors.greenAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                            ),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.done, size: 15, color: Colors.white,),
+                                                    SizedBox(width: 5,),
+                                                    Text(
+                                                      "Status tanah sudah baik. Tetap pantau kondisi tanah mu",
+                                                      style: TextStyle(color: Colors.white, fontSize: 12),
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      }
                                     }
                                   } else {
-                                    return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
+                                    return Text("data");
                                   }
+
                                 },
                                 valueListenable: mqttHandler.data,
                               );
@@ -518,7 +743,10 @@ class _DetailDeviceState extends State<DetailDevice> {
                       ],
                     )
                 ),
-              )
+              ),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),

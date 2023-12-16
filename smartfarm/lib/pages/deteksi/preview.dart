@@ -28,66 +28,97 @@ class PreviewPage extends StatelessWidget {
               Image.file(File(picture.path), fit: BoxFit.fill,),
               SizedBox(height: 24),
               SizedBox(height: 16),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 1,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Card(
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text("Prediction: ${apiResponse.prediction}"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: [
-                              Text("Confidence: ${apiResponse.confidence}"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: [
-                              Text("Description: ${apiResponse.description}"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: [
-                              Text("Pengendalian Hayati: ${apiResponse.pengendalianHayati}"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: [
-                              Text("Pengendalian Kimiawi: ${apiResponse.pengendalianKimiawi}"),
-                            ],
-                          ),
-
-                        ],
-                      ),
-                    ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
                   ),
+                  foregroundColor: Colors.black12
                 ),
+                child: Icon(Icons.search, color: Colors.black,),
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 1,
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50)
+                          ),
+                          child: DataTable(
+                            columns: [
+                              DataColumn(
+                                label: Text("Deteksi", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),),
+                              ),
+                              DataColumn(
+                                  label: Text("Hasil", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),)
+                              ),
+                            ],
+                            rows: [
+                              DataRow(
+                                  cells: [
+                                    DataCell(
+                                      Text("Prediction: "),
+                                    ),
+                                    DataCell(
+                                        Text("${apiResponse.prediction}")
+                                    ),
+                                  ]
+                              ),
+                              DataRow(
+                                  cells: [
+                                    DataCell(
+                                      Text("Confidence: "),
+                                    ),
+                                    DataCell(
+                                        Text("${apiResponse.confidence}")
+                                    ),
+                                  ]
+                              ),
+                              DataRow(
+                                  cells: [
+                                    DataCell(
+                                      Text("Description: "),
+                                    ),
+                                    DataCell(
+                                        Text("${apiResponse.description}")
+                                    ),
+                                  ]
+                              ),
+                              DataRow(
+                                  cells: [
+                                    DataCell(
+                                      Text("Pengendalian Hayati: "),
+                                    ),
+                                    DataCell(
+                                        Text("${apiResponse.pengendalianHayati}")
+                                    ),
+                                  ]
+                              ),
+                              DataRow(
+                                  cells: [
+                                    DataCell(
+                                      Text("Pengendalian Kimiawi: "),
+                                    ),
+                                    DataCell(
+                                        Text("${apiResponse.pengendalianKimiawi}")
+                                    ),
+                                  ]
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
-
-
-
-
-
-
             ],
           ),
         ],
