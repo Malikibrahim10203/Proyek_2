@@ -11,7 +11,7 @@ import 'package:smartfarm/pages/education/rawat_padi.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
-import 'package:smartfarm/pages/farmer/notification/notification.dart';
+import 'package:smartfarm/pages/farmer/notification/notification_timeline.dart';
 import 'package:smartfarm/pages/login.dart';
 import 'package:smartfarm/pages/mqtt/mqtt_handler.dart';
 

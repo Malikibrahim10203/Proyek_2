@@ -13,29 +13,13 @@ class _DeteksiPageState extends State<DeteksiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_outlined,
-                  ),
-
-                ), //pembuatan tombol akhir
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.22,
-                ),
-                Text("Lands Farmer"),
-              ],
-            ),
-          ],
-        )
+      appBar: AppBar(
+        title: Text("Deteksi", style: TextStyle(color: Colors.black),),
+        iconTheme: IconThemeData(
+            color: Colors.black
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,

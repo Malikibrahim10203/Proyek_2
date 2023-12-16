@@ -13,44 +13,85 @@ class PreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Preview Deteksi", style: TextStyle(color: Colors.black),),
+        iconTheme: IconThemeData(
+          color: Colors.black
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+      ),
       body: ListView(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Stack(
             children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.arrow_back_outlined,
+              Image.file(File(picture.path), fit: BoxFit.fill,),
+              SizedBox(height: 24),
+              SizedBox(height: 16),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 1,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text("Prediction: ${apiResponse.prediction}"),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            children: [
+                              Text("Confidence: ${apiResponse.confidence}"),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            children: [
+                              Text("Description: ${apiResponse.description}"),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            children: [
+                              Text("Pengendalian Hayati: ${apiResponse.pengendalianHayati}"),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            children: [
+                              Text("Pengendalian Kimiawi: ${apiResponse.pengendalianKimiawi}"),
+                            ],
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.22,
-              ),
-              Text("Lands Farmer"),
+
+
+
+
+
+
             ],
           ),
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
-                const SizedBox(height: 24),
-                Text(picture.name),
-                SizedBox(height: 16),
-                Text("Prediction: ${apiResponse.prediction}"),
-                Text("Confidence: ${apiResponse.confidence}"),
-                Text("Description: ${apiResponse.description}"),
-                Text("Pengendalian Hayati: ${apiResponse.pengendalianHayati}"),
-                Text("Pengendalian Kimiawi: ${apiResponse.pengendalianKimiawi}"),
-                // Tambahkan widget lain sesuai kebutuhan
-              ],
-            ),
-          ),
         ],
-      ),
+      )
     );
   }
 }

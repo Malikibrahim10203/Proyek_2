@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'dart:io';
 import 'dart:convert';
 
@@ -111,15 +112,37 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Camera Page'),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text('Camera Page', style: TextStyle(color: Color(0xff545454)),),
+        iconTheme: IconThemeData(
+            color: Color(0xff545454)
+        ),
       ),
-      body: _cameraController.value.isInitialized
-          ? CameraPreview(_cameraController)
-          : CircularProgressIndicator(),
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 1,
+            height: MediaQuery.of(context).size.height * 1,
+            child: _cameraController.value.isInitialized
+                ? CameraPreview(_cameraController)
+                : CircularProgressIndicator(),
+          ),
+          Center(
+            child: Lottie.asset(
+              "assets/animation/scan.json",
+              width: MediaQuery.of(context).size.width * 9,
+              height: MediaQuery.of(context).size.height * 9
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
         onPressed: _takePicture,
-        child: Icon(Icons.camera),
+        child: Icon(Icons.camera, color: Colors.black,),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

@@ -8,7 +8,7 @@ class MqttHandler with ChangeNotifier {
   final ValueNotifier<String> data = ValueNotifier<String>("");
   late MqttServerClient client;
 
-  Future<Object> connect(String topic) async {
+  Future<Object> connect(List topic) async {
     client = MqttServerClient(
         'mqtt.my.id', '1883');
     client.logging(on: true);
@@ -51,26 +51,29 @@ class MqttHandler with ChangeNotifier {
 
     print('MQTT_LOGS::Subscribing to the test/me topic');
     // const topic = 'sf-0001/sensor';
-    if (client.connectionStatus?.state == MqttConnectionState.connected) {
-      client.subscribe(topic, MqttQos.atLeastOnce);
+
+    for (String i in topic) {
+      client.subscribe(i, MqttQos.atMostOnce);
     }
 
-
-    client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-      final recMess = c![0].payload as MqttPublishMessage;
-      final pt =
+    client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
+      final String message =
       MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
 
-      data.value = pt;
-      notifyListeners();
-      print(
-          'MQTT_LOGS:: New data arrived: topic is <${c[0].topic}>, payload is $pt');
-      print('');
+      // Handle the received message
+      print('Received message: $message');
     });
 
     return client;
   }
 
+  void sub(String topic) {
+    if (client.connectionStatus?.state == MqttConnectionState.connected) {
+      client.subscribe(topic, MqttQos.atLeastOnce);
+    }
+
+  }
 
   void onConnected() {
     print('MQTT_LOGS:: Connected');

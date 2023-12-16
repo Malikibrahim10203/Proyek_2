@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class ShowNotification extends StatelessWidget {
-  const ShowNotification({Key? key}) : super(key: key);
+class ShowNotificationOutTime extends StatelessWidget {
+  const ShowNotificationOutTime({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ShowNotification extends StatelessWidget {
         child: ElevatedButton(
           child: Text('show notification'),
           onPressed: () async {
-            showNotification2b();
+            showNotification1a();
           },
         ),
       ),
@@ -47,7 +47,7 @@ class ShowNotification extends StatelessWidget {
     await flutterLocalNotificationsPlugin.show(
       1,
       'Peringatan',
-      'waktunya memberikan pupuk (..). Status tanah kekurangan nutrisi. Rekomendasi pupuk (..). Dosis pupuk (..).',
+      'waktunya memberikan pupuk (nitrogen/fosfor/kalium). Status tanahkekurangan nutrisi. Rekomendasi pupuk …. Dosis pupuk …. ',
       NotificationDetails(
         android: AndroidNotificationDetails(channel.id, channel.name,
             channelDescription: channel.description),
@@ -81,41 +81,7 @@ class ShowNotification extends StatelessWidget {
     await flutterLocalNotificationsPlugin.show(
       1,
       'Peringatan',
-      'waktunya memberikan pupuk (nitrogen/fosfor/kalium). Status tanah kekurangan nutrisi. Rekomendasi pupuk (..). Dosis pupuk (..).',
-      NotificationDetails(
-        android: AndroidNotificationDetails(channel.id, channel.name,
-            channelDescription: channel.description),
-      ),
-    );
-  }
-
-  showNotification2b() async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-
-    const InitializationSettings initializationSettings =
-    InitializationSettings(
-      android: initializationSettingsAndroid,
-    );
-
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
-
-    AndroidNotificationChannel channel = const AndroidNotificationChannel(
-      'high channel',
-      'Very important notification!!',
-      description: 'the first notification',
-      importance: Importance.max,
-    );
-
-    await flutterLocalNotificationsPlugin.show(
-      1,
-      'Peringatan',
-      '“Status tanah kelebihan nutrisi. Jangan terlalu banyak memberi pupuk',
+      'Status tanah kelebihan nutrisi. Jangan terlalu banyak memberi pupuk',
       NotificationDetails(
         android: AndroidNotificationDetails(channel.id, channel.name,
             channelDescription: channel.description),

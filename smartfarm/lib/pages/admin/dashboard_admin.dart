@@ -67,7 +67,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Color(0xffFFFFFF),
-          titleTextStyle: TextStyle(color: Colors.black),
+          titleTextStyle: TextStyle(color: Color(0xff545454)),
           toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           title: Column(
             children: [

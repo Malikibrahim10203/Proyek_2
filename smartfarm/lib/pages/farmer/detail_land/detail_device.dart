@@ -3,7 +3,7 @@ import 'package:lottie/lottie.dart' as lottie;
 import 'package:smartfarm/event/event_db.dart';
 import 'package:smartfarm/model/device.dart';
 import 'package:smartfarm/model/land.dart';
-import 'package:smartfarm/pages/farmer/notification/notification.dart';
+import 'package:smartfarm/pages/farmer/notification/notification_timeline.dart';
 import 'package:smartfarm/pages/mqtt/mqtt_handler.dart';
 
 class DetailDevice extends StatefulWidget {
@@ -97,6 +97,8 @@ class _DetailDeviceState extends State<DetailDevice> {
                               double phosphorMg = phosphorStr * 1000;
                               double kaliumMg = kaliumStr * 1000;
 
+                              int hari = 50;
+
                               /*return Column(
                                 children: [
                                   Text('N: ${nitrogen.toStringAsFixed(3)} Kg, P: ${phosphor.toStringAsFixed(3)} Kg, K: ${kalium.toStringAsFixed(3)} kg'),
@@ -106,17 +108,53 @@ class _DetailDeviceState extends State<DetailDevice> {
                               return ValueListenableBuilder<String>(
                                 builder: (BuildContext context,
                                     String value, Widget? child) {
-                                  List<String> sensor =
-                                  value.split('#');
-                                  if (double.parse('${sensor[4]}') > nitrogenMg && double.parse('${sensor[5]}') > phosphorMg && double.parse('${sensor[6]}') > kaliumMg) {
-                                    return FutureBuilder(
-                                      future: ShowNotification().showNotification1a(),
-                                      builder: (context, snapshot) {
-                                        return Text(" kg");
-                                      },
-                                    );
+                                  List<String> sensor = value.split('#');
+                                  if (hari <= 7) { // npk awal
+                                    if (double.parse("${sensor[4]}") <nitrogenMg ) {
+                                      return FutureBuilder(
+                                        future: ShowNotificationTimeline().showNotification1a(),
+                                        builder: (context, snapshot) {
+                                          return Text(" kg");
+                                        },
+                                      );
+                                    } else {
+                                      return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
+                                    }
+                                  } else if (hari <= 30) { // urea
+                                    if (double.parse("${sensor[4]}") <nitrogenMg ) {
+                                      return FutureBuilder(
+                                        future: ShowNotificationTimeline().showNotification1b(),
+                                        builder: (context, snapshot) {
+                                          return Text(" kg");
+                                        },
+                                      );
+                                    } else {
+                                      return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
+                                    }
+                                  } else if (hari <= 60) { // reproductive
+                                    if (double.parse("${sensor[4]}") <nitrogenMg ) {
+                                      return FutureBuilder(
+                                        future: ShowNotificationTimeline().showNotification2a(),
+                                        builder: (context, snapshot) {
+                                          return Text(" kg");
+                                        },
+                                      );
+                                    } else {
+                                      return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
+                                    }
+                                  } else if (hari <= 90) { // kalium
+                                    if (double.parse("${sensor[4]}") <nitrogenMg ) {
+                                      return FutureBuilder(
+                                        future: ShowNotificationTimeline().showNotification2b(),
+                                        builder: (context, snapshot) {
+                                          return Text(" kg");
+                                        },
+                                      );
+                                    } else {
+                                      return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
+                                    }
                                   } else {
-                                    return Text('Kualitas Tanah Sehat');
+                                    return Text("Status tanah sudah baik. Tetap pantau kondisi tanah mu");
                                   }
                                 },
                                 valueListenable: mqttHandler.data,

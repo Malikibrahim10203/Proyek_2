@@ -11,8 +11,9 @@ import 'package:smartfarm/pages/education/rawat_padi.dart';
 import 'package:smartfarm/pages/farmer/add/tambah_lahan_farmer.dart';
 import 'package:smartfarm/pages/farmer/detail_land/overview_farmer.dart';
 import 'package:smartfarm/pages/farmer/landfarmer.dart';
-import 'package:smartfarm/pages/farmer/notification/notification.dart';
+import 'package:smartfarm/pages/farmer/notification/notification_timeline.dart';
 import 'package:smartfarm/pages/login.dart';
+import 'package:smartfarm/pages/mqtt/mqtt_handler_notif.dart';
 
 import 'package:smartfarm/widget/info.dart';
 
@@ -31,7 +32,13 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
   List<User> totalUser = [];
   late String userName ;
 
-  // MqttHandler mqttHandler = MqttHandler();
+  MqttHandler mqttHandler = MqttHandler();
+
+  List<Device> listDevice = [];
+  void getDetailDevice(String id) async {
+    listDevice = await EventDB.getDetailDevice(id);
+    setState(() {});
+  }
 
   void getDevice() async {
     totalDevice = await EventDB.getDevice();
@@ -53,12 +60,18 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
     setState(() {});
   }
 
+  void sub(String topic) {
+    mqttHandler.sub(topic);
+  }
+
+  List idDetail = ['sf-0001/sensor'];
+
   @override
   void initState() {
     getLand();
     getDevice();
     getUser();
-    // mqttHandler.connect();
+    mqttHandler.connect(idDetail);
     // TODO: implement initState
     super.initState();
   }
@@ -292,6 +305,8 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                                   DateTime datePlanted = DateTime.parse("${land.cropPlantedAt}");
                                   DateTime dateNow = DateTime.now();
                                   Duration diff = datePlanted.difference(dateNow);
+                                  getDetailDevice(land.id??'');
+
 
                                   return Container(
                                     decoration: BoxDecoration(
@@ -349,9 +364,17 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                                                             ),
                                                             Row(
                                                               children: [
-                                                                Text(
-                                                                  "Kurang Air dan Kurang Pupuk",
-                                                                  style: TextStyle(color: Color(0xff737373), fontSize: 9, fontWeight: FontWeight.w400),
+                                                                SizedBox(
+                                                                  width: 200,
+                                                                  height: 25,
+                                                                  child: ListView.builder(
+                                                                    itemCount: listDevice.length,
+                                                                    itemBuilder: (context, index) {
+                                                                      Device device = listDevice[index];
+                                                                      idDetail.add(device.id);
+                                                                      return Text("data");
+                                                                    },
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
@@ -365,7 +388,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                                                                   ),
                                                                 )
                                                               ],
-                                                            )
+                                                            ),
                                                           ],
                                                         ),
                                                       )
@@ -384,7 +407,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                               ),
                             ),
                           ],
-                        )
+                        ),
                     ),
                   ],
                 ),
