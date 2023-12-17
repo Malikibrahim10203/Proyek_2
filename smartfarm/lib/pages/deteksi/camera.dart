@@ -61,7 +61,7 @@ class _CameraPageState extends State<CameraPage> {
   try {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://103.149.71.213:8003/prediction'),
+      Uri.parse('http://103.149.71.213/prediksi'),
     );
 
     request.files.add(await http.MultipartFile.fromPath('file', picture.path));
