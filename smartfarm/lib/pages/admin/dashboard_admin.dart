@@ -12,6 +12,7 @@ import 'package:smartfarm/pages/admin/detail_land/overview.dart';
 import 'package:smartfarm/pages/admin/landadmin.dart';
 import 'package:smartfarm/pages/admin/manage_users.dart';
 import 'package:smartfarm/pages/deteksi/deteksi.dart';
+import 'package:smartfarm/pages/education/rawat_padi.dart';
 import 'package:smartfarm/pages/login.dart';
 
 class DashboardAdmin extends StatefulWidget {
@@ -184,26 +185,8 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                 Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 25, top: 20, right: 25),
                       color: Color(0xffFFFFFF),
-                      height: MediaQuery.of(context).size.height * 0.23,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.school_outlined, size: 20, color: Color(0xff408CFF),),
-                              SizedBox(width: 10,),
-                              Text("Edukasi Pertanian", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600),)
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 25, right: 25),
+                      height: MediaQuery.of(context).size.height * 0.285,
                       child: Column(
                         children: [
                           Container(
@@ -221,14 +204,19 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                           ),
                           CarouselSlider(
                             items: [
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    image: DecorationImage(
-                                        image: AssetImage("assets/img/banner1.png"),
-                                        fit: BoxFit.cover
-                                    )
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>RawatPadi()));
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      image: DecorationImage(
+                                          image: AssetImage("assets/img/banner1.png"),
+                                          fit: BoxFit.cover
+                                      )
+                                  ),
                                 ),
                               ),
                             ],
@@ -245,6 +233,9 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     SizedBox(
                         height: 300,

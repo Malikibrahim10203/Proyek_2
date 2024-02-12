@@ -119,7 +119,7 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                     children: [
                       IconButton(onPressed: (){}, icon: Icon(Icons.notifications_none, color: Color(0xff545454),)),
                       SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
                       PopupMenuButton(
                         child: Image.asset("assets/img/menu.png", width: MediaQuery.of(context).size.width * 0.04),
@@ -186,6 +186,9 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                             );
                           }
                         },
+                      ),
+                      SizedBox(
+                        width: 10,
                       ),
                     ],
                   )
@@ -362,19 +365,12 @@ class _DashboardFarmerState extends State<DashboardFarmer> {
                                                             SizedBox(
                                                               height: 10,
                                                             ),
+
                                                             Row(
                                                               children: [
                                                                 SizedBox(
-                                                                  width: 200,
+                                                                  width: 100,
                                                                   height: 25,
-                                                                  child: ListView.builder(
-                                                                    itemCount: listDevice.length,
-                                                                    itemBuilder: (context, index) {
-                                                                      Device device = listDevice[index];
-                                                                      idDetail.add(device.id);
-                                                                      return Text("data");
-                                                                    },
-                                                                  ),
                                                                 ),
                                                               ],
                                                             ),

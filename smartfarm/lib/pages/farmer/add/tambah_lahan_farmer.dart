@@ -150,7 +150,7 @@ class _TambahLahanFarmerState extends State<TambahLahanFarmer> {
                       child: Row(
                         children: [
                           Container(
-                              width: MediaQuery.of(context).size.width * 0.675,
+                              width: MediaQuery.of(context).size.width * 0.65,
                               height: MediaQuery.of(context).size.height * 0.06,
                               padding: EdgeInsets.only(top: 10),
                               decoration: BoxDecoration(

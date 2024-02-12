@@ -27,7 +27,7 @@ class _RawatPadiState extends State<RawatPadi> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.3,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -65,6 +65,179 @@ class _RawatPadiState extends State<RawatPadi> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 50,
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        height: 60,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 40, // Sesuaikan ukuran ikon dengan kebutuhan
+                              height: 40,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
+                                  color: Colors.green,
+                                ),
+                                child: Icon(Icons.water, color: Colors.white,),
+                              ),
+                            ),
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height: MediaQuery.of(context).size.height * 0.06,
+                                padding: EdgeInsets.only(top: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xffECECEC),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Penyiraman",
+                                      style: TextStyle(
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ],
+                                )
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 40, // Sesuaikan ukuran ikon dengan kebutuhan
+                              height: 40,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
+                                  color: Colors.green,
+                                ),
+                                child: Icon(Icons.shopping_bag, color: Colors.white,),
+                              ),
+                            ),
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height: MediaQuery.of(context).size.height * 0.06,
+                                padding: EdgeInsets.only(top: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xffECECEC),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Pemupukan",
+                                      style: TextStyle(
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ],
+                                )
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        height: 60,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 40, // Sesuaikan ukuran ikon dengan kebutuhan
+                              height: 40,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
+                                  color: Colors.green,
+                                ),
+                                child: Icon(Icons.cut, color: Colors.white,),
+                              ),
+                            ),
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height: MediaQuery.of(context).size.height * 0.06,
+                                padding: EdgeInsets.only(top: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xffECECEC),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Pemotongan",
+                                      style: TextStyle(
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ],
+                                )
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 40, // Sesuaikan ukuran ikon dengan kebutuhan
+                              height: 40,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
+                                  color: Colors.green,
+                                ),
+                                child: Icon(Icons.perm_device_info, color: Colors.white,),
+                              ),
+                            ),
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height: MediaQuery.of(context).size.height * 0.06,
+                                padding: EdgeInsets.only(top: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xffECECEC),
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Pemantauan",
+                                      style: TextStyle(
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ],
+                                )
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
             ],
           ),
         ),
